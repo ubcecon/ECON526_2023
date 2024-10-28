@@ -618,11 +618,11 @@ ATE = \int \Er[Y|T=1,X=x] - \Er[Y|T=0,X=x] dP(x)
 <section id="propensity-score" class="slide level2">
 <h2>Propensity Score</h2>
 <ul>
-<li>Let <span class="math inline">\(e(X) = P(T=1|X=X)\)</span></li>
+<li>Let <span class="math inline">\(p(X) = P(T=1|X=X)\)</span></li>
 <li>Note: <span class="math display">\[
 \begin{align*}
-\Er[Y|X,T=1] - \Er[Y|X,T=0] = &amp; E\left[\frac{Y T}{e(X)}|X \right] - E\left[\frac{Y(1-T)}{1-e(X)}|X \right] \\
-= &amp; E\left[ Y \frac{T - e(X)}{e(X)(1-e(X))} | X \right]
+\Er[Y|X,T=1] - \Er[Y|X,T=0] = &amp; E\left[\frac{Y T}{p(X)}|X \right] - E\left[\frac{Y(1-T)}{1-p(X)}|X \right] \\
+= &amp; E\left[ Y \frac{T - p(X)}{p(X)(1-p(X))} | X \right]
 \end{align*}
 \]</span></li>
 </ul>
@@ -631,7 +631,7 @@ ATE = \int \Er[Y|T=1,X=x] - \Er[Y|T=0,X=x] dP(x)
 <h2>Propensity Score</h2>
 <ul>
 <li>so <span class="math display">\[
-ATE = \Er\left[ \frac{Y T}{e(X)} -  \frac{Y(1-T)}{1-e(X)}\right] = \Er\left[ Y \frac{T - e(X)}{e(X)(1-e(X))} \right]
+ATE = \Er\left[ \frac{Y T}{p(X)} -  \frac{Y(1-T)}{1-p(X)}\right] = \Er\left[ Y \frac{T - p(X)}{p(X)(1-p(X))} \right]
 \]</span></li>
 </ul>
 </section>
@@ -639,8 +639,8 @@ ATE = \Er\left[ \frac{Y T}{e(X)} -  \frac{Y(1-T)}{1-e(X)}\right] = \Er\left[ Y \
 <h2>Inverse propensity weighting</h2>
 <ul>
 <li><p>Estimator <span class="math display">\[
-\widehat{ATE}^{IPW} = \frac{1}{n} \sum_{i=1}^n \frac{Y_iT_i}{\hat{e}(X_i)} - \frac{Y_i(1-T_i)}{1-\hat{e}(X_i)}
-\]</span> where <span class="math inline">\(\hat{e}(X)\)</span> is some flexible estimator for <span class="math inline">\(P(T=1|X)\)</span></p></li>
+\widehat{ATE}^{IPW} = \frac{1}{n} \sum_{i=1}^n \frac{Y_iT_i}{\hat{p}(X_i)} - \frac{Y_i(1-T_i)}{1-\hat{p}(X_i)}
+\]</span> where <span class="math inline">\(\hat{p}(X)\)</span> is some flexible estimator for <span class="math inline">\(P(T=1|X)\)</span></p></li>
 <li><p>Downside:</p>
 <ul>
 <li>Difficult statistical properties — choice of tuning parameters, strong assumptions needed</li>
@@ -653,8 +653,8 @@ ATE = \Er\left[ \frac{Y T}{e(X)} -  \frac{Y(1-T)}{1-e(X)}\right] = \Er\left[ Y \
 <li>Estimator <span class="math display">\[
 \begin{align*}
 \widehat{ATE}^{DR} = &amp; \frac{1}{n} \sum_{i=1}^n \hat{E}[Y|T=1,X=X_i] - \hat{E}[Y|T=0,X=X_i] + \\
-&amp; + \frac{1}{n} \sum_{i=1}^n  \frac{T_i(Y_i - \hat{E}[Y|T=1,X=X_i])}{\hat{e}(X_i)} - \\
-&amp; - \frac{(1-T_i)(Y_i - \hat{E}[Y|T=0,X=X_i])} {1-\hat{e}(X_i)}
+&amp; + \frac{1}{n} \sum_{i=1}^n  \frac{T_i(Y_i - \hat{E}[Y|T=1,X=X_i])}{\hat{p}(X_i)} - \\
+&amp; - \frac{(1-T_i)(Y_i - \hat{E}[Y|T=0,X=X_i])} {1-\hat{p}(X_i)}
 \end{align*}
 \]</span></li>
 </ul>
@@ -664,20 +664,20 @@ ATE = \Er\left[ \frac{Y T}{e(X)} -  \frac{Y(1-T)}{1-e(X)}\right] = \Er\left[ Y \
 <ul>
 <li>Doubly robust in that:
 <ul>
-<li>Consistent as long as either <span class="math inline">\(\hat{e}(X) \inprob e(X)\)</span> or <span class="math inline">\(\hat{E}[Y|T,X] \inprob \Er[Y|T,X]\)</span></li>
-<li>Insensitive to small changes in <span class="math inline">\(\hat{e}(X)\)</span> or <span class="math inline">\(\hat{E}[Y|T,X]\)</span></li>
+<li>Consistent as long as either <span class="math inline">\(\hat{p}(X) \inprob p(X)\)</span> or <span class="math inline">\(\hat{E}[Y|T,X] \inprob \Er[Y|T,X]\)</span></li>
+<li>Insensitive to small changes in <span class="math inline">\(\hat{p}(X)\)</span> or <span class="math inline">\(\hat{E}[Y|T,X]\)</span></li>
 </ul></li>
 <li>Allows: nicer statistical properties
 <ul>
 <li>Weaker assumptions needed</li>
-<li>Asymptotic distribution is the same as if <span class="math inline">\(e(X)\)</span> and <span class="math inline">\(\Er[Y|T,X]\)</span> were known</li>
+<li>Asymptotic distribution is the same as if <span class="math inline">\(p(X)\)</span> and <span class="math inline">\(\Er[Y|T,X]\)</span> were known</li>
 </ul></li>
 </ul>
 </section>
 <section id="software" class="slide level2">
 <h2>Software</h2>
 <ul>
-<li>Advice: use the doubly robust estimator with nonparametric estimates for <span class="math inline">\(\hat{E}[Y|T,X]\)</span> and <span class="math inline">\(\hat{e}(X)\)</span></li>
+<li>Advice: use the doubly robust estimator with nonparametric estimates for <span class="math inline">\(\hat{E}[Y|T,X]\)</span> and <span class="math inline">\(\hat{p}(X)\)</span></li>
 <li>Recommended package:
 <ul>
 <li><a href="https://docs.doubleml.org/stable/guide/models.html#interactive-regression-models-irm">doubleml</a></li>
@@ -689,7 +689,7 @@ ATE = \Er\left[ \frac{Y T}{e(X)} -  \frac{Y(1-T)}{1-e(X)}\right] = \Er\left[ Y \
 <ul>
 <li>Other packages:
 <ul>
-<li><a href="https://github.com/laurencium/Causalinference">causalinference</a> has a double robust estimator, but it estimates <span class="math inline">\(\hat{E}[Y|T,X]\)</span> via linear regression and <span class="math inline">\(\hat{e}(X)\)</span> via logit (maybe probit, not sure)
+<li><a href="https://github.com/laurencium/Causalinference">causalinference</a> has a double robust estimator, but it estimates <span class="math inline">\(\hat{E}[Y|T,X]\)</span> via linear regression and <span class="math inline">\(\hat{p}(X)\)</span> via logit (maybe probit, not sure)
 <ul>
 <li>can make nonparametric by adding e.g.&nbsp;powers of <span class="math inline">\(x\)</span> to <span class="math inline">\(X\)</span>, but need to manage manually</li>
 </ul></li>
@@ -1301,6 +1301,7 @@ school_size               -0.0467      0.011     -4.326      0.000      -0.068  
 <h2>Sources and Further Reading</h2>
 <ul>
 <li><p>Useful additional reading is <a href="https://matheusfacure.github.io/python-causality-handbook/10-Matching.html">chapters 10-12</a> of <span class="citation" data-cites="facure2022">Facure (<a href="#/references" role="doc-biblioref" onclick="">2022</a>)</span> and <a href="https://theeffectbook.net/ch-Matching.html">chapter 14</a> of <span class="citation" data-cites="hk2021">Huntington-Klein (<a href="#/references" role="doc-biblioref" onclick="">2021</a>)</span>.<sup>1</sup></p></li>
+<li><p>Chapters 5 and 10 of <span class="citation" data-cites="causalml2024">Chernozhukov et al. (<a href="#/references" role="doc-biblioref" onclick="">2024</a>)</span></p></li>
 <li><p>The representation of the estimate from a linear model as a weighted average is based on <span class="citation" data-cites="borusyak2018">Borusyak and Jaravel (<a href="#/references" role="doc-biblioref" onclick="">2018</a>)</span></p></li>
 <li><p>The growth mindset example is take from <span class="citation" data-cites="facure2022">Facure (<a href="#/references" role="doc-biblioref" onclick="">2022</a>)</span></p></li>
 </ul>
@@ -1322,6 +1323,9 @@ Athey, Susan, and Stefan Wager. 2019. <span>“Estimating Treatment Effects with
 </div>
 <div id="ref-borusyak2018" class="csl-entry" role="listitem">
 Borusyak, Kirill, and Xavier Jaravel. 2018. <span>“Revisiting Event Study Designs.”</span> <a href="https://scholar.harvard.edu/files/borusyak/files/borusyak_jaravel_event_studies.pdf">https://scholar.harvard.edu/files/borusyak/files/borusyak_jaravel_event_studies.pdf</a>.
+</div>
+<div id="ref-causalml2024" class="csl-entry" role="listitem">
+Chernozhukov, V., C. Hansen, N. Kallus, M. Spindler, and V. Syrgkanis. 2024. <em>Applied Causal Inference Powered by ML and AI</em>. <a href="https://causalml-book.org/">https://causalml-book.org/</a>.
 </div>
 <div id="ref-facure2022" class="csl-entry" role="listitem">
 Facure, Matheus. 2022. <em>Causal Inference for the Brave and True</em>. <a href="https://matheusfacure.github.io/python-causality-handbook/landing-page.html">https://matheusfacure.github.io/python-causality-handbook/landing-page.html</a>.
