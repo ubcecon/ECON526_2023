@@ -463,7 +463,7 @@ Paul Schrimpf
 <ul>
 <li>Create a dataframe to represent the Pfizer Covid vaccine trial</li>
 </ul>
-<div id="11e074b5" class="cell" data-execution_count="1">
+<div id="e376451b" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -476,7 +476,7 @@ Paul Schrimpf
 <span id="cb1-8"><a></a><span class="im">import</span> requests</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="3ba8ee91" class="cell" data-execution_count="2">
+<div id="c844f7d6" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a><span class="kw">def</span> pfizerrctdata():</span>
@@ -501,7 +501,7 @@ Paul Schrimpf
 <span id="cb2-20"><a></a></span>
 <span id="cb2-21"><a></a>data.groupby([<span class="st">'over65'</span>, <span class="st">'treat'</span>]).mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -558,7 +558,7 @@ Paul Schrimpf
 </section>
 <section id="ate" class="slide level2">
 <h2>ATE</h2>
-<div id="c9b632eb" class="cell" data-execution_count="3">
+<div id="549e0b0a" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="kw">def</span> ATE(data, treatment<span class="op">=</span><span class="st">'treat'</span>, y<span class="op">=</span><span class="st">'infected'</span>):</span>
@@ -588,7 +588,7 @@ ATE = &amp; \Er[Y_i\mid T_i=1] - E[Y_i\mid T_i=0] \\
 \]</span></li>
 </ul></li>
 </ul>
-<div id="d008c476" class="cell" data-execution_count="4">
+<div id="8701ef00" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a>reg<span class="op">=</span>smf.ols(<span class="st">'infected ~ treat'</span>, data<span class="op">=</span>data.loc[data[<span class="st">'over65'</span>]<span class="op">==</span><span class="dv">1</span>,:]).fit()</span>
 <span id="cb5-2"><a></a><span class="bu">print</span>(<span class="ss">f"regression estimate=</span><span class="sc">{</span>reg<span class="sc">.</span>params[<span class="dv">1</span>]<span class="sc">:3}</span><span class="ss">, se=</span><span class="sc">{</span>reg<span class="sc">.</span>bse[<span class="dv">1</span>]<span class="sc">:5}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -598,7 +598,7 @@ ATE = &amp; \Er[Y_i\mid T_i=1] - E[Y_i\mid T_i=0] \\
 </section>
 <section id="heteroskedasticity-robust-standard-errors" class="slide level2">
 <h2>Heteroskedasticity Robust Standard Errors</h2>
-<div id="5e2eb309" class="cell" data-execution_count="5">
+<div id="81c37278" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>olsse <span class="op">=</span> np.sqrt(np.diag(smf.ols(<span class="st">'infected ~ treat'</span>,data<span class="op">=</span>data.loc[data[<span class="st">'over65'</span>]<span class="op">==</span><span class="dv">1</span>]).fit().cov_params())[<span class="dv">1</span>])</span>
 <span id="cb7-2"><a></a><span class="bu">print</span>(<span class="ss">f"OLS SE: </span><span class="sc">{</span>olsse<span class="sc">}</span><span class="ss">, manual SE: </span><span class="sc">{</span>ate[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -610,7 +610,7 @@ ATE = &amp; \Er[Y_i\mid T_i=1] - E[Y_i\mid T_i=0] \\
 <li><p>Default of <code>smf.ols</code> assumes homoskedasticiy <span class="math inline">\(\Er[\epsilon^2|X] = \sigma^2\)</span></p></li>
 <li><p>With <span class="math inline">\(y\)</span> and <span class="math inline">\(T\)</span>, binary, <span class="math inline">\(\Er[\epsilon^2|T] = P(y=1|T)(1-P(y=1|T))\)</span></p></li>
 </ul>
-<div id="d0af6ad0" class="cell" data-execution_count="6">
+<div id="0136f5c3" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>olshcse <span class="op">=</span> np.sqrt(np.diag(smf.ols(<span class="st">'infected ~ treat'</span>,data<span class="op">=</span>data.loc[data[<span class="st">'over65'</span>]<span class="op">==</span><span class="dv">1</span>]).fit(cov_type<span class="op">=</span><span class="st">"HC3"</span>).cov_params())[<span class="dv">1</span>])</span>
 <span id="cb9-2"><a></a><span class="bu">print</span>(<span class="ss">f"OLS HC SE: </span><span class="sc">{</span>olshcse<span class="sc">}</span><span class="ss">, manual SE: </span><span class="sc">{</span>ate[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -665,7 +665,7 @@ ATE = &amp; \Er[Y_i\mid T_i=1] - E[Y_i\mid T_i=0] \\
 </section>
 <section id="example-gender-earnings-gap" class="slide level2 smaller">
 <h2>Example: Gender Earnings Gap</h2>
-<div id="c09cbdfd" class="cell" data-execution_count="7">
+<div id="d0520784" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a><span class="im">import</span> os</span>
 <span id="cb11-2"><a></a><span class="im">import</span> requests</span>
 <span id="cb11-3"><a></a>url <span class="op">=</span> <span class="st">'https://www.nber.org/morg/annual/morg23.dta'</span></span>
@@ -700,8 +700,8 @@ ATE = &amp; \Er[Y_i\mid T_i=1] - E[Y_i\mid T_i=0] \\
 </div>
 
 </section>
-<section id="example-gender-earnings-gap-output" class="slide level2 smaller output-location-slide"><h2>Example: Gender Earnings Gap</h2><div class="cell output-location-slide" data-execution_count="7">
-<div class="cell-output cell-output-display" data-execution_count="22">
+<section id="example-gender-earnings-gap-output" class="slide level2 smaller output-location-slide"><h2>Example: Gender Earnings Gap</h2><div class="cell output-location-slide" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <table class="simpletable caption-top" data-quarto-postprocess="true">
 <tbody>
 <tr class="odd">
@@ -845,28 +845,35 @@ Standard errors in parentheses.<br>
 </div>
 </div></section><section id="partialling-out" class="slide level2">
 <h2>Partialling Out</h2>
-<p><span class="math display">\[y_i = x_i \beta + w_i'\gamma + u_i\]</span> - Can equivalently calculate <span class="math inline">\(\beta\)</span> by - Multiple regression of <span class="math inline">\(y\)</span> on <span class="math inline">\(x\)</span> and <span class="math inline">\(w\)</span>, or</p>
-<div id="0f2adeab" class="cell" data-execution_count="8">
+<p><span class="math display">\[y_i = x_i \beta + w_i'\gamma + u_i\]</span> - Can equivalently calculate <span class="math inline">\(\beta\)</span> by</p>
+<div class="columms">
+<div class="column" style="width:50%;">
+<ul>
+<li>Multiple regression of <span class="math inline">\(y\)</span> on <span class="math inline">\(x\)</span> and <span class="math inline">\(w\)</span>, or</li>
+</ul>
+<div id="943fa6d1" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a>smf.ols(formula<span class="op">=</span><span class="st">"log_earn ~ female + log_hourslw + log_uhours"</span>, data<span class="op">=</span>cps, missing<span class="op">=</span><span class="st">"drop"</span>).fit(cov_type<span class="op">=</span><span class="st">"HC3"</span>).params[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="23">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>np.float64(-0.13177744005735112)</code></pre>
 </div>
 </div>
+</div><div class="column" style="width:50%;">
 <ul>
 <li>Bivariate regression of residuals from regressing <span class="math inline">\(y\)</span> on <span class="math inline">\(w\)</span>, on the residuals from regression <span class="math inline">\(x\)</span> on <span class="math inline">\(w\)</span></li>
 </ul>
-<div id="228a1bd1" class="cell" data-execution_count="9">
+<div id="c83a777f" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a>ey<span class="op">=</span>smf.ols(formula<span class="op">=</span><span class="st">"log_earn ~ log_hourslw + log_uhours"</span>, data<span class="op">=</span>cps, missing<span class="op">=</span><span class="st">"drop"</span>).fit().resid</span>
 <span id="cb14-2"><a></a>ex<span class="op">=</span>smf.ols(formula<span class="op">=</span><span class="st">"I(1*female) ~ log_hourslw + log_uhours"</span>, data<span class="op">=</span>cps, missing<span class="op">=</span><span class="st">"drop"</span>).fit().resid</span>
 <span id="cb14-3"><a></a>edf <span class="op">=</span> pd.concat([ex,ey],axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb14-4"><a></a>edf.columns<span class="op">=</span>[<span class="st">'ex'</span>,<span class="st">'ey'</span>]</span>
 <span id="cb14-5"><a></a>smf.ols(<span class="st">'ey ~ ex'</span>, data<span class="op">=</span>edf).fit(cov_type<span class="op">=</span><span class="st">"HC3"</span>).params[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="24">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>np.float64(-0.131764318408401)</code></pre>
 </div>
 </div>
+</div></div>
 </section>
-<section id="omitted-variables" class="slide level2">
+<section id="omitted-variables" class="slide level2 smaller">
 <h2>Omitted Variables</h2>
 <ul>
 <li><p>If we want <span class="math display">\[
@@ -884,14 +891,82 @@ y_i = \beta_0 + x_i \beta + w_i'\gamma + u_i
 </ul></li>
 </ul>
 </section>
-<section id="more-conditioning" class="slide level2">
-<h2>More Conditioning</h2>
-<div id="f4f965a4" class="cell" data-execution_count="10">
+<section id="gender-wage-gap-with-more-conditioning" class="slide level2">
+<h2>Gender Wage Gap with More Conditioning</h2>
+<div id="1afd5954" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a></a><span class="im">import</span> pyfixest <span class="im">as</span> pf</span>
 <span id="cb16-2"><a></a></span>
 <span id="cb16-3"><a></a>controls<span class="op">=</span><span class="st">"age + I(age**2) | race + grade92 + unionmme + unioncov +  ind17 + occ18"</span></span>
 <span id="cb16-4"><a></a>allcon<span class="op">=</span>pf.feols(<span class="st">"log_earn ~ female*(wasmarried + married) + log_hourslw + log_uhours + "</span> <span class="op">+</span> controls, data<span class="op">=</span>cps,vcov<span class="op">=</span><span class="st">'hetero'</span>)</span>
 <span id="cb16-5"><a></a>allcon.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <div id="UnshZB"></div>
+            <script type="text/javascript" data-lets-plot-script="library">
+                if(!window.letsPlotCallQueue) {
+                    window.letsPlotCallQueue = [];
+                }; 
+                window.letsPlotCall = function(f) {
+                    window.letsPlotCallQueue.push(f);
+                };
+                (function() {
+                    var script = document.createElement("script");
+                    script.type = "text/javascript";
+                    script.src = "https://cdn.jsdelivr.net/gh/JetBrains/lets-plot@v4.5.1/js-package/distr/lets-plot.min.js";
+                    script.onload = function() {
+                        window.letsPlotCall = function(f) {f();};
+                        window.letsPlotCallQueue.forEach(function(f) {f();});
+                        window.letsPlotCallQueue = [];
+                        
+                    };
+                    script.onerror = function(event) {
+                        window.letsPlotCall = function(f) {};    // noop
+                        window.letsPlotCallQueue = [];
+                        var div = document.createElement("div");
+                        div.style.color = 'darkred';
+                        div.textContent = 'Error loading Lets-Plot JS';
+                        document.getElementById("UnshZB").appendChild(div);
+                    };
+                    var e = document.getElementById("UnshZB");
+                    e.appendChild(script);
+                })()
+            </script>
+            
+</div>
+<div class="cell-output cell-output-display">
+
+            <div id="uJfRIM"></div>
+            <script type="text/javascript" data-lets-plot-script="library">
+                if(!window.letsPlotCallQueue) {
+                    window.letsPlotCallQueue = [];
+                }; 
+                window.letsPlotCall = function(f) {
+                    window.letsPlotCallQueue.push(f);
+                };
+                (function() {
+                    var script = document.createElement("script");
+                    script.type = "text/javascript";
+                    script.src = "https://cdn.jsdelivr.net/gh/JetBrains/lets-plot@v4.5.1/js-package/distr/lets-plot.min.js";
+                    script.onload = function() {
+                        window.letsPlotCall = function(f) {f();};
+                        window.letsPlotCallQueue.forEach(function(f) {f();});
+                        window.letsPlotCallQueue = [];
+                        
+                    };
+                    script.onerror = function(event) {
+                        window.letsPlotCall = function(f) {};    // noop
+                        window.letsPlotCallQueue = [];
+                        var div = document.createElement("div");
+                        div.style.color = 'darkred';
+                        div.textContent = 'Error loading Lets-Plot JS';
+                        document.getElementById("uJfRIM").appendChild(div);
+                    };
+                    var e = document.getElementById("uJfRIM");
+                    e.appendChild(script);
+                })()
+            </script>
+            
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>###
 
@@ -933,7 +1008,7 @@ RMSE: 0.524 R2: 0.582 R2 Within: 0.314 </code></pre>
 <ul>
 <li>from <span class="citation" data-cites="causalml2024">Chernozhukov et al. (<a href="#/references" role="doc-biblioref" onclick="">2024</a>)</span> chapter 2 (who got the setup from Roth)</li>
 </ul>
-<div id="5d2e63a8" class="cell" data-execution_count="11">
+<div id="2945a9b7" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a>np.random.seed(<span class="dv">54</span>)</span>
 <span id="cb18-2"><a></a>n <span class="op">=</span> <span class="dv">1000</span>             <span class="co"># sample size</span></span>
 <span id="cb18-3"><a></a>Z <span class="op">=</span> np.random.normal(size<span class="op">=</span>n)         <span class="co"># generate Z</span></span>
@@ -943,23 +1018,23 @@ RMSE: 0.524 R2: 0.582 R2 Within: 0.314 </code></pre>
 <span id="cb18-7"><a></a>Y <span class="op">=</span> Y1 <span class="op">*</span> D <span class="op">+</span> Y0 <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> D)  <span class="co"># observed Y</span></span>
 <span id="cb18-8"><a></a>Z <span class="op">=</span> Z <span class="op">-</span> Z.mean()       <span class="co"># demean Z</span></span>
 <span id="cb18-9"><a></a>data <span class="op">=</span> pd.DataFrame({<span class="st">"Y"</span>: Y, <span class="st">"D"</span>: D, <span class="st">"Z"</span>: Z})</span>
-<span id="cb18-10"><a></a><span class="bu">print</span>(<span class="ss">f"Sample ATE = </span><span class="sc">{</span>np<span class="sc">.</span>mean(Y1<span class="op">-</span>Y0)<span class="sc">:.3}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-10"><a></a><span class="bu">print</span>(<span class="ss">f"Unobservable sample ATE = </span><span class="sc">{</span>np<span class="sc">.</span>mean(Y1<span class="op">-</span>Y0)<span class="sc">:.3}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Sample ATE = 0.072</code></pre>
+<pre><code>Unobservable sample ATE = 0.072</code></pre>
 </div>
 </div>
 <ul>
-<li>Populatoin ATE is <span class="math inline">\(0\)</span></li>
+<li>Population ATE is <span class="math inline">\(0\)</span></li>
 </ul>
 </section>
 <section id="simulated-rct-1" class="slide level2">
 <h2>Simulated RCT</h2>
-<div id="ec784850" class="cell" data-execution_count="12">
+<div id="a4489144" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a>hc <span class="op">=</span> <span class="st">'HC0'</span></span>
 <span id="cb20-2"><a></a>m1<span class="op">=</span>smf.ols(<span class="st">'Y ~ D'</span>,data<span class="op">=</span>data).fit(cov_type<span class="op">=</span>hc)</span>
 <span id="cb20-3"><a></a>madd<span class="op">=</span>smf.ols(<span class="st">'Y ~ D + Z'</span>,data<span class="op">=</span>data).fit(cov_type<span class="op">=</span>hc)</span>
 <span id="cb20-4"><a></a>summary_col([m1, madd], model_names<span class="op">=</span>[<span class="st">'simple'</span>,<span class="st">'additive'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="27">
+<div class="cell-output cell-output-display" data-execution_count="12">
 <table class="simpletable caption-top" data-quarto-postprocess="true">
 <tbody>
 <tr class="odd">
@@ -1016,10 +1091,10 @@ Standard errors in parentheses.
 </section>
 <section id="simulated-rct-2" class="slide level2">
 <h2>Simulated RCT</h2>
-<div id="926e5fab" class="cell" data-execution_count="13">
+<div id="69744e3b" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a>minteract<span class="op">=</span>smf.ols(<span class="st">'Y ~ D + Z*D'</span>,data<span class="op">=</span>data).fit(cov_type<span class="op">=</span>hc)</span>
 <span id="cb21-2"><a></a>summary_col([m1, madd, minteract],model_names<span class="op">=</span>[<span class="st">'simple'</span>,<span class="st">'additive'</span>,<span class="st">'interactive'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="28">
+<div class="cell-output cell-output-display" data-execution_count="13">
 <table class="simpletable caption-top" data-quarto-postprocess="true">
 <tbody>
 <tr class="odd">
@@ -1134,7 +1209,7 @@ Y &amp; = \beta_0^i + \beta_1^i T + X'\gamma^i_0 + TX'\gamma^i_1 + \epsilon^s
 </div></aside></section>
 <section id="collections-and-payment-reminders-1" class="slide level2">
 <h2>Collections and Payment Reminders</h2>
-<div id="d0e07445" class="cell" data-execution_count="14">
+<div id="509c273a" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a></a>filename <span class="op">=</span> <span class="st">'data/collections_email.csv'</span></span>
@@ -1147,7 +1222,7 @@ Y &amp; = \beta_0^i + \beta_1^i T + X'\gamma^i_0 + TX'\gamma^i_1 + \epsilon^s
 <span id="cb22-8"><a></a>data <span class="op">=</span> pd.read_csv(filename)</span>
 <span id="cb22-9"><a></a>data.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="29">
+<div class="cell-output cell-output-display" data-execution_count="14">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1257,7 +1332,7 @@ Y &amp; = \beta_0^i + \beta_1^i T + X'\gamma^i_0 + TX'\gamma^i_1 + \epsilon^s
 </section>
 <section id="collections-and-payment-reminders-2" class="slide level2 smaller">
 <h2>Collections and Payment Reminders</h2>
-<div id="70bf47b7" class="cell" data-execution_count="15">
+<div id="983ea1a9" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a>lm <span class="op">=</span> <span class="bu">list</span>()</span>
@@ -1266,7 +1341,7 @@ Y &amp; = \beta_0^i + \beta_1^i T + X'\gamma^i_0 + TX'\gamma^i_1 + \epsilon^s
 <span id="cb23-4"><a></a>lm.append(smf.ols(formula<span class="op">=</span><span class="st">"payments ~ email + credit_limit + risk_score + opened + agreement"</span>,data<span class="op">=</span>data).fit(cov_type<span class="op">=</span><span class="st">'HC3'</span>))</span>
 <span id="cb23-5"><a></a>summary_col(lm, stars<span class="op">=</span><span class="va">True</span>, model_names<span class="op">=</span>[<span class="ss">f"</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(lm))])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="30">
+<div class="cell-output cell-output-display" data-execution_count="15">
 <table class="simpletable caption-top" data-quarto-postprocess="true">
 <tbody>
 <tr class="odd">
@@ -1380,7 +1455,7 @@ Standard errors in parentheses.<br>
 
 <aside><div>
 <p><span class="citation" data-cites="facure2022">Facure (<a href="#/references" role="doc-biblioref" onclick="">2022</a>)</span> calls controlling for <code>opened</code> and <code>agreement</code> “selection bias,” but in economics, we would not call it that. We would refer to <code>opened</code> and <code>agreement</code> as bad controls because they mediate the outcome of interest. We would not want hold them constant because part of how <code>email</code> affects <code>payments</code> is by changing <code>opened</code> and <code>agreement</code>.</p>
-<p>Since at least <span class="citation" data-cites="heckman1976">J. J. Heckman (<a href="#/references" role="doc-biblioref" onclick="">1976</a>)</span> and <span class="citation" data-cites="heckman1979">J. Heckman (<a href="#/references" role="doc-biblioref" onclick="">1979</a>)</span> selection bias refers to when the expectation of an outcome conditional on observing it is not equal to the expectation in the population. As far as I know, calling conditioning on mediators “selection bias” was popularized by <span class="citation" data-cites="hernan2004">Hernán, Hernández-Dı́az, and Robins (<a href="#/references" role="doc-biblioref" onclick="">2004</a>)</span> in epidemiology and spread to other field.s If you want to avoid confusion, one coould call <span class="citation" data-cites="heckman1976">J. J. Heckman (<a href="#/references" role="doc-biblioref" onclick="">1976</a>)</span> selection bias “self-selection bias” or “Heckman selection bias,” and call <span class="citation" data-cites="hernan2004">Hernán, Hernández-Dı́az, and Robins (<a href="#/references" role="doc-biblioref" onclick="">2004</a>)</span> selection bias “collider bias” or “mediator bias.”</p>
+<p>Since at least <span class="citation" data-cites="heckman1976">Heckman (<a href="#/references" role="doc-biblioref" onclick="">1976</a>)</span> and <span class="citation" data-cites="heckman1979">Heckman (<a href="#/references" role="doc-biblioref" onclick="">1979</a>)</span> selection bias refers to when the expectation of an outcome conditional on observing it is not equal to the expectation in the population. As far as I know, calling conditioning on mediators “selection bias” was popularized by <span class="citation" data-cites="hernan2004">Hernán, Hernández-Dı́az, and Robins (<a href="#/references" role="doc-biblioref" onclick="">2004</a>)</span> in epidemiology and spread to other field.s If you want to avoid confusion, one coould call <span class="citation" data-cites="heckman1976">Heckman (<a href="#/references" role="doc-biblioref" onclick="">1976</a>)</span> selection bias “self-selection bias” or “Heckman selection bias,” and call <span class="citation" data-cites="hernan2004">Hernán, Hernández-Dı́az, and Robins (<a href="#/references" role="doc-biblioref" onclick="">2004</a>)</span> selection bias “collider bias” or “mediator bias.”</p>
 </div></aside></section>
 <section id="drug-trial-at-two-hospitals" class="slide level2">
 <h2>Drug Trial at Two Hospitals</h2>
@@ -1473,7 +1548,7 @@ Standard errors in parentheses.<br>
 </section>
 <section id="drug-trial-at-two-hospitals-2" class="slide level2 smaller">
 <h2>Drug Trial at Two Hospitals</h2>
-<div id="cbf273b0" class="cell" data-execution_count="18">
+<div id="9e04dea1" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a></a>models <span class="op">=</span> [</span>
@@ -1485,7 +1560,7 @@ Standard errors in parentheses.<br>
 <span id="cb26-7"><a></a>    ]</span>
 <span id="cb26-8"><a></a>summary_col(models, model_names<span class="op">=</span>[<span class="st">'all'</span>,<span class="st">'hosp 0'</span>, <span class="st">'hosp 1'</span>, <span class="st">'all'</span>, <span class="st">'all'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="33">
+<div class="cell-output cell-output-display" data-execution_count="18">
 <table class="simpletable caption-top" data-quarto-postprocess="true">
 <tbody>
 <tr class="odd">
@@ -1596,7 +1671,7 @@ Standard errors in parentheses.
 </section>
 <section id="drug-trial-at-two-hospitals-4" class="slide level2 smaller">
 <h2>Drug Trial at Two Hospitals</h2>
-<div id="3e988fe4" class="cell" data-execution_count="19">
+<div id="62fe4b18" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a></a>drug[<span class="st">'severity_c'</span>] <span class="op">=</span> drug[<span class="st">'severity'</span>] <span class="op">-</span> drug[<span class="st">'severity'</span>].mean()</span>
 <span id="cb27-2"><a></a>drug[<span class="st">'hospital_c'</span>] <span class="op">=</span> drug[<span class="st">'hospital'</span>] <span class="op">-</span> drug[<span class="st">'hospital'</span>].mean()</span>
 <span id="cb27-3"><a></a>drug[<span class="st">'hs_c'</span>] <span class="op">=</span> drug[<span class="st">'severity'</span>]<span class="op">*</span>drug[<span class="st">'hospital'</span>] <span class="op">-</span> np.mean(drug[<span class="st">'severity'</span>]<span class="op">*</span>drug[<span class="st">'hospital'</span>])</span>
@@ -1609,8 +1684,8 @@ Standard errors in parentheses.
 </div>
 
 </section>
-<section id="drug-trial-at-two-hospitals-4-output" class="slide level2 smaller output-location-slide"><h2>Drug Trial at Two Hospitals</h2><div class="cell output-location-slide" data-execution_count="19">
-<div class="cell-output cell-output-display" data-execution_count="34">
+<section id="drug-trial-at-two-hospitals-4-output" class="slide level2 smaller output-location-slide"><h2>Drug Trial at Two Hospitals</h2><div class="cell output-location-slide" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="19">
 <table class="simpletable caption-top" data-quarto-postprocess="true">
 <tbody>
 <tr class="odd">
@@ -1764,11 +1839,11 @@ Chernozhukov, V., C. Hansen, N. Kallus, M. Spindler, and V. Syrgkanis. 2024. <em
 <div id="ref-facure2022" class="csl-entry" role="listitem">
 Facure, Matheus. 2022. <em>Causal Inference for the Brave and True</em>. <a href="https://matheusfacure.github.io/python-causality-handbook/landing-page.html">https://matheusfacure.github.io/python-causality-handbook/landing-page.html</a>.
 </div>
-<div id="ref-heckman1979" class="csl-entry" role="listitem">
-Heckman, J. 1979. <span>“Sample Selection Bias as a Specification Error.”</span> <em>Econometrica</em>.
-</div>
 <div id="ref-heckman1976" class="csl-entry" role="listitem">
 Heckman, James J. 1976. <span>“The Common Structure of Statistical Models of Truncation, Sample Selection and Limited Dependent Variables and a Simple Estimator for Such Models.”</span> <em>Annals of Economic and Social Measurement</em> 5: 475–92. <a href="https://api.semanticscholar.org/CorpusID:117935755">https://api.semanticscholar.org/CorpusID:117935755</a>.
+</div>
+<div id="ref-heckman1979" class="csl-entry" role="listitem">
+———. 1979. <span>“Sample Selection Bias as a Specification Error.”</span> <em>Econometrica</em>.
 </div>
 <div id="ref-hernan2004" class="csl-entry" role="listitem">
 Hernán, Miguel A, Sonia Hernández-Dı́az, and James M Robins. 2004. <span>“A Structural Approach to Selection Bias.”</span> <em>Epidemiology</em> 15 (5): 615–25.
