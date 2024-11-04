@@ -6,9 +6,8 @@
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.5.57">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2486e1f0a3ee9ee1fc393803a1361cdb.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.6.32">
 
   <meta name="author" content="Paul Schrimpf">
   <title>ECON 526 – Matching</title>
@@ -115,7 +114,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-2ff78e2e6999b6200d15f6cb181d00bd.css">
   <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -503,49 +502,53 @@ Y_i = \hat{\alpha} T_i + X_i'\hat{\beta} + \hat{\epsilon}_i
 </section>
 <section id="why-not-regression-3" class="slide level2">
 <h2>Why not regression?</h2>
-<div id="3acfdf22" class="cell" data-execution_count="1">
+<div id="b3878ec2" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>imports</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a></a><span class="im">from</span> matplotlib <span class="im">import</span> style</span>
 <span id="cb1-3"><a></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
-<span id="cb1-4"><a></a>style.use(<span class="st">"fivethirtyeight"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a></a><span class="im">import</span> scipy</span>
+<span id="cb1-5"><a></a>style.use(<span class="st">"fivethirtyeight"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="8b215be7" class="cell" data-execution_count="2">
+<div id="a1472a42" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>np.random.seed(<span class="dv">1234</span>)</span>
 <span id="cb2-2"><a></a></span>
 <span id="cb2-3"><a></a><span class="kw">def</span> simulate(n, pi<span class="op">=</span>np.array([<span class="dv">0</span>,<span class="dv">1</span>])):</span>
 <span id="cb2-4"><a></a>    X <span class="op">=</span> np.random.randn(n, <span class="bu">len</span>(pi))</span>
 <span id="cb2-5"><a></a>    X[:,<span class="dv">0</span>] <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb2-6"><a></a>    T <span class="op">=</span> <span class="dv">1</span><span class="op">*</span>((X <span class="op">@</span> pi <span class="op">+</span> np.random.randn(n))<span class="op">&gt;</span><span class="dv">0</span>)</span>
-<span id="cb2-7"><a></a>    y0 <span class="op">=</span> np.random.randn(n)</span>
-<span id="cb2-8"><a></a>    y1 <span class="op">=</span> np.exp(<span class="dv">3</span><span class="op">*</span>(X[:,<span class="dv">1</span>]<span class="op">-</span><span class="dv">2</span>)) <span class="op">+</span> np.random.randn(n)</span>
-<span id="cb2-9"><a></a>    y <span class="op">=</span> T<span class="op">*</span>y1 <span class="op">+</span> (<span class="dv">1</span><span class="op">-</span>T)<span class="op">*</span>y0</span>
-<span id="cb2-10"><a></a>    <span class="cf">return</span>(X,T,y,y0,y1)</span>
-<span id="cb2-11"><a></a></span>
-<span id="cb2-12"><a></a>X,T,y,y0,y1 <span class="op">=</span> simulate(<span class="dv">1000</span>)</span>
-<span id="cb2-13"><a></a></span>
-<span id="cb2-14"><a></a>pihat <span class="op">=</span> np.linalg.solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> T)</span>
-<span id="cb2-15"><a></a>w <span class="op">=</span> T <span class="op">-</span> X <span class="op">@</span> pihat</span>
-<span id="cb2-16"><a></a>w <span class="op">=</span> w<span class="op">/</span>np.mean(w<span class="op">**</span><span class="dv">2</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-6"><a></a>    P <span class="op">=</span> np.clip(scipy.stats.norm.cdf(X <span class="op">@</span> pi), <span class="fl">0.05</span>, <span class="fl">0.95</span>)</span>
+<span id="cb2-7"><a></a>    T <span class="op">=</span> <span class="dv">1</span><span class="op">*</span>(np.random.rand(n) <span class="op">&lt;</span> P)</span>
+<span id="cb2-8"><a></a>    Ey0x <span class="op">=</span> np.zeros(n)</span>
+<span id="cb2-9"><a></a>    Ey1x <span class="op">=</span> np.exp(<span class="dv">3</span><span class="op">*</span>(X[:,<span class="dv">1</span>]<span class="op">-</span><span class="dv">2</span>))</span>
+<span id="cb2-10"><a></a>    y0 <span class="op">=</span> Ey0x <span class="op">+</span> np.random.randn(n)</span>
+<span id="cb2-11"><a></a>    y1 <span class="op">=</span> Ey1x <span class="op">+</span> np.random.randn(n)</span>
+<span id="cb2-12"><a></a>    y <span class="op">=</span> T<span class="op">*</span>y1 <span class="op">+</span> (<span class="dv">1</span><span class="op">-</span>T)<span class="op">*</span>y0</span>
+<span id="cb2-13"><a></a>    <span class="cf">return</span>(X,T,y,y0,y1, Ey0x, Ey1x, P)</span>
+<span id="cb2-14"><a></a></span>
+<span id="cb2-15"><a></a>X,T,y,y0,y1,Ey0x,Ey1x,P <span class="op">=</span> simulate(<span class="dv">4000</span>)</span>
+<span id="cb2-16"><a></a></span>
+<span id="cb2-17"><a></a>pihat <span class="op">=</span> np.linalg.solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> T)</span>
+<span id="cb2-18"><a></a>w <span class="op">=</span> T <span class="op">-</span> X <span class="op">@</span> pihat</span>
+<span id="cb2-19"><a></a>w <span class="op">=</span> w<span class="op">/</span>np.mean(w<span class="op">**</span><span class="dv">2</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="why-not-regression-4" class="slide level2">
 <h2>Why not regression?</h2>
-<div id="64ea855f" class="cell" data-execution_count="3">
+<div id="dc13a498" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>TX <span class="op">=</span> np.hstack((T.reshape(<span class="bu">len</span>(T),<span class="dv">1</span>),X))</span>
 <span id="cb3-2"><a></a>abhat <span class="op">=</span> np.linalg.solve(TX.T <span class="op">@</span> TX, TX.T <span class="op">@</span> y)</span>
 <span id="cb3-3"><a></a>ahat <span class="op">=</span> abhat[<span class="dv">0</span>]</span>
 <span id="cb3-4"><a></a><span class="bu">print</span>(ahat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>-0.06414016921951447</code></pre>
+<pre><code>-0.11952795827329041</code></pre>
 </div>
 </div>
-<div id="26386998" class="cell" data-execution_count="4">
+<div id="fe696a76" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a>np.mean(y1<span class="op">-</span>y0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>np.float64(0.22383059765273303)</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>np.float64(0.1172689998868494)</code></pre>
 </div>
 </div>
 <ul>
@@ -554,7 +557,7 @@ Y_i = \hat{\alpha} T_i + X_i'\hat{\beta} + \hat{\epsilon}_i
 </section>
 <section id="why-not-regression-5" class="slide level2">
 <h2>Why not regression?</h2>
-<div id="0b94d5b4" class="cell" data-execution_count="5">
+<div id="d34af272" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>plot</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a><span class="im">import</span> matplotlib.cm <span class="im">as</span> cm</span>
@@ -570,11 +573,12 @@ Y_i = \hat{\alpha} T_i + X_i'\hat{\beta} + \hat{\epsilon}_i
 <span id="cb7-11"><a></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">"X"</span>)</span>
 <span id="cb7-12"><a></a>axes[<span class="dv">1</span>].set_ylabel(<span class="st">"Y₁ - Y₀"</span>)</span>
 <span id="cb7-13"><a></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Treatment effects"</span>)</span>
-<span id="cb7-14"><a></a></span>
-<span id="cb7-15"><a></a></span>
-<span id="cb7-16"><a></a><span class="co"># Display the plot</span></span>
-<span id="cb7-17"><a></a>plt.tight_layout()  <span class="co"># Ensure proper layout spacing</span></span>
-<span id="cb7-18"><a></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-14"><a></a>sort_idx <span class="op">=</span> np.argsort(X[:,<span class="dv">1</span>])</span>
+<span id="cb7-15"><a></a>axes[<span class="dv">1</span>].plot(X[sort_idx,<span class="dv">1</span>], Ey1x[sort_idx]<span class="op">-</span>Ey0x[sort_idx], label<span class="op">=</span><span class="st">"E[y1-y0|x]"</span>)</span>
+<span id="cb7-16"><a></a></span>
+<span id="cb7-17"><a></a><span class="co"># Display the plot</span></span>
+<span id="cb7-18"><a></a>plt.tight_layout()  <span class="co"># Ensure proper layout spacing</span></span>
+<span id="cb7-19"><a></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -650,6 +654,7 @@ ATE = \Er\left[ \frac{Y T}{p(X)} -  \frac{Y(1-T)}{1-p(X)}\right] = \Er\left[ Y \
 <section id="doubly-robust-estimator" class="slide level2">
 <h2>Doubly Robust Estimator</h2>
 <ul>
+<li>Combines plug-in and IPW estimators</li>
 <li>Estimator <span class="math display">\[
 \begin{align*}
 \widehat{ATE}^{DR} = &amp; \frac{1}{n} \sum_{i=1}^n \hat{E}[Y|T=1,X=X_i] - \hat{E}[Y|T=0,X=X_i] + \\
@@ -667,7 +672,7 @@ ATE = \Er\left[ \frac{Y T}{p(X)} -  \frac{Y(1-T)}{1-p(X)}\right] = \Er\left[ Y \
 <li>Consistent as long as either <span class="math inline">\(\hat{p}(X) \inprob p(X)\)</span> or <span class="math inline">\(\hat{E}[Y|T,X] \inprob \Er[Y|T,X]\)</span></li>
 <li>Insensitive to small changes in <span class="math inline">\(\hat{p}(X)\)</span> or <span class="math inline">\(\hat{E}[Y|T,X]\)</span></li>
 </ul></li>
-<li>Allows: nicer statistical properties
+<li>Allows nicer statistical properties
 <ul>
 <li>Weaker assumptions needed</li>
 <li>Asymptotic distribution is the same as if <span class="math inline">\(p(X)\)</span> and <span class="math inline">\(\Er[Y|T,X]\)</span> were known</li>
@@ -683,52 +688,222 @@ ATE = \Er\left[ \frac{Y T}{p(X)} -  \frac{Y(1-T)}{1-p(X)}\right] = \Er\left[ Y \
 <li><a href="https://docs.doubleml.org/stable/guide/models.html#interactive-regression-models-irm">doubleml</a></li>
 </ul></li>
 </ul>
-</section>
-<section id="software-1" class="slide level2">
-<h2>Software</h2>
-<ul>
-<li>Other packages:
-<ul>
-<li><a href="https://github.com/laurencium/Causalinference">causalinference</a> has a double robust estimator, but it estimates <span class="math inline">\(\hat{E}[Y|T,X]\)</span> via linear regression and <span class="math inline">\(\hat{p}(X)\)</span> via logit (maybe probit, not sure)
-<ul>
-<li>can make nonparametric by adding e.g.&nbsp;powers of <span class="math inline">\(x\)</span> to <span class="math inline">\(X\)</span>, but need to manage manually</li>
-</ul></li>
-<li><a href="https://zepid.readthedocs.io/en/stable/Reference/generated/zepid.causal.doublyrobust.AIPW.AIPTW.html#zepid.causal.doublyrobust.AIPW.AIPTW">zEpid</a> is similiar to causalinference, but has a formula interface, so slightly easier to make model more flexible</li>
-</ul></li>
-</ul>
+<!-- ## Software -->
+<!-- - Other packages: -->
+<!--     - [causalinference](https://github.com/laurencium/Causalinference) has a double robust estimator, but it estimates $\hat{E}[Y|T,X]$ via linear regression and $\hat{p}(X)$ via logit (maybe probit, not sure) -->
+<!--         - can make nonparametric by adding e.g. powers of $x$ to $X$, but need to manage manually -->
+<!--     - [zEpid](https://zepid.readthedocs.io/en/stable/Reference/generated/zepid.causal.doublyrobust.AIPW.AIPTW.html#zepid.causal.doublyrobust.AIPW.AIPTW) is similiar to causalinference, but has a formula interface, so slightly easier to make model more flexible -->
 </section>
 <section id="example-simulation" class="slide level2">
 <h2>Example: simulation</h2>
 <ul>
 <li>Infeasible estimator: average of <span class="math inline">\(Y(1) - Y(0)\)</span></li>
 </ul>
-<div id="d6a40362" class="cell" data-execution_count="6">
+<div id="db4afc58" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>se <span class="op">=</span> np.sqrt(np.var(y1<span class="op">-</span>y0)<span class="op">/</span><span class="bu">len</span>(y1))</span>
 <span id="cb8-2"><a></a>ate <span class="op">=</span> np.mean(y1<span class="op">-</span>y0)</span>
-<span id="cb8-3"><a></a><span class="bu">print</span>(ate<span class="op">-</span><span class="fl">1.96</span><span class="op">*</span>se, ate, ate<span class="op">+</span><span class="fl">1.96</span><span class="op">*</span>se)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-3"><a></a><span class="bu">print</span>(<span class="ss">f"Infeasible estimator with potential outcomes observed = </span><span class="sc">{</span>ate<span class="sc">:.2}</span><span class="ss"> with 95% CI = [</span><span class="sc">{</span>ate<span class="op">-</span><span class="fl">1.96</span><span class="op">*</span>se<span class="sc">:.2}</span><span class="ss">,</span><span class="sc">{</span>ate<span class="op">+</span><span class="fl">1.96</span><span class="op">*</span>se<span class="sc">:.2}</span><span class="ss">]</span><span class="ch">\n</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.10010844404085255 0.22383059765273303 0.3475527512646135</code></pre>
+<pre><code>Infeasible estimator with potential outcomes observed = 0.12 with 95% CI = [0.058,0.18]
+</code></pre>
+</div>
+</div>
+<ul>
+<li>Infeasible estimator: doubly robust with true <span class="math inline">\(\Er[Y(T)|X]\)</span> and <span class="math inline">\(p(X)\)</span></li>
+</ul>
+<div id="11a5dd59" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>aipw <span class="op">=</span> Ey1x <span class="op">-</span> Ey0x <span class="op">+</span> T<span class="op">*</span>(y <span class="op">-</span> Ey1x)<span class="op">/</span>P <span class="op">-</span> (<span class="dv">1</span><span class="op">-</span>T)<span class="op">*</span>(y <span class="op">-</span> Ey0x)<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>P)</span>
+<span id="cb10-2"><a></a>se <span class="op">=</span> np.sqrt(np.var(aipw)<span class="op">/</span><span class="bu">len</span>(aipw))</span>
+<span id="cb10-3"><a></a><span class="bu">print</span>(<span class="ss">f"Infeasible estimator with true E[y1-y0|x] = and p(x) </span><span class="sc">{</span>np<span class="sc">.</span>mean(aipw)<span class="sc">:.2}</span><span class="ss"> with 95% CI = [</span><span class="sc">{</span>np<span class="sc">.</span>mean(aipw)<span class="op">-</span><span class="fl">1.96</span><span class="op">*</span>se<span class="sc">:.2}</span><span class="ss">,</span><span class="sc">{</span>np<span class="sc">.</span>mean(aipw)<span class="op">+</span><span class="fl">1.96</span><span class="op">*</span>se<span class="sc">:.2}</span><span class="ss">]</span><span class="ch">\n</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Infeasible estimator with true E[y1-y0|x] = and p(x) 0.15 with 95% CI = [0.057,0.24]
+</code></pre>
 </div>
 </div>
 </section>
-<section id="example-simulation-1" class="slide level2">
-<h2>Example: simulation</h2>
-<div id="9e483de9" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a><span class="im">import</span> doubleml <span class="im">as</span> dml</span>
-<span id="cb10-2"><a></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> GradientBoostingRegressor, GradientBoostingClassifier</span>
-<span id="cb10-3"><a></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LassoCV, LogisticRegressionCV, ElasticNetCV</span>
-<span id="cb10-4"><a></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures, StandardScaler</span>
-<span id="cb10-5"><a></a><span class="im">from</span> sklearn.kernel_approximation <span class="im">import</span> RBFSampler</span>
-<span id="cb10-6"><a></a></span>
-<span id="cb10-7"><a></a>rbf_feature <span class="op">=</span> RBFSampler(gamma<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">1</span>, n_components<span class="op">=</span><span class="dv">100</span>)</span>
-<span id="cb10-8"><a></a>X_features <span class="op">=</span> rbf_feature.fit_transform(X)</span>
-<span id="cb10-9"><a></a>g <span class="op">=</span> LassoCV(max_iter<span class="op">=</span><span class="dv">10_000</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>, alphas<span class="op">=</span><span class="dv">10</span><span class="op">**</span>np.linspace(<span class="op">-</span><span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">50</span>))</span>
-<span id="cb10-10"><a></a>m <span class="op">=</span> LogisticRegressionCV()</span>
-<span id="cb10-11"><a></a>dmldata <span class="op">=</span> dml.DoubleMLData.from_arrays(X_features, y, T)</span>
-<span id="cb10-12"><a></a>dmlATE <span class="op">=</span> dml.DoubleMLAPOS(dmldata, g, m, treatment_levels<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>])</span>
-<span id="cb10-13"><a></a>dmlATE.fit()</span>
-<span id="cb10-14"><a></a>dmlATE.summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<section id="example-choosing-flexible-estimators" class="slide level2">
+<h2>Example: choosing flexible estimators</h2>
+<div id="e94a28c4" class="cell columns column-output-location" data-execution_count="8">
+<div class="column">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> GradientBoostingRegressor, GradientBoostingClassifier</span>
+<span id="cb12-2"><a></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LassoCV, LogisticRegressionCV, ElasticNetCV</span>
+<span id="cb12-3"><a></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures, StandardScaler</span>
+<span id="cb12-4"><a></a><span class="im">from</span> sklearn.kernel_approximation <span class="im">import</span> RBFSampler</span>
+<span id="cb12-5"><a></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score</span>
+<span id="cb12-6"><a></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
+<span id="cb12-7"><a></a></span>
+<span id="cb12-8"><a></a>gamma <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb12-9"><a></a>nc <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb12-10"><a></a>models <span class="op">=</span> [</span>
+<span id="cb12-11"><a></a>    Pipeline([(<span class="st">'rbf'</span>,RBFSampler(gamma<span class="op">=</span>gamma, random_state<span class="op">=</span><span class="dv">1</span>, n_components<span class="op">=</span>nc)),</span>
+<span id="cb12-12"><a></a>              (<span class="st">'lasso'</span>,LassoCV(max_iter<span class="op">=</span><span class="dv">10_000</span>, tol<span class="op">=</span><span class="fl">1e-2</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>, selection<span class="op">=</span><span class="st">'random'</span>,</span>
+<span id="cb12-13"><a></a>                               alphas<span class="op">=</span><span class="dv">10</span><span class="op">**</span>np.linspace(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">20</span>)))]),</span>
+<span id="cb12-14"><a></a>    Pipeline([(<span class="st">'poly'</span>,PolynomialFeatures(degree<span class="op">=</span><span class="dv">10</span>)),</span>
+<span id="cb12-15"><a></a>              (<span class="st">'scale'</span>, StandardScaler()),</span>
+<span id="cb12-16"><a></a>              (<span class="st">'lasso'</span>,LassoCV(max_iter<span class="op">=</span><span class="dv">10_000</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>, selection<span class="op">=</span><span class="st">'random'</span>, tol<span class="op">=</span><span class="fl">1e-2</span>,</span>
+<span id="cb12-17"><a></a>                               alphas<span class="op">=</span><span class="dv">10</span><span class="op">**</span>np.linspace(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">20</span>)))]),</span>
+<span id="cb12-18"><a></a>    GradientBoostingRegressor(learning_rate<span class="op">=</span><span class="fl">0.1</span>, criterion<span class="op">=</span><span class="st">"squared_error"</span>)]</span>
+<span id="cb12-19"><a></a></span>
+<span id="cb12-20"><a></a><span class="cf">for</span> m <span class="kw">in</span> models :</span>
+<span id="cb12-21"><a></a>    <span class="bu">print</span>(m)</span>
+<span id="cb12-22"><a></a>    <span class="bu">print</span>(<span class="ss">f"cross val R-squared </span><span class="sc">{</span>cross_val_score(m, X, y, cv<span class="op">=</span><span class="dv">5</span>)<span class="sc">.</span>mean()<span class="sc">:.4}</span><span class="ss"> </span><span class="ch">\n\n</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
+<div class="cell-output cell-output-stdout">
+<pre><code>Pipeline(steps=[('rbf', RBFSampler(gamma=0.5, random_state=1)),
+                ('lasso',
+                 LassoCV(alphas=array([1.00000000e-03, 2.06913808e-03, 4.28133240e-03, 8.85866790e-03,
+       1.83298071e-02, 3.79269019e-02, 7.84759970e-02, 1.62377674e-01,
+       3.35981829e-01, 6.95192796e-01, 1.43844989e+00, 2.97635144e+00,
+       6.15848211e+00, 1.27427499e+01, 2.63665090e+01, 5.45559478e+01,
+       1.12883789e+02, 2.33572147e+02, 4.83293024e+02, 1.00000000e+03]),
+                         max_iter=10000, n_jobs=-1, selection='random',
+                         tol=0.01))])
+cross val R-squared 0.4365 
+
+
+Pipeline(steps=[('poly', PolynomialFeatures(degree=10)),
+                ('scale', StandardScaler()),
+                ('lasso',
+                 LassoCV(alphas=array([1.00000000e-03, 2.06913808e-03, 4.28133240e-03, 8.85866790e-03,
+       1.83298071e-02, 3.79269019e-02, 7.84759970e-02, 1.62377674e-01,
+       3.35981829e-01, 6.95192796e-01, 1.43844989e+00, 2.97635144e+00,
+       6.15848211e+00, 1.27427499e+01, 2.63665090e+01, 5.45559478e+01,
+       1.12883789e+02, 2.33572147e+02, 4.83293024e+02, 1.00000000e+03]),
+                         max_iter=10000, n_jobs=-1, selection='random',
+                         tol=0.01))])
+cross val R-squared 0.5392 
+
+
+GradientBoostingRegressor(criterion='squared_error')
+cross val R-squared 0.5006 
+
+</code></pre>
+</div>
+</div></div>
+</section>
+<section id="visualizing-fit" class="slide level2">
+<h2>Visualizing Fit</h2>
+<div id="0f30ddf2" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb14-2"><a></a>names <span class="op">=</span> [<span class="st">"lasso-rbf"</span>, <span class="st">"lasso-poly"</span>, <span class="st">"gbforest"</span>]</span>
+<span id="cb14-3"><a></a>X_train,  X_test,y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.5</span>, random_state<span class="op">=</span><span class="dv">5498</span>)</span>
+<span id="cb14-4"><a></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">5</span>))</span>
+<span id="cb14-5"><a></a>ax <span class="op">=</span> ax.flatten()</span>
+<span id="cb14-6"><a></a><span class="kw">def</span> r2(y,yhat) :</span>
+<span id="cb14-7"><a></a>    <span class="cf">return</span>(<span class="dv">1</span> <span class="op">-</span> np.mean((y<span class="op">-</span>yhat)<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span>np.var(y))</span>
+<span id="cb14-8"><a></a>otr <span class="op">=</span> np.argsort(X_train[:,<span class="dv">1</span>])</span>
+<span id="cb14-9"><a></a>ote <span class="op">=</span> np.argsort(X_test[:,<span class="dv">1</span>])</span>
+<span id="cb14-10"><a></a></span>
+<span id="cb14-11"><a></a><span class="cf">for</span> i, m <span class="kw">in</span> <span class="bu">enumerate</span>(models):</span>
+<span id="cb14-12"><a></a>    m.fit(X_train,y<span class="op">=</span>y_train)</span>
+<span id="cb14-13"><a></a>    yhat <span class="op">=</span> m.predict(X_train)</span>
+<span id="cb14-14"><a></a>    yhat_test <span class="op">=</span> m.predict(X_test)</span>
+<span id="cb14-15"><a></a>    ax[i].scatter(X_train[:,<span class="dv">1</span>], y_train, alpha<span class="op">=</span><span class="fl">0.3</span>, label<span class="op">=</span><span class="st">"Train y"</span>, color<span class="op">=</span><span class="st">"C0"</span>, marker<span class="op">=</span><span class="st">"."</span>)</span>
+<span id="cb14-16"><a></a>    ax[i].plot(X_train[otr,<span class="dv">1</span>], yhat[otr], alpha<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">"Train yhat"</span>, color<span class="op">=</span><span class="st">"C0"</span>)</span>
+<span id="cb14-17"><a></a>    ax[i].scatter(X_test[:,<span class="dv">1</span>], y_test, alpha<span class="op">=</span><span class="fl">0.3</span>, label<span class="op">=</span><span class="st">"Test y"</span>, color<span class="op">=</span><span class="st">"C1"</span>, marker<span class="op">=</span><span class="st">"."</span>)</span>
+<span id="cb14-18"><a></a>    ax[i].plot(X_test[ote,<span class="dv">1</span>], yhat_test[ote], alpha<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">"Test yhat"</span>, color<span class="op">=</span><span class="st">"C1"</span>)</span>
+<span id="cb14-19"><a></a>    ax[i].set_xlabel(<span class="st">"x"</span>)</span>
+<span id="cb14-20"><a></a>    ax[i].set_ylabel(<span class="st">"y"</span>)</span>
+<span id="cb14-21"><a></a>    ax[i].set_title(names[i])</span>
+<span id="cb14-22"><a></a>    ax[i].annotate(<span class="ss">f"Train R-squared = </span><span class="sc">{</span>r2(y_train, yhat)<span class="sc">:.2}</span><span class="ss">"</span>, (<span class="fl">0.05</span>, <span class="fl">0.95</span>), xycoords<span class="op">=</span><span class="st">'axes fraction'</span>)</span>
+<span id="cb14-23"><a></a>    ax[i].annotate(<span class="ss">f"Test R-squared = </span><span class="sc">{</span>r2(y_test, yhat_test)<span class="sc">:.2}</span><span class="ss">"</span>, (<span class="fl">0.05</span>, <span class="fl">0.90</span>), xycoords<span class="op">=</span><span class="st">'axes fraction'</span>)</span>
+<span id="cb14-24"><a></a>    ax[i].legend()</span>
+<span id="cb14-25"><a></a></span>
+<span id="cb14-26"><a></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="visualizing-fit-output" class="slide level2 output-location-slide"><h2>Visualizing Fit</h2><div class="cell output-location-slide" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="matching_files/figure-revealjs/cell-10-output-1.png" width="1077" height="487"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="example-choosing-flexible-estimators-1" class="slide level2">
+<h2>Example: choosing flexible estimators</h2>
+<div id="f1d92d73" class="cell columns column-output-location" data-execution_count="10">
+<div class="column">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a>gamma <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb15-2"><a></a>nc <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb15-3"><a></a>models <span class="op">=</span> [</span>
+<span id="cb15-4"><a></a>    Pipeline([(<span class="st">'rbf'</span>,RBFSampler(gamma<span class="op">=</span>gamma, random_state<span class="op">=</span><span class="dv">1</span>, n_components<span class="op">=</span>nc)),</span>
+<span id="cb15-5"><a></a>              (<span class="st">'logistic'</span>,LogisticRegressionCV(n_jobs<span class="op">=-</span><span class="dv">1</span>, scoring<span class="op">=</span><span class="st">'neg_log_loss'</span>))]),</span>
+<span id="cb15-6"><a></a>    Pipeline([(<span class="st">'poly'</span>,PolynomialFeatures(degree<span class="op">=</span><span class="dv">10</span>)),</span>
+<span id="cb15-7"><a></a>              (<span class="st">'scale'</span>, StandardScaler()),</span>
+<span id="cb15-8"><a></a>              (<span class="st">'logistic'</span>,LogisticRegressionCV(n_jobs<span class="op">=-</span><span class="dv">1</span>, scoring<span class="op">=</span><span class="st">'neg_log_loss'</span>))]),</span>
+<span id="cb15-9"><a></a>    GradientBoostingClassifier(learning_rate<span class="op">=</span><span class="fl">0.1</span>)]</span>
+<span id="cb15-10"><a></a><span class="cf">for</span> m <span class="kw">in</span> models :</span>
+<span id="cb15-11"><a></a>    <span class="bu">print</span>(m)</span>
+<span id="cb15-12"><a></a>    <span class="bu">print</span>(<span class="ss">f"cross val log likelihood </span><span class="sc">{</span>cross_val_score(m, X, T, scoring<span class="op">=</span><span class="st">'neg_log_loss'</span>, cv<span class="op">=</span><span class="dv">5</span>)<span class="sc">.</span>mean()<span class="sc">:.4}</span><span class="ss"> </span><span class="ch">\n\n</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
+<div class="cell-output cell-output-stdout">
+<pre><code>Pipeline(steps=[('rbf', RBFSampler(gamma=0.5, random_state=1)),
+                ('logistic',
+                 LogisticRegressionCV(n_jobs=-1, scoring='neg_log_loss'))])
+cross val log likelihood -0.5077 
+
+
+Pipeline(steps=[('poly', PolynomialFeatures(degree=10)),
+                ('scale', StandardScaler()),
+                ('logistic',
+                 LogisticRegressionCV(n_jobs=-1, scoring='neg_log_loss'))])
+cross val log likelihood -0.5098 
+
+
+GradientBoostingClassifier()
+cross val log likelihood -0.5184 
+
+</code></pre>
+</div>
+</div></div>
+</section>
+<section id="example-checking-overlap" class="slide level2">
+<h2>Example: Checking Overlap</h2>
+<div id="03f1f9f0" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb17-2"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb17-3"><a></a><span class="im">import</span> doubleml <span class="im">as</span> dml</span>
+<span id="cb17-4"><a></a>g <span class="op">=</span> Pipeline([(<span class="st">'poly'</span>,PolynomialFeatures(degree<span class="op">=</span><span class="dv">10</span>)),</span>
+<span id="cb17-5"><a></a>              (<span class="st">'scale'</span>, StandardScaler()),</span>
+<span id="cb17-6"><a></a>              (<span class="st">'lasso'</span>,LassoCV(max_iter<span class="op">=</span><span class="dv">10_000</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>, selection<span class="op">=</span><span class="st">'random'</span>, tol<span class="op">=</span><span class="fl">1e-2</span>,</span>
+<span id="cb17-7"><a></a>                               alphas<span class="op">=</span><span class="dv">10</span><span class="op">**</span>np.linspace(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">20</span>)))])</span>
+<span id="cb17-8"><a></a>m <span class="op">=</span> Pipeline([(<span class="st">'rbf'</span>,RBFSampler(gamma<span class="op">=</span>gamma, random_state<span class="op">=</span><span class="dv">1</span>, n_components<span class="op">=</span>nc)),</span>
+<span id="cb17-9"><a></a>              (<span class="st">'logistic'</span>,LogisticRegressionCV(n_jobs<span class="op">=-</span><span class="dv">1</span>, scoring<span class="op">=</span><span class="st">'neg_log_loss'</span>))])</span>
+<span id="cb17-10"><a></a></span>
+<span id="cb17-11"><a></a>m.fit(X,T)</span>
+<span id="cb17-12"><a></a></span>
+<span id="cb17-13"><a></a><span class="kw">def</span> plotp(model,X,d):</span>
+<span id="cb17-14"><a></a>    fig,ax<span class="op">=</span>plt.subplots()</span>
+<span id="cb17-15"><a></a>    p <span class="op">=</span> model.predict_proba(X)</span>
+<span id="cb17-16"><a></a>    sns.histplot(p[d<span class="op">==</span><span class="dv">0</span>,<span class="dv">1</span>], kde <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb17-17"><a></a>                 label <span class="op">=</span> <span class="st">"Untreated"</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb17-18"><a></a>    sns.histplot(p[d<span class="op">==</span><span class="dv">1</span>,<span class="dv">1</span>], kde <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb17-19"><a></a>                 label <span class="op">=</span> <span class="st">"Treated"</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb17-20"><a></a>    ax.set_title(<span class="st">'P(T|x)'</span>)</span>
+<span id="cb17-21"><a></a>    <span class="cf">return</span>(fig)</span>
+<span id="cb17-22"><a></a></span>
+<span id="cb17-23"><a></a>fig<span class="op">=</span>plotp(m, X, T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="example-checking-overlap-output" class="slide level2 output-location-slide"><h2>Example: Checking Overlap</h2><div class="cell output-location-slide" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="matching_files/figure-revealjs/cell-12-output-1.png" width="925" height="460"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="example-results" class="slide level2">
+<h2>Example: Results</h2>
+<div id="c93e2125" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a>dmldata <span class="op">=</span> dml.DoubleMLData.from_arrays(X, y, T)</span>
+<span id="cb18-2"><a></a>dmlATE <span class="op">=</span> dml.DoubleMLAPOS(dmldata, g, m, treatment_levels<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb18-3"><a></a>dmlATE.fit()</span>
+<span id="cb18-4"><a></a>dmlATE.summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="41">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -759,21 +934,21 @@ ATE = \Er\left[ \frac{Y T}{p(X)} -  \frac{Y(1-T)}{1-p(X)}\right] = \Er\left[ Y \
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>-0.033187</td>
-<td>0.046875</td>
-<td>-0.707980</td>
-<td>0.478957</td>
-<td>-0.125060</td>
-<td>0.058687</td>
+<td>-0.021252</td>
+<td>0.030485</td>
+<td>-0.697120</td>
+<td>0.485728</td>
+<td>-0.081001</td>
+<td>0.038497</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>0.234077</td>
-<td>0.073896</td>
-<td>3.167662</td>
-<td>0.001537</td>
-<td>0.089244</td>
-<td>0.378911</td>
+<td>0.131497</td>
+<td>0.038623</td>
+<td>3.404609</td>
+<td>0.000663</td>
+<td>0.055797</td>
+<td>0.207197</td>
 </tr>
 </tbody>
 </table>
@@ -781,9 +956,9 @@ ATE = \Er\left[ \frac{Y T}{p(X)} -  \frac{Y(1-T)}{1-p(X)}\right] = \Er\left[ Y \
 </div>
 </div>
 </div>
-<div id="cec47fc2" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>dmlATE.causal_contrast(<span class="dv">0</span>).summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div id="e7c2e2fc" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a>dmlATE.causal_contrast(<span class="dv">0</span>).summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="42">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -814,17 +989,26 @@ ATE = \Er\left[ \frac{Y T}{p(X)} -  \frac{Y(1-T)}{1-p(X)}\right] = \Er\left[ Y \
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">1 vs 0</td>
-<td>0.267264</td>
-<td>0.087332</td>
-<td>3.06032</td>
-<td>0.002211</td>
-<td>0.096096</td>
-<td>0.438432</td>
+<td>0.152749</td>
+<td>0.049476</td>
+<td>3.087356</td>
+<td>0.002019</td>
+<td>0.055778</td>
+<td>0.249719</td>
 </tr>
 </tbody>
 </table>
 
 </div>
+</div>
+</div>
+<div id="57d2e06a" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a>aipw <span class="op">=</span> Ey1x <span class="op">-</span> Ey0x <span class="op">+</span> T<span class="op">*</span>(y <span class="op">-</span> Ey1x)<span class="op">/</span>P <span class="op">-</span> (<span class="dv">1</span><span class="op">-</span>T)<span class="op">*</span>(y <span class="op">-</span> Ey0x)<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>P)</span>
+<span id="cb20-2"><a></a>se <span class="op">=</span> np.sqrt(np.var(aipw)<span class="op">/</span><span class="bu">len</span>(aipw))</span>
+<span id="cb20-3"><a></a><span class="bu">print</span>(<span class="ss">f"Infeasible estimator with true E[y1-y0|x] = and p(x) </span><span class="sc">{</span>np<span class="sc">.</span>mean(aipw)<span class="sc">:.2}</span><span class="ss"> with 95% CI = [</span><span class="sc">{</span>np<span class="sc">.</span>mean(aipw)<span class="op">-</span><span class="fl">1.96</span><span class="op">*</span>se<span class="sc">:.2}</span><span class="ss">,</span><span class="sc">{</span>np<span class="sc">.</span>mean(aipw)<span class="op">+</span><span class="fl">1.96</span><span class="op">*</span>se<span class="sc">:.2}</span><span class="ss">]</span><span class="ch">\n</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Infeasible estimator with true E[y1-y0|x] = and p(x) 0.15 with 95% CI = [0.057,0.24]
+</code></pre>
 </div>
 </div>
 </section></section>
@@ -842,25 +1026,24 @@ ATE = \Er\left[ \frac{Y T}{p(X)} -  \frac{Y(1-T)}{1-p(X)}\right] = \Er\left[ Y \
 </section>
 <section id="data" class="slide level2">
 <h2>Data</h2>
-<div id="8f222b98" class="cell" data-execution_count="9">
+<div id="a2185137" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>imports</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb12-2"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb12-3"><a></a><span class="im">from</span> matplotlib <span class="im">import</span> style</span>
-<span id="cb12-4"><a></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
-<span id="cb12-5"><a></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb12-6"><a></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
-<span id="cb12-7"><a></a><span class="im">from</span> causalinference <span class="im">import</span> CausalModel</span>
-<span id="cb12-8"><a></a>style.use(<span class="st">"fivethirtyeight"</span>)</span>
-<span id="cb12-9"><a></a>pd.set_option(<span class="st">"display.max_columns"</span>, <span class="dv">20</span>)</span>
-<span id="cb12-10"><a></a>datadir<span class="op">=</span><span class="st">"./data"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb22-2"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb22-3"><a></a><span class="im">from</span> matplotlib <span class="im">import</span> style</span>
+<span id="cb22-4"><a></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb22-5"><a></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb22-6"><a></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb22-7"><a></a>style.use(<span class="st">"fivethirtyeight"</span>)</span>
+<span id="cb22-8"><a></a>pd.set_option(<span class="st">"display.max_columns"</span>, <span class="dv">20</span>)</span>
+<span id="cb22-9"><a></a>datadir<span class="op">=</span><span class="st">"./data"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="fbc3b96b" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a>data <span class="op">=</span> pd.read_csv(datadir<span class="op">+</span><span class="st">"/learning_mindset.csv"</span>)</span>
-<span id="cb13-2"><a></a>data.sample(<span class="dv">5</span>, random_state<span class="op">=</span><span class="dv">431</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div id="a72ff80b" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a>data <span class="op">=</span> pd.read_csv(datadir<span class="op">+</span><span class="st">"/learning_mindset.csv"</span>)</span>
+<span id="cb23-2"><a></a>data.sample(<span class="dv">5</span>, random_state<span class="op">=</span><span class="dv">431</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="45">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -985,25 +1168,25 @@ ATE = \Er\left[ \frac{Y T}{p(X)} -  \frac{Y(1-T)}{1-p(X)}\right] = \Er\left[ Y \
 </section>
 <section id="evidence-of-confounding" class="slide level2">
 <h2>Evidence of Confounding</h2>
-<div id="254c82f5" class="cell" data-execution_count="11">
+<div id="2b1db53a" class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a><span class="kw">def</span> std_error(x):</span>
-<span id="cb14-2"><a></a>    <span class="cf">return</span> np.std(x, ddof<span class="op">=</span><span class="dv">1</span>) <span class="op">/</span> np.sqrt(<span class="bu">len</span>(x))</span>
-<span id="cb14-3"><a></a></span>
-<span id="cb14-4"><a></a>grouped <span class="op">=</span> data.groupby(<span class="st">'success_expect'</span>)[<span class="st">'intervention'</span>].agg([<span class="st">'mean'</span>, std_error])</span>
-<span id="cb14-5"><a></a>grouped <span class="op">=</span> grouped.reset_index()</span>
-<span id="cb14-6"><a></a></span>
-<span id="cb14-7"><a></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb14-8"><a></a>plt.errorbar(grouped[<span class="st">'success_expect'</span>],grouped[<span class="st">'mean'</span>],yerr<span class="op">=</span><span class="fl">1.96</span><span class="op">*</span>grouped[<span class="st">'std_error'</span>],fmt<span class="op">=</span><span class="st">"o"</span>)</span>
-<span id="cb14-9"><a></a>ax.set_xlabel(<span class="st">'student expectation of success'</span>)</span>
-<span id="cb14-10"><a></a>ax.set_ylabel(<span class="st">'P(treatment)'</span>)</span>
-<span id="cb14-11"><a></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a></a><span class="kw">def</span> std_error(x):</span>
+<span id="cb24-2"><a></a>    <span class="cf">return</span> np.std(x, ddof<span class="op">=</span><span class="dv">1</span>) <span class="op">/</span> np.sqrt(<span class="bu">len</span>(x))</span>
+<span id="cb24-3"><a></a></span>
+<span id="cb24-4"><a></a>grouped <span class="op">=</span> data.groupby(<span class="st">'success_expect'</span>)[<span class="st">'intervention'</span>].agg([<span class="st">'mean'</span>, std_error])</span>
+<span id="cb24-5"><a></a>grouped <span class="op">=</span> grouped.reset_index()</span>
+<span id="cb24-6"><a></a></span>
+<span id="cb24-7"><a></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb24-8"><a></a>plt.errorbar(grouped[<span class="st">'success_expect'</span>],grouped[<span class="st">'mean'</span>],yerr<span class="op">=</span><span class="fl">1.96</span><span class="op">*</span>grouped[<span class="st">'std_error'</span>],fmt<span class="op">=</span><span class="st">"o"</span>)</span>
+<span id="cb24-9"><a></a>ax.set_xlabel(<span class="st">'student expectation of success'</span>)</span>
+<span id="cb24-10"><a></a>ax.set_ylabel(<span class="st">'P(treatment)'</span>)</span>
+<span id="cb24-11"><a></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="matching_files/figure-revealjs/cell-12-output-1.png" width="927" height="460"></p>
+<p><img data-src="matching_files/figure-revealjs/cell-18-output-1.png" width="927" height="460"></p>
 </figure>
 </div>
 </div>
@@ -1011,20 +1194,20 @@ ATE = \Er\left[ \frac{Y T}{p(X)} -  \frac{Y(1-T)}{1-p(X)}\right] = \Er\left[ Y \
 </section>
 <section id="unadjusted-estimate-of-ate" class="slide level2">
 <h2>Unadjusted estimate of ATE</h2>
-<div id="f10e122d" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a><span class="bu">print</span>(smf.ols(<span class="st">"achievement_score ~ intervention"</span>, data<span class="op">=</span>data).fit().summary().tables[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="68960fba" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a></a><span class="bu">print</span>(smf.ols(<span class="st">"achievement_score ~ intervention"</span>, data<span class="op">=</span>data).fit(cov_type<span class="op">=</span><span class="st">"HC3"</span>).summary().tables[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>================================================================================
-                   coef    std err          t      P&gt;|t|      [0.025      0.975]
+                   coef    std err          z      P&gt;|z|      [0.025      0.975]
 --------------------------------------------------------------------------------
-Intercept       -0.1538      0.012    -13.201      0.000      -0.177      -0.131
-intervention     0.4723      0.020     23.133      0.000       0.432       0.512
+Intercept       -0.1538      0.012    -13.289      0.000      -0.176      -0.131
+intervention     0.4723      0.021     22.968      0.000       0.432       0.513
 ================================================================================</code></pre>
 </div>
 </div>
-<div id="d0fa4228" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a><span class="bu">print</span>(smf.ols(<span class="st">"achievement_score ~ intervention"</span>, data<span class="op">=</span>data).fit(</span>
-<span id="cb17-2"><a></a>    cov_type<span class="op">=</span><span class="st">"cluster"</span>, cov_kwds<span class="op">=</span>{<span class="st">'groups'</span>: data[<span class="st">'schoolid'</span>]}).summary().tables[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c2b4980d" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a></a><span class="bu">print</span>(smf.ols(<span class="st">"achievement_score ~ intervention"</span>, data<span class="op">=</span>data).fit(</span>
+<span id="cb27-2"><a></a>    cov_type<span class="op">=</span><span class="st">"cluster"</span>, cov_kwds<span class="op">=</span>{<span class="st">'groups'</span>: data[<span class="st">'schoolid'</span>]}).summary().tables[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>================================================================================
                    coef    std err          z      P&gt;|z|      [0.025      0.975]
@@ -1037,23 +1220,23 @@ intervention     0.4723      0.025     19.184      0.000       0.424       0.521
 </section>
 <section id="unadjusted-estimate-of-ate-1" class="slide level2">
 <h2>Unadjusted estimate of ATE</h2>
-<div id="d1036530" class="cell" data-execution_count="14">
+<div id="81c14a2c" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a>fig,ax<span class="op">=</span>plt.subplots()</span>
-<span id="cb19-2"><a></a>plt.hist(data.query(<span class="st">"intervention==0"</span>)[<span class="st">"achievement_score"</span>], bins<span class="op">=</span><span class="dv">20</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, color<span class="op">=</span><span class="st">"C2"</span>)</span>
-<span id="cb19-3"><a></a>plt.hist(data.query(<span class="st">"intervention==1"</span>)[<span class="st">"achievement_score"</span>], bins<span class="op">=</span><span class="dv">20</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, color<span class="op">=</span><span class="st">"C3"</span>)</span>
-<span id="cb19-4"><a></a>plt.vlines(<span class="op">-</span><span class="fl">0.1538</span>, <span class="dv">0</span>, <span class="dv">300</span>, label<span class="op">=</span><span class="st">"Untreated"</span>, color<span class="op">=</span><span class="st">"C2"</span>)</span>
-<span id="cb19-5"><a></a>plt.vlines(<span class="op">-</span><span class="fl">0.1538</span><span class="op">+</span><span class="fl">0.4723</span>, <span class="dv">0</span>, <span class="dv">300</span>, label<span class="op">=</span><span class="st">"Treated"</span>, color<span class="op">=</span><span class="st">"C3"</span>)</span>
-<span id="cb19-6"><a></a>ax.set_xlabel(<span class="st">"Achievement Score"</span>)</span>
-<span id="cb19-7"><a></a>ax.set_ylabel(<span class="st">"N"</span>)</span>
-<span id="cb19-8"><a></a>plt.legend()</span>
-<span id="cb19-9"><a></a>plt.show()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a></a>fig,ax<span class="op">=</span>plt.subplots()</span>
+<span id="cb29-2"><a></a>plt.hist(data.query(<span class="st">"intervention==0"</span>)[<span class="st">"achievement_score"</span>], bins<span class="op">=</span><span class="dv">20</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, color<span class="op">=</span><span class="st">"C2"</span>)</span>
+<span id="cb29-3"><a></a>plt.hist(data.query(<span class="st">"intervention==1"</span>)[<span class="st">"achievement_score"</span>], bins<span class="op">=</span><span class="dv">20</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, color<span class="op">=</span><span class="st">"C3"</span>)</span>
+<span id="cb29-4"><a></a>plt.vlines(<span class="op">-</span><span class="fl">0.1538</span>, <span class="dv">0</span>, <span class="dv">300</span>, label<span class="op">=</span><span class="st">"Untreated"</span>, color<span class="op">=</span><span class="st">"C2"</span>)</span>
+<span id="cb29-5"><a></a>plt.vlines(<span class="op">-</span><span class="fl">0.1538</span><span class="op">+</span><span class="fl">0.4723</span>, <span class="dv">0</span>, <span class="dv">300</span>, label<span class="op">=</span><span class="st">"Treated"</span>, color<span class="op">=</span><span class="st">"C3"</span>)</span>
+<span id="cb29-6"><a></a>ax.set_xlabel(<span class="st">"Achievement Score"</span>)</span>
+<span id="cb29-7"><a></a>ax.set_ylabel(<span class="st">"N"</span>)</span>
+<span id="cb29-8"><a></a>plt.legend()</span>
+<span id="cb29-9"><a></a>plt.show()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="matching_files/figure-revealjs/cell-15-output-1.png" width="922" height="458"></p>
+<p><img data-src="matching_files/figure-revealjs/cell-21-output-1.png" width="922" height="458"></p>
 </figure>
 </div>
 </div>
@@ -1061,35 +1244,35 @@ intervention     0.4723      0.025     19.184      0.000       0.424       0.521
 </section>
 <section id="regression-estimate-of-ate" class="slide level2">
 <h2>Regression estimate of ATE</h2>
-<div id="c9003030" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a>ols <span class="op">=</span> smf.ols(<span class="st">"achievement_score ~ intervention + success_expect + ethnicity + gender + frst_in_family + school_urbanicity + school_mindset + school_achievement + school_ethnic_minority + school_poverty + school_size"</span>,data<span class="op">=</span>data).fit()</span>
-<span id="cb20-2"><a></a><span class="bu">print</span>(ols.summary().tables[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e5da69bf" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a></a>ols <span class="op">=</span> smf.ols(<span class="st">"achievement_score ~ intervention + success_expect + ethnicity + gender + frst_in_family + school_urbanicity + school_mindset + school_achievement + school_ethnic_minority + school_poverty + school_size"</span>,data<span class="op">=</span>data).fit(cov_type<span class="op">=</span><span class="st">"cluster"</span>, cov_kwds<span class="op">=</span>{<span class="st">'groups'</span>: data[<span class="st">'schoolid'</span>]})</span>
+<span id="cb30-2"><a></a><span class="bu">print</span>(ols.summary().tables[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>==========================================================================================
-                             coef    std err          t      P&gt;|t|      [0.025      0.975]
+                             coef    std err          z      P&gt;|z|      [0.025      0.975]
 ------------------------------------------------------------------------------------------
-Intercept                 -1.7786      0.056    -31.880      0.000      -1.888      -1.669
-intervention               0.3964      0.018     22.192      0.000       0.361       0.431
-success_expect             0.3746      0.008     49.514      0.000       0.360       0.389
-ethnicity                  0.0043      0.002      2.049      0.040       0.000       0.008
-gender                    -0.2684      0.017    -16.060      0.000      -0.301      -0.236
-frst_in_family            -0.1310      0.018     -7.248      0.000      -0.166      -0.096
-school_urbanicity          0.0573      0.007      8.240      0.000       0.044       0.071
-school_mindset            -0.1484      0.011    -13.083      0.000      -0.171      -0.126
-school_achievement        -0.0253      0.013     -1.902      0.057      -0.051       0.001
-school_ethnic_minority     0.1197      0.011     11.178      0.000       0.099       0.141
-school_poverty            -0.0154      0.011     -1.466      0.143      -0.036       0.005
-school_size               -0.0467      0.011     -4.326      0.000      -0.068      -0.026
+Intercept                 -1.7786      0.110    -16.214      0.000      -1.994      -1.564
+intervention               0.3964      0.025     15.558      0.000       0.346       0.446
+success_expect             0.3746      0.009     41.120      0.000       0.357       0.392
+ethnicity                  0.0043      0.003      1.639      0.101      -0.001       0.009
+gender                    -0.2684      0.016    -16.299      0.000      -0.301      -0.236
+frst_in_family            -0.1310      0.019     -6.770      0.000      -0.169      -0.093
+school_urbanicity          0.0573      0.036      1.613      0.107      -0.012       0.127
+school_mindset            -0.1484      0.044     -3.341      0.001      -0.235      -0.061
+school_achievement        -0.0253      0.055     -0.457      0.647      -0.134       0.083
+school_ethnic_minority     0.1197      0.034      3.471      0.001       0.052       0.187
+school_poverty            -0.0154      0.054     -0.284      0.776      -0.122       0.091
+school_size               -0.0467      0.044     -1.060      0.289      -0.133       0.040
 ==========================================================================================</code></pre>
 </div>
 </div>
 </section>
 <section id="regression-estimate-of-ate-weights" class="slide level2">
 <h2>Regression estimate of ATE: weights</h2>
-<div id="886f5ede" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a></a>lpm <span class="op">=</span> smf.ols(<span class="st">"intervention ~ success_expect + ethnicity + gender + frst_in_family + school_urbanicity + school_mindset + school_achievement + school_ethnic_minority + school_poverty + school_size"</span>,data<span class="op">=</span>data).fit(cov_type<span class="op">=</span><span class="st">"cluster"</span>, cov_kwds<span class="op">=</span>{<span class="st">'groups'</span>: data[<span class="st">'schoolid'</span>]})</span>
-<span id="cb22-2"><a></a>w <span class="op">=</span> lpm.resid <span class="op">/</span> np.var(lpm.resid)</span>
-<span id="cb22-3"><a></a><span class="bu">print</span>(np.mean(data.achievement_score<span class="op">*</span>w))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c97560ca" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a></a>lpm <span class="op">=</span> smf.ols(<span class="st">"intervention ~ success_expect + ethnicity + gender + frst_in_family + school_urbanicity + school_mindset + school_achievement + school_ethnic_minority + school_poverty + school_size"</span>,data<span class="op">=</span>data).fit(cov_type<span class="op">=</span><span class="st">"cluster"</span>, cov_kwds<span class="op">=</span>{<span class="st">'groups'</span>: data[<span class="st">'schoolid'</span>]})</span>
+<span id="cb32-2"><a></a>w <span class="op">=</span> lpm.resid <span class="op">/</span> np.var(lpm.resid)</span>
+<span id="cb32-3"><a></a><span class="bu">print</span>(np.mean(data.achievement_score<span class="op">*</span>w))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.39640236033389553</code></pre>
 </div>
@@ -1097,21 +1280,21 @@ school_size               -0.0467      0.011     -4.326      0.000      -0.068  
 </section>
 <section id="regression-estimate-of-ate-weights-1" class="slide level2">
 <h2>Regression estimate of ATE: weights</h2>
-<div id="803c49ea" class="cell" data-execution_count="17">
+<div id="246297f2" class="cell" data-execution_count="23">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a></a>fig,ax<span class="op">=</span>plt.subplots()</span>
-<span id="cb24-2"><a></a>plt.hist(w[data.intervention<span class="op">==</span><span class="dv">0</span>], bins<span class="op">=</span><span class="dv">20</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, color<span class="op">=</span><span class="st">"C2"</span>, label<span class="op">=</span><span class="st">"Untreated"</span>)</span>
-<span id="cb24-3"><a></a>plt.hist(w[data.intervention<span class="op">==</span><span class="dv">1</span>], bins<span class="op">=</span><span class="dv">20</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, color<span class="op">=</span><span class="st">"C3"</span>, label<span class="op">=</span><span class="st">"Treated"</span>)</span>
-<span id="cb24-4"><a></a>ax.set_xlabel(<span class="st">"w"</span>)</span>
-<span id="cb24-5"><a></a>ax.set_ylabel(<span class="st">"N"</span>)</span>
-<span id="cb24-6"><a></a>plt.legend()</span>
-<span id="cb24-7"><a></a>plt.show()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a></a>fig,ax<span class="op">=</span>plt.subplots()</span>
+<span id="cb34-2"><a></a>plt.hist(w[data.intervention<span class="op">==</span><span class="dv">0</span>], bins<span class="op">=</span><span class="dv">20</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, color<span class="op">=</span><span class="st">"C2"</span>, label<span class="op">=</span><span class="st">"Untreated"</span>)</span>
+<span id="cb34-3"><a></a>plt.hist(w[data.intervention<span class="op">==</span><span class="dv">1</span>], bins<span class="op">=</span><span class="dv">20</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, color<span class="op">=</span><span class="st">"C3"</span>, label<span class="op">=</span><span class="st">"Treated"</span>)</span>
+<span id="cb34-4"><a></a>ax.set_xlabel(<span class="st">"w"</span>)</span>
+<span id="cb34-5"><a></a>ax.set_ylabel(<span class="st">"N"</span>)</span>
+<span id="cb34-6"><a></a>plt.legend()</span>
+<span id="cb34-7"><a></a>plt.show()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="matching_files/figure-revealjs/cell-18-output-1.png" width="933" height="463"></p>
+<p><img data-src="matching_files/figure-revealjs/cell-24-output-1.png" width="933" height="463"></p>
 </figure>
 </div>
 </div>
@@ -1119,19 +1302,19 @@ school_size               -0.0467      0.011     -4.326      0.000      -0.068  
 </section>
 <section id="propensity-score-matching" class="slide level2">
 <h2>Propensity Score Matching</h2>
-<div id="86ecbaa7" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a></a>categ <span class="op">=</span> [<span class="st">"ethnicity"</span>, <span class="st">"gender"</span>, <span class="st">"school_urbanicity"</span>,<span class="st">"success_expect"</span>]</span>
-<span id="cb25-2"><a></a>cont <span class="op">=</span> [<span class="st">"school_mindset"</span>, <span class="st">"school_achievement"</span>, <span class="st">"school_ethnic_minority"</span>, <span class="st">"school_poverty"</span>, <span class="st">"school_size"</span>]</span>
-<span id="cb25-3"><a></a></span>
-<span id="cb25-4"><a></a>data_with_categ <span class="op">=</span> pd.concat([</span>
-<span id="cb25-5"><a></a>    data.drop(columns<span class="op">=</span>categ), <span class="co"># dataset without the categorical features</span></span>
-<span id="cb25-6"><a></a>    pd.get_dummies(data[categ], columns<span class="op">=</span>categ, drop_first<span class="op">=</span><span class="va">False</span>)<span class="co"># categorical features converted to dummies</span></span>
-<span id="cb25-7"><a></a>], axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb25-8"><a></a></span>
-<span id="cb25-9"><a></a><span class="bu">print</span>(data_with_categ.shape)</span>
-<span id="cb25-10"><a></a>T <span class="op">=</span> <span class="st">'intervention'</span></span>
-<span id="cb25-11"><a></a>Y <span class="op">=</span> <span class="st">'achievement_score'</span></span>
-<span id="cb25-12"><a></a>X <span class="op">=</span> data_with_categ.columns.drop([<span class="st">'schoolid'</span>, T, Y])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="13be090c" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a></a>categ <span class="op">=</span> [<span class="st">"ethnicity"</span>, <span class="st">"gender"</span>, <span class="st">"school_urbanicity"</span>,<span class="st">"success_expect"</span>]</span>
+<span id="cb35-2"><a></a>cont <span class="op">=</span> [<span class="st">"school_mindset"</span>, <span class="st">"school_achievement"</span>, <span class="st">"school_ethnic_minority"</span>, <span class="st">"school_poverty"</span>, <span class="st">"school_size"</span>]</span>
+<span id="cb35-3"><a></a></span>
+<span id="cb35-4"><a></a>data_with_categ <span class="op">=</span> pd.concat([</span>
+<span id="cb35-5"><a></a>    data.drop(columns<span class="op">=</span>categ), <span class="co"># dataset without the categorical features</span></span>
+<span id="cb35-6"><a></a>    pd.get_dummies(data[categ], columns<span class="op">=</span>categ, drop_first<span class="op">=</span><span class="va">False</span>)<span class="co"># categorical features converted to dummies</span></span>
+<span id="cb35-7"><a></a>], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb35-8"><a></a></span>
+<span id="cb35-9"><a></a><span class="bu">print</span>(data_with_categ.shape)</span>
+<span id="cb35-10"><a></a>T <span class="op">=</span> <span class="st">'intervention'</span></span>
+<span id="cb35-11"><a></a>Y <span class="op">=</span> <span class="st">'achievement_score'</span></span>
+<span id="cb35-12"><a></a>X <span class="op">=</span> data_with_categ.columns.drop([<span class="st">'schoolid'</span>, T, Y])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(10391, 38)</code></pre>
 </div>
@@ -1139,48 +1322,48 @@ school_size               -0.0467      0.011     -4.326      0.000      -0.068  
 </section>
 <section id="propensity-score-matching-1" class="slide level2">
 <h2>Propensity Score Matching</h2>
-<div id="5e87fb1e" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression, LogisticRegressionCV</span>
-<span id="cb27-2"><a></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsRegressor</span>
-<span id="cb27-3"><a></a><span class="im">import</span> sklearn</span>
-<span id="cb27-4"><a></a></span>
-<span id="cb27-5"><a></a><span class="kw">def</span> propensitymatching(T,Y,X,psmodel<span class="op">=</span>LogisticRegressionCV(),neighbormodel<span class="op">=</span>KNeighborsRegressor(n_neighbors<span class="op">=</span><span class="dv">1</span>,algorithm<span class="op">=</span><span class="st">'auto'</span>,weights<span class="op">=</span><span class="st">'uniform'</span>)):</span>
-<span id="cb27-6"><a></a>    pfit <span class="op">=</span> psmodel.fit(X,T)</span>
-<span id="cb27-7"><a></a>    ps <span class="op">=</span> pfit.predict_proba(X)[:,<span class="dv">1</span>]</span>
-<span id="cb27-8"><a></a>    ey1 <span class="op">=</span> neighbormodel.fit(ps[T<span class="op">==</span><span class="dv">1</span>].reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>),Y[T<span class="op">==</span><span class="dv">1</span>])</span>
-<span id="cb27-9"><a></a>    ey0 <span class="op">=</span> sklearn.base.clone(neighbormodel).fit(ps[T<span class="op">==</span><span class="dv">0</span>].reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>),Y[T<span class="op">==</span><span class="dv">0</span>])</span>
-<span id="cb27-10"><a></a>    tex <span class="op">=</span> ey1.predict(ps.reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="op">-</span> ey0.predict(ps.reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb27-11"><a></a>    ate <span class="op">=</span> np.mean(tex)</span>
-<span id="cb27-12"><a></a>    <span class="cf">return</span>(ate, tex,ps)</span>
-<span id="cb27-13"><a></a></span>
-<span id="cb27-14"><a></a>ate,tex,ps<span class="op">=</span>propensitymatching(data_with_categ[T],data_with_categ[Y],data_with_categ[X])</span>
-<span id="cb27-15"><a></a><span class="bu">print</span>(ate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cc204cd3" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression, LogisticRegressionCV</span>
+<span id="cb37-2"><a></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsRegressor</span>
+<span id="cb37-3"><a></a><span class="im">import</span> sklearn</span>
+<span id="cb37-4"><a></a></span>
+<span id="cb37-5"><a></a><span class="kw">def</span> propensitymatching(T,Y,X,psmodel<span class="op">=</span>LogisticRegressionCV(scoring<span class="op">=</span><span class="st">'neg_log_loss'</span>),neighbormodel<span class="op">=</span>KNeighborsRegressor(n_neighbors<span class="op">=</span><span class="dv">1</span>,algorithm<span class="op">=</span><span class="st">'auto'</span>,weights<span class="op">=</span><span class="st">'uniform'</span>)):</span>
+<span id="cb37-6"><a></a>    pfit <span class="op">=</span> psmodel.fit(X,T)</span>
+<span id="cb37-7"><a></a>    ps <span class="op">=</span> pfit.predict_proba(X)[:,<span class="dv">1</span>]</span>
+<span id="cb37-8"><a></a>    ey1 <span class="op">=</span> neighbormodel.fit(ps[T<span class="op">==</span><span class="dv">1</span>].reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>),Y[T<span class="op">==</span><span class="dv">1</span>])</span>
+<span id="cb37-9"><a></a>    ey0 <span class="op">=</span> sklearn.base.clone(neighbormodel).fit(ps[T<span class="op">==</span><span class="dv">0</span>].reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>),Y[T<span class="op">==</span><span class="dv">0</span>])</span>
+<span id="cb37-10"><a></a>    tex <span class="op">=</span> ey1.predict(ps.reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="op">-</span> ey0.predict(ps.reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb37-11"><a></a>    ate <span class="op">=</span> np.mean(tex)</span>
+<span id="cb37-12"><a></a>    <span class="cf">return</span>(ate, tex,ps)</span>
+<span id="cb37-13"><a></a></span>
+<span id="cb37-14"><a></a>ate,tex,ps<span class="op">=</span>propensitymatching(data_with_categ[T],data_with_categ[Y],data_with_categ[X])</span>
+<span id="cb37-15"><a></a><span class="bu">print</span>(ate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.456936911462113</code></pre>
+<pre><code>0.4163456073819457</code></pre>
 </div>
 </div>
 </section>
 <section id="propensity-score-matching-2" class="slide level2">
 <h2>Propensity Score Matching</h2>
-<div id="403b6729" class="cell" data-execution_count="20">
+<div id="4a201ab9" class="cell" data-execution_count="26">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>,<span class="dv">1</span>)</span>
-<span id="cb29-2"><a></a>treat <span class="op">=</span> data.intervention</span>
-<span id="cb29-3"><a></a>ax[<span class="dv">0</span>].scatter(ps[treat<span class="op">==</span><span class="dv">0</span>],tex[treat<span class="op">==</span><span class="dv">0</span>],color<span class="op">=</span><span class="st">"C2"</span>)</span>
-<span id="cb29-4"><a></a>ax[<span class="dv">0</span>].scatter(ps[treat<span class="op">==</span><span class="dv">1</span>],tex[treat<span class="op">==</span><span class="dv">1</span>],color<span class="op">=</span><span class="st">"C3"</span>)</span>
-<span id="cb29-5"><a></a>ax[<span class="dv">1</span>].hist(ps[treat<span class="op">==</span><span class="dv">0</span>],bins<span class="op">=</span><span class="dv">20</span>,color<span class="op">=</span><span class="st">"C2"</span>,label<span class="op">=</span><span class="st">"Untreated"</span>)</span>
-<span id="cb29-6"><a></a>ax[<span class="dv">1</span>].hist(ps[treat<span class="op">==</span><span class="dv">1</span>],bins<span class="op">=</span><span class="dv">20</span>,color<span class="op">=</span><span class="st">"C3"</span>,label<span class="op">=</span><span class="st">"Treated"</span>)</span>
-<span id="cb29-7"><a></a>ax[<span class="dv">1</span>].set_xlabel(<span class="st">"P(Treatment)"</span>)</span>
-<span id="cb29-8"><a></a>ax[<span class="dv">1</span>].set_ylabel(<span class="st">"N"</span>)</span>
-<span id="cb29-9"><a></a>ax[<span class="dv">0</span>].set_ylabel(<span class="st">"E[Y|T=1,P(X)] - E[Y|T=0,P(X)]"</span>)</span>
-<span id="cb29-10"><a></a>plt.legend()</span>
-<span id="cb29-11"><a></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb39-2"><a></a>treat <span class="op">=</span> data.intervention</span>
+<span id="cb39-3"><a></a>ax[<span class="dv">0</span>].scatter(ps[treat<span class="op">==</span><span class="dv">0</span>],tex[treat<span class="op">==</span><span class="dv">0</span>],color<span class="op">=</span><span class="st">"C2"</span>)</span>
+<span id="cb39-4"><a></a>ax[<span class="dv">0</span>].scatter(ps[treat<span class="op">==</span><span class="dv">1</span>],tex[treat<span class="op">==</span><span class="dv">1</span>],color<span class="op">=</span><span class="st">"C3"</span>)</span>
+<span id="cb39-5"><a></a>ax[<span class="dv">1</span>].hist(ps[treat<span class="op">==</span><span class="dv">0</span>],bins<span class="op">=</span><span class="dv">20</span>,color<span class="op">=</span><span class="st">"C2"</span>,label<span class="op">=</span><span class="st">"Untreated"</span>)</span>
+<span id="cb39-6"><a></a>ax[<span class="dv">1</span>].hist(ps[treat<span class="op">==</span><span class="dv">1</span>],bins<span class="op">=</span><span class="dv">20</span>,color<span class="op">=</span><span class="st">"C3"</span>,label<span class="op">=</span><span class="st">"Treated"</span>)</span>
+<span id="cb39-7"><a></a>ax[<span class="dv">1</span>].set_xlabel(<span class="st">"P(Treatment)"</span>)</span>
+<span id="cb39-8"><a></a>ax[<span class="dv">1</span>].set_ylabel(<span class="st">"N"</span>)</span>
+<span id="cb39-9"><a></a>ax[<span class="dv">0</span>].set_ylabel(<span class="st">"E[Y|T=1,P(X)] - E[Y|T=0,P(X)]"</span>)</span>
+<span id="cb39-10"><a></a>plt.legend()</span>
+<span id="cb39-11"><a></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="matching_files/figure-revealjs/cell-21-output-1.png" width="933" height="458"></p>
+<p><img data-src="matching_files/figure-revealjs/cell-27-output-1.png" width="932" height="458"></p>
 </figure>
 </div>
 </div>
@@ -1188,49 +1371,49 @@ school_size               -0.0467      0.011     -4.326      0.000      -0.068  
 </section>
 <section id="inverse-propensity-weighting-1" class="slide level2">
 <h2>Inverse Propensity Weighting</h2>
-<div id="37f7df5c" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a></a><span class="kw">def</span> ipw(T,Y,X,psmodel<span class="op">=</span>LogisticRegressionCV()):</span>
-<span id="cb30-2"><a></a>    pfit <span class="op">=</span> psmodel.fit(X,T)</span>
-<span id="cb30-3"><a></a>    ps <span class="op">=</span> pfit.predict_proba(X)[:,<span class="dv">1</span>]</span>
-<span id="cb30-4"><a></a>    ate<span class="op">=</span>np.mean(Y<span class="op">*</span>(T <span class="op">-</span> ps)<span class="op">/</span>(ps<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>ps)))</span>
-<span id="cb30-5"><a></a>    <span class="cf">return</span>(ate,ps)</span>
-<span id="cb30-6"><a></a></span>
-<span id="cb30-7"><a></a>ate,ps <span class="op">=</span> ipw(data_with_categ[T],data_with_categ[Y],data_with_categ[X])</span>
-<span id="cb30-8"><a></a><span class="bu">print</span>(ate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="17cc8e16" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a></a><span class="kw">def</span> ipw(T,Y,X,psmodel<span class="op">=</span>LogisticRegressionCV(scoring<span class="op">=</span><span class="st">'neg_log_loss'</span>)):</span>
+<span id="cb40-2"><a></a>    pfit <span class="op">=</span> psmodel.fit(X,T)</span>
+<span id="cb40-3"><a></a>    ps <span class="op">=</span> pfit.predict_proba(X)[:,<span class="dv">1</span>]</span>
+<span id="cb40-4"><a></a>    ate<span class="op">=</span>np.mean(Y<span class="op">*</span>(T <span class="op">-</span> ps)<span class="op">/</span>(ps<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>ps)))</span>
+<span id="cb40-5"><a></a>    <span class="cf">return</span>(ate,ps)</span>
+<span id="cb40-6"><a></a></span>
+<span id="cb40-7"><a></a>ate,ps <span class="op">=</span> ipw(data_with_categ[T],data_with_categ[Y],data_with_categ[X])</span>
+<span id="cb40-8"><a></a><span class="bu">print</span>(ate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.4650069227598922</code></pre>
+<pre><code>0.44256557543538383</code></pre>
 </div>
 </div>
 </section>
 <section id="doubly-robust" class="slide level2">
 <h2>Doubly Robust</h2>
-<div id="b9eeae82" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> GradientBoostingRegressor, GradientBoostingClassifier</span>
-<span id="cb32-2"><a></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LassoCV, LogisticRegressionCV, ElasticNetCV</span>
-<span id="cb32-3"><a></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
-<span id="cb32-4"><a></a></span>
-<span id="cb32-5"><a></a><span class="kw">def</span> robustate(T,Y,X,psmodel<span class="op">=</span>LogisticRegressionCV(),ymodel<span class="op">=</span>LassoCV(), cluster<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb32-6"><a></a>    pfit <span class="op">=</span> psmodel.fit(X,T)</span>
-<span id="cb32-7"><a></a>    ps <span class="op">=</span> pfit.predict_proba(X)[:,<span class="dv">1</span>]</span>
-<span id="cb32-8"><a></a>    ey1fit <span class="op">=</span> ymodel.fit(X[T<span class="op">==</span><span class="dv">1</span>],Y[T<span class="op">==</span><span class="dv">1</span>])</span>
-<span id="cb32-9"><a></a>    ey0fit <span class="op">=</span> sklearn.base.clone(ymodel).fit(X[T<span class="op">==</span><span class="dv">0</span>],Y[T<span class="op">==</span><span class="dv">0</span>])</span>
-<span id="cb32-10"><a></a>    ey1 <span class="op">=</span> ey1fit.predict(X)</span>
-<span id="cb32-11"><a></a>    ey0 <span class="op">=</span> ey0fit.predict(X)</span>
-<span id="cb32-12"><a></a>    ate_terms <span class="op">=</span> ey1 <span class="op">-</span> ey0 <span class="op">+</span> T<span class="op">*</span>(Y<span class="op">-</span> ey1)<span class="op">/</span>ps <span class="op">-</span> (<span class="dv">1</span><span class="op">-</span>T)<span class="op">*</span>(Y<span class="op">-</span>ey0)<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>ps)</span>
-<span id="cb32-13"><a></a>    ate <span class="op">=</span> np.mean(ate_terms)</span>
-<span id="cb32-14"><a></a>    <span class="co"># check if cluster is None</span></span>
-<span id="cb32-15"><a></a>    <span class="cf">if</span> cluster <span class="kw">is</span> <span class="va">None</span> :</span>
-<span id="cb32-16"><a></a>        ate_se <span class="op">=</span> np.sqrt(np.var(ate_terms)<span class="op">/</span><span class="bu">len</span>(ate_terms))</span>
-<span id="cb32-17"><a></a>    <span class="cf">else</span> :</span>
-<span id="cb32-18"><a></a>        creg<span class="op">=</span>smf.ols(<span class="st">"y ~ 1"</span>, pd.DataFrame({<span class="st">"y"</span> : ate_terms})).fit(cov_type<span class="op">=</span><span class="st">"cluster"</span>, cov_kwds<span class="op">=</span>{<span class="st">'groups'</span>: cluster})</span>
-<span id="cb32-19"><a></a>        ate_se <span class="op">=</span> np.sqrt(creg.cov_params().iloc[<span class="dv">0</span>,<span class="dv">0</span>])</span>
-<span id="cb32-20"><a></a></span>
-<span id="cb32-21"><a></a>    <span class="cf">return</span>(ate, ate_se, ps, ey1,ey0)</span>
-<span id="cb32-22"><a></a></span>
-<span id="cb32-23"><a></a>ate,se,ps,ey1,ey0 <span class="op">=</span> robustate(data_with_categ[T],data_with_categ[Y],data_with_categ[X],cluster<span class="op">=</span>data_with_categ[<span class="st">'schoolid'</span>])</span>
-<span id="cb32-24"><a></a><span class="bu">print</span>(ate<span class="op">-</span><span class="fl">1.96</span><span class="op">*</span>se, ate, ate<span class="op">+</span><span class="fl">1.96</span><span class="op">*</span>se)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="da206740" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> GradientBoostingRegressor, GradientBoostingClassifier</span>
+<span id="cb42-2"><a></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LassoCV, LogisticRegressionCV, ElasticNetCV</span>
+<span id="cb42-3"><a></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
+<span id="cb42-4"><a></a></span>
+<span id="cb42-5"><a></a><span class="kw">def</span> robustate(T,Y,X,psmodel<span class="op">=</span>LogisticRegressionCV(scoring<span class="op">=</span><span class="st">'neg_log_loss'</span>),ymodel<span class="op">=</span>LassoCV(), cluster<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb42-6"><a></a>    pfit <span class="op">=</span> psmodel.fit(X,T)</span>
+<span id="cb42-7"><a></a>    ps <span class="op">=</span> pfit.predict_proba(X)[:,<span class="dv">1</span>]</span>
+<span id="cb42-8"><a></a>    ey1fit <span class="op">=</span> ymodel.fit(X[T<span class="op">==</span><span class="dv">1</span>],Y[T<span class="op">==</span><span class="dv">1</span>])</span>
+<span id="cb42-9"><a></a>    ey0fit <span class="op">=</span> sklearn.base.clone(ymodel).fit(X[T<span class="op">==</span><span class="dv">0</span>],Y[T<span class="op">==</span><span class="dv">0</span>])</span>
+<span id="cb42-10"><a></a>    ey1 <span class="op">=</span> ey1fit.predict(X)</span>
+<span id="cb42-11"><a></a>    ey0 <span class="op">=</span> ey0fit.predict(X)</span>
+<span id="cb42-12"><a></a>    ate_terms <span class="op">=</span> ey1 <span class="op">-</span> ey0 <span class="op">+</span> T<span class="op">*</span>(Y<span class="op">-</span> ey1)<span class="op">/</span>ps <span class="op">-</span> (<span class="dv">1</span><span class="op">-</span>T)<span class="op">*</span>(Y<span class="op">-</span>ey0)<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>ps)</span>
+<span id="cb42-13"><a></a>    ate <span class="op">=</span> np.mean(ate_terms)</span>
+<span id="cb42-14"><a></a>    <span class="co"># check if cluster is None</span></span>
+<span id="cb42-15"><a></a>    <span class="cf">if</span> cluster <span class="kw">is</span> <span class="va">None</span> :</span>
+<span id="cb42-16"><a></a>        ate_se <span class="op">=</span> np.sqrt(np.var(ate_terms)<span class="op">/</span><span class="bu">len</span>(ate_terms))</span>
+<span id="cb42-17"><a></a>    <span class="cf">else</span> :</span>
+<span id="cb42-18"><a></a>        creg<span class="op">=</span>smf.ols(<span class="st">"y ~ 1"</span>, pd.DataFrame({<span class="st">"y"</span> : ate_terms})).fit(cov_type<span class="op">=</span><span class="st">"cluster"</span>, cov_kwds<span class="op">=</span>{<span class="st">'groups'</span>: cluster})</span>
+<span id="cb42-19"><a></a>        ate_se <span class="op">=</span> np.sqrt(creg.cov_params().iloc[<span class="dv">0</span>,<span class="dv">0</span>])</span>
+<span id="cb42-20"><a></a></span>
+<span id="cb42-21"><a></a>    <span class="cf">return</span>(ate, ate_se, ps, ey1,ey0)</span>
+<span id="cb42-22"><a></a></span>
+<span id="cb42-23"><a></a>ate,se,ps,ey1,ey0 <span class="op">=</span> robustate(data_with_categ[T],data_with_categ[Y],data_with_categ[X],cluster<span class="op">=</span>data_with_categ[<span class="st">'schoolid'</span>])</span>
+<span id="cb42-24"><a></a><span class="bu">print</span>(ate<span class="op">-</span><span class="fl">1.96</span><span class="op">*</span>se, ate, ate<span class="op">+</span><span class="fl">1.96</span><span class="op">*</span>se)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0.3321412901659991 0.3836159751515205 0.43509066013704195</code></pre>
+<pre><code>0.3317146398974234 0.3832790165781086 0.4348433932587938</code></pre>
 </div>
 </div>
 <p><sup>1</sup></p>
@@ -1240,17 +1423,17 @@ school_size               -0.0467      0.011     -4.326      0.000      -0.068  
 <ul>
 <li>better to use the <code>doubleml</code> package</li>
 </ul>
-<div id="b8cd93a2" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a></a><span class="im">import</span> doubleml <span class="im">as</span> dml</span>
-<span id="cb34-2"><a></a></span>
-<span id="cb34-3"><a></a>m <span class="op">=</span> LassoCV()</span>
-<span id="cb34-4"><a></a>g <span class="op">=</span> LogisticRegressionCV()</span>
-<span id="cb34-5"><a></a>dmldata <span class="op">=</span> dml.DoubleMLData(data_with_categ, Y,T,X.to_list())</span>
-<span id="cb34-6"><a></a>dmlATE <span class="op">=</span> dml.DoubleMLAPOS(dmldata, m, g, treatment_levels<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>])</span>
-<span id="cb34-7"><a></a>dmlATE.fit()</span>
-<span id="cb34-8"><a></a>dmlATE.summary</span>
-<span id="cb34-9"><a></a>dmlATE.causal_contrast(<span class="dv">0</span>).summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="23">
+<div id="388ffa13" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a></a><span class="im">import</span> doubleml <span class="im">as</span> dml</span>
+<span id="cb44-2"><a></a></span>
+<span id="cb44-3"><a></a>m <span class="op">=</span> LassoCV()</span>
+<span id="cb44-4"><a></a>g <span class="op">=</span> LogisticRegressionCV(scoring<span class="op">=</span><span class="st">'neg_log_loss'</span>)</span>
+<span id="cb44-5"><a></a>dmldata <span class="op">=</span> dml.DoubleMLData(data_with_categ, Y,T,X.to_list())</span>
+<span id="cb44-6"><a></a>dmlATE <span class="op">=</span> dml.DoubleMLAPOS(dmldata, m, g, treatment_levels<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb44-7"><a></a>dmlATE.fit()</span>
+<span id="cb44-8"><a></a>dmlATE.summary</span>
+<span id="cb44-9"><a></a>dmlATE.causal_contrast(<span class="dv">0</span>).summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="58">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1281,12 +1464,12 @@ school_size               -0.0467      0.011     -4.326      0.000      -0.068  
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">1 vs 0</td>
-<td>0.384239</td>
-<td>0.017031</td>
-<td>22.561704</td>
+<td>0.382427</td>
+<td>0.017134</td>
+<td>22.319628</td>
 <td>0.0</td>
-<td>0.35086</td>
-<td>0.417618</td>
+<td>0.348844</td>
+<td>0.416009</td>
 </tr>
 </tbody>
 </table>
@@ -1307,11 +1490,7 @@ school_size               -0.0467      0.011     -4.326      0.000      -0.068  
 <section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
 
-<div class="quarto-auto-generated-content">
-<div class="footer footer-default">
 
-</div>
-</div>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-abadie2008" class="csl-entry" role="listitem">
 Abadie, Alberto, and Guido W. Imbens. 2008. <span>“On the Failure of the Bootstrap for Matching Estimators.”</span> <em>Econometrica</em> 76 (6): 1537–57. https://doi.org/<a href="https://doi.org/10.3982/ECTA6474">https://doi.org/10.3982/ECTA6474</a>.
@@ -1338,7 +1517,11 @@ Yeager, David S., Paul Hanselman, Gregory M. Walton, Jared S. Murray, Robert Cro
 </section></section>
 
     </div>
-  </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
   <script src="site_libs/revealjs/dist/reveal.js"></script>
@@ -1368,7 +1551,8 @@ Yeager, David S., Paul Hanselman, Gregory M. Walton, Jared S. Murray, Robert Cro
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'chalkboard': {"buttons":true,"theme":"whiteboard","boardmarkerWidth":2,"chalkWidth":2,"chalkEffect":0},
 'smaller': false,
  
@@ -1526,7 +1710,7 @@ Yeager, David S., Paul Hanselman, Gregory M. Walton, Jared S. Murray, Robert Cro
         minScale: 0.1,
 
         math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],

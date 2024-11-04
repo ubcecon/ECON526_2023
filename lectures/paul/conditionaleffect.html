@@ -6,9 +6,8 @@
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.5.57">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2486e1f0a3ee9ee1fc393803a1361cdb.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.6.32">
 
   <meta name="author" content="Paul Schrimpf">
   <title>ECON 526 – Treatment Heterogeneity and Conditional Effects</title>
@@ -115,7 +114,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-2ff78e2e6999b6200d15f6cb181d00bd.css">
   <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -507,7 +506,7 @@ CATE(x) = \Er[Y_i(1) - Y_i(0)|X_i = x]
 </ul></li>
 <li>Randomly assigned at kecamatan (district) level</li>
 </ul>
-<div id="1009d4fb" class="cell" data-execution_count="2">
+<div id="2b198334" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>imports</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -526,7 +525,7 @@ CATE(x) = \Er[Y_i(1) - Y_i(0)|X_i = x]
 </section>
 <section id="data" class="slide level2">
 <h2>Data</h2>
-<div id="60449cec" class="cell" data-execution_count="3">
+<div id="ca68a594" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>url <span class="op">=</span> <span class="st">"https://datascience.quantecon.org/assets/data/Triyana_2016_price_women_clean.csv"</span></span>
 <span id="cb2-2"><a></a>df <span class="op">=</span> pd.read_csv(url)</span>
 <span id="cb2-3"><a></a>df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -776,7 +775,7 @@ CATE(x) = \Er[Y_i(1) - Y_i(0)|X_i = x]
 </section>
 <section id="average-treatment-effects" class="slide level2">
 <h2>Average Treatment Effects</h2>
-<div id="59f4b3f0" class="cell" data-execution_count="4">
+<div id="41505f42" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>data prep</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="co"># some data prep for later</span></span>
@@ -808,7 +807,7 @@ CATE(x) = \Er[Y_i(1) - Y_i(0)|X_i = x]
 <span id="cb3-27"><a></a>Xl <span class="op">=</span> Xl.rename(columns <span class="op">=</span> <span class="kw">lambda</span> x:re.sub(<span class="st">'[^A-Za-z0-9_]+'</span>, <span class="st">''</span>, x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="ada3c8f4" class="cell" data-execution_count="5">
+<div id="25e4da01" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="im">from</span> statsmodels.iolib.summary2 <span class="im">import</span> summary_col</span>
 <span id="cb4-2"><a></a>tmp <span class="op">=</span> pd.DataFrame(<span class="bu">dict</span>(birthweight<span class="op">=</span>bw,treatment<span class="op">=</span>treatment,assisted_delivery<span class="op">=</span>df.loc[X.index, <span class="st">"good_assisted_delivery"</span>]))</span>
 <span id="cb4-3"><a></a>usage <span class="op">=</span> smf.ols(<span class="st">"assisted_delivery ~ treatment"</span>, data<span class="op">=</span>tmp).fit(cov_type<span class="op">=</span><span class="st">"cluster"</span>, cov_kwds<span class="op">=</span>{<span class="st">'groups'</span>:loc_id})</span>
@@ -932,7 +931,7 @@ u_i
 </section>
 <section id="code" class="slide level2">
 <h2>Code</h2>
-<div id="a891e407" class="cell" data-execution_count="6">
+<div id="2dbe3898" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="co"># for clustering standard errors</span></span>
 <span id="cb5-2"><a></a><span class="kw">def</span> get_treatment_se(fit, cluster_id, rows<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb5-3"><a></a>    <span class="cf">if</span> cluster_id <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
@@ -946,7 +945,7 @@ u_i
 </section>
 <section id="code-1" class="slide level2">
 <h2>Code</h2>
-<div id="d0aa464a" class="cell" data-execution_count="7">
+<div id="1ec7ba29" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="kw">def</span> generic_ml_model(x, y, treatment, model, n_split<span class="op">=</span><span class="dv">10</span>, n_group<span class="op">=</span><span class="dv">5</span>, cluster_id<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb6-2"><a></a>    nobs <span class="op">=</span> x.shape[<span class="dv">0</span>]</span>
 <span id="cb6-3"><a></a></span>
@@ -1020,7 +1019,7 @@ u_i
 </section>
 <section id="code-2" class="slide level2">
 <h2>Code</h2>
-<div id="cd07763f" class="cell" data-execution_count="8">
+<div id="014b2124" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a><span class="kw">def</span> generate_report(results):</span>
 <span id="cb7-2"><a></a>    summaries <span class="op">=</span> <span class="bu">list</span>(<span class="bu">map</span>(generic_ml_summary, results))</span>
 <span id="cb7-3"><a></a>    df_plot <span class="op">=</span> pd.DataFrame({</span>
@@ -1044,7 +1043,7 @@ u_i
 </section>
 <section id="code-3" class="slide level2">
 <h2>Code</h2>
-<div id="14692c6d" class="cell" data-execution_count="9">
+<div id="2b0691f2" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a><span class="im">import</span> lightgbm <span class="im">as</span> lgb</span>
 <span id="cb8-2"><a></a><span class="im">import</span> io</span>
 <span id="cb8-3"><a></a><span class="im">from</span> contextlib <span class="im">import</span> redirect_stdout, redirect_stderr</span>
@@ -1072,14 +1071,14 @@ u_i
 </section>
 <section id="results-birthweight" class="slide level2">
 <h2>Results: Birthweight</h2>
-<div id="0aabb82e" class="cell" data-execution_count="10">
+<div id="e3fb62b2" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>results <span class="op">=</span> evaluate_models(models, y<span class="op">=</span>bw)<span class="op">;</span></span>
 <span id="cb9-2"><a></a>report<span class="op">=</span>generate_report(results[<span class="dv">0</span>])</span>
 <span id="cb9-3"><a></a>report[<span class="st">"pairplot"</span>].fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="conditionaleffect_files/figure-revealjs/cell-10-output-1.png" width="946" height="947"></p>
+<p><img data-src="conditionaleffect_files/figure-revealjs/cell-10-output-1.png" width="951" height="947"></p>
 </figure>
 </div>
 </div>
@@ -1087,7 +1086,7 @@ u_i
 </section>
 <section id="results-birthweight-1" class="slide level2">
 <h2>Results: Birthweight</h2>
-<div id="2d1089d8" class="cell" data-execution_count="11">
+<div id="d21631f5" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>report[<span class="st">"corr"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div>
@@ -1119,29 +1118,29 @@ u_i
 <tr class="odd">
 <td data-quarto-table-cell-role="th">LassoCV</td>
 <td>1.000000</td>
-<td>0.367106</td>
-<td>0.099130</td>
-<td>-0.000621</td>
+<td>0.283262</td>
+<td>0.195667</td>
+<td>0.024557</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">RandomForestRegressor</td>
-<td>0.367106</td>
+<td>0.283262</td>
 <td>1.000000</td>
-<td>0.620231</td>
-<td>-0.259018</td>
+<td>0.596180</td>
+<td>-0.155473</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">LGBMRegressor</td>
-<td>0.099130</td>
-<td>0.620231</td>
+<td>0.195667</td>
+<td>0.596180</td>
 <td>1.000000</td>
-<td>-0.172049</td>
+<td>-0.089839</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">MLPRegressor</td>
-<td>-0.000621</td>
-<td>-0.259018</td>
-<td>-0.172049</td>
+<td>0.024557</td>
+<td>-0.155473</td>
+<td>-0.089839</td>
 <td>1.000000</td>
 </tr>
 </tbody>
@@ -1153,7 +1152,7 @@ u_i
 </section>
 <section id="results-birthweight-2" class="slide level2">
 <h2>Results: Birthweight</h2>
-<div id="b72c2341" class="cell" data-execution_count="12">
+<div id="94368252" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>report[<span class="st">"BLP"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div>
@@ -1186,32 +1185,32 @@ u_i
 <tr class="odd">
 <td rowspan="2" data-quarto-table-cell-role="th" data-valign="top">blp</td>
 <td data-quarto-table-cell-role="th">0</td>
-<td>-22.568002</td>
-<td>-11.462487</td>
-<td>-11.941160</td>
-<td>-6.279482</td>
+<td>-5.070703e+00</td>
+<td>-7.877588</td>
+<td>-15.150926</td>
+<td>-15.289697</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>0.017488</td>
-<td>0.006881</td>
-<td>0.097679</td>
-<td>-1541.554221</td>
+<td>3.943529e-15</td>
+<td>0.050554</td>
+<td>0.008801</td>
+<td>-1565.379909</td>
 </tr>
 <tr class="odd">
 <td rowspan="2" data-quarto-table-cell-role="th" data-valign="top">se</td>
 <td data-quarto-table-cell-role="th">0</td>
-<td>31.975947</td>
-<td>32.051788</td>
-<td>32.617325</td>
-<td>33.302140</td>
+<td>3.250762e+01</td>
+<td>32.062612</td>
+<td>32.594646</td>
+<td>33.039435</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>0.679940</td>
-<td>0.269991</td>
-<td>0.118483</td>
-<td>3628.286621</td>
+<td>6.188115e-01</td>
+<td>0.274722</td>
+<td>0.120375</td>
+<td>3214.431421</td>
 </tr>
 </tbody>
 </table>
@@ -1222,7 +1221,7 @@ u_i
 </section>
 <section id="results-birthweight-3" class="slide level2">
 <h2>Results: Birthweight</h2>
-<div id="8766e233" class="cell" data-execution_count="13">
+<div id="23deec70" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a>report[<span class="st">"GATE"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <div>
@@ -1255,74 +1254,74 @@ u_i
 <tr class="odd">
 <td rowspan="5" data-quarto-table-cell-role="th" data-valign="top">gate</td>
 <td data-quarto-table-cell-role="th">0</td>
-<td>0.000000</td>
-<td>-13.284641</td>
-<td>-20.578421</td>
-<td>12.360276</td>
+<td>0.000000e+00</td>
+<td>6.806915</td>
+<td>-10.649634</td>
+<td>-1.788870</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>-13.691474</td>
-<td>-4.390817</td>
-<td>6.634374</td>
-<td>-22.503743</td>
+<td>0.000000e+00</td>
+<td>-17.484799</td>
+<td>-6.989461</td>
+<td>-20.864722</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>-23.129674</td>
-<td>-26.268309</td>
-<td>-29.946450</td>
-<td>-15.274649</td>
+<td>0.000000e+00</td>
+<td>-71.999452</td>
+<td>-15.407855</td>
+<td>-0.502629</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>-38.429092</td>
-<td>11.557572</td>
-<td>-42.463889</td>
-<td>-9.390308</td>
+<td>0.000000e+00</td>
+<td>-27.436748</td>
+<td>-70.814267</td>
+<td>-45.545684</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>-21.569168</td>
-<td>-16.960292</td>
-<td>28.091366</td>
-<td>-18.151821</td>
+<td>-1.374993e+01</td>
+<td>35.168126</td>
+<td>2.692431</td>
+<td>-37.768674</td>
 </tr>
 <tr class="even">
 <td rowspan="5" data-quarto-table-cell-role="th" data-valign="top">se</td>
 <td data-quarto-table-cell-role="th">0</td>
-<td>65.897912</td>
-<td>68.436618</td>
-<td>71.298899</td>
-<td>75.583985</td>
+<td>6.922868e-14</td>
+<td>66.933201</td>
+<td>65.686446</td>
+<td>83.811558</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">1</td>
-<td>62.654801</td>
-<td>70.288355</td>
-<td>70.154849</td>
-<td>68.218221</td>
+<td>6.056362e+01</td>
+<td>69.575429</td>
+<td>68.657312</td>
+<td>67.389681</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">2</td>
-<td>66.319468</td>
-<td>69.902365</td>
-<td>69.413472</td>
-<td>65.029318</td>
+<td>0.000000e+00</td>
+<td>68.445318</td>
+<td>68.883673</td>
+<td>69.075477</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">3</td>
-<td>61.830268</td>
-<td>67.600977</td>
-<td>68.672941</td>
-<td>72.137209</td>
+<td>0.000000e+00</td>
+<td>72.971604</td>
+<td>71.278058</td>
+<td>65.236928</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">4</td>
-<td>58.794582</td>
-<td>73.066751</td>
-<td>75.838379</td>
-<td>62.095010</td>
+<td>3.551728e+01</td>
+<td>73.410124</td>
+<td>75.470398</td>
+<td>66.160513</td>
 </tr>
 </tbody>
 </table>
@@ -1333,7 +1332,7 @@ u_i
 </section>
 <section id="results-assisted-delivery" class="slide level2">
 <h2>Results: Assisted Delivery</h2>
-<div id="15e2a328" class="cell" data-execution_count="14">
+<div id="ecb6d850" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a>ad <span class="op">=</span> df.loc[X.index, <span class="st">"good_assisted_delivery"</span>]</span>
 <span id="cb13-2"><a></a>results_ad <span class="op">=</span> evaluate_models(models, y<span class="op">=</span>ad)</span>
 <span id="cb13-3"><a></a>report_ad<span class="op">=</span>generate_report(results_ad[<span class="dv">0</span>])</span>
@@ -1341,7 +1340,7 @@ u_i
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="conditionaleffect_files/figure-revealjs/cell-14-output-1.png" width="934" height="947"></p>
+<p><img data-src="conditionaleffect_files/figure-revealjs/cell-14-output-1.png" width="946" height="947"></p>
 </figure>
 </div>
 </div>
@@ -1349,7 +1348,7 @@ u_i
 </section>
 <section id="results-assisted-delivery-1" class="slide level2">
 <h2>Results: Assisted Delivery</h2>
-<div id="7901c82e" class="cell" data-execution_count="15">
+<div id="4be94847" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a>report_ad[<span class="st">"corr"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <div>
@@ -1381,29 +1380,29 @@ u_i
 <tr class="odd">
 <td data-quarto-table-cell-role="th">LassoCV</td>
 <td>1.000000</td>
-<td>0.833052</td>
-<td>0.718235</td>
-<td>0.875582</td>
+<td>0.843195</td>
+<td>0.740900</td>
+<td>0.832495</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">RandomForestRegressor</td>
-<td>0.833052</td>
+<td>0.843195</td>
 <td>1.000000</td>
-<td>0.752526</td>
-<td>0.694210</td>
+<td>0.757497</td>
+<td>0.708102</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">LGBMRegressor</td>
-<td>0.718235</td>
-<td>0.752526</td>
+<td>0.740900</td>
+<td>0.757497</td>
 <td>1.000000</td>
-<td>0.605871</td>
+<td>0.566446</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">MLPRegressor</td>
-<td>0.875582</td>
-<td>0.694210</td>
-<td>0.605871</td>
+<td>0.832495</td>
+<td>0.708102</td>
+<td>0.566446</td>
 <td>1.000000</td>
 </tr>
 </tbody>
@@ -1415,7 +1414,7 @@ u_i
 </section>
 <section id="results-assisted-delivery-2" class="slide level2">
 <h2>Results: Assisted Delivery</h2>
-<div id="b039ffb2" class="cell" data-execution_count="16">
+<div id="32a89f7b" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a>report_ad[<span class="st">"BLP"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <div>
@@ -1448,32 +1447,32 @@ u_i
 <tr class="odd">
 <td rowspan="2" data-quarto-table-cell-role="th" data-valign="top">blp</td>
 <td data-quarto-table-cell-role="th">0</td>
-<td>0.050851</td>
-<td>0.050091</td>
-<td>0.046645</td>
-<td>0.041081</td>
+<td>0.049976</td>
+<td>0.047267</td>
+<td>0.036169</td>
+<td>0.040557</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>0.444944</td>
-<td>0.483945</td>
-<td>0.260558</td>
-<td>0.371236</td>
+<td>0.518060</td>
+<td>0.412872</td>
+<td>0.272907</td>
+<td>0.409752</td>
 </tr>
 <tr class="odd">
 <td rowspan="2" data-quarto-table-cell-role="th" data-valign="top">se</td>
 <td data-quarto-table-cell-role="th">0</td>
-<td>0.021194</td>
-<td>0.021903</td>
-<td>0.021903</td>
-<td>0.021485</td>
+<td>0.021068</td>
+<td>0.020897</td>
+<td>0.022371</td>
+<td>0.020618</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>0.145494</td>
-<td>0.145631</td>
-<td>0.094021</td>
-<td>0.149884</td>
+<td>0.139788</td>
+<td>0.142686</td>
+<td>0.094551</td>
+<td>0.135706</td>
 </tr>
 </tbody>
 </table>
@@ -1484,7 +1483,7 @@ u_i
 </section>
 <section id="results-assisted-delivery-3" class="slide level2">
 <h2>Results: Assisted Delivery</h2>
-<div id="06be6596" class="cell" data-execution_count="17">
+<div id="236937fa" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a></a>report_ad[<span class="st">"GATE"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <div>
@@ -1517,74 +1516,74 @@ u_i
 <tr class="odd">
 <td rowspan="5" data-quarto-table-cell-role="th" data-valign="top">gate</td>
 <td data-quarto-table-cell-role="th">0</td>
-<td>-0.012323</td>
-<td>-0.052476</td>
-<td>-0.024511</td>
-<td>-0.014330</td>
+<td>-0.019896</td>
+<td>-0.006858</td>
+<td>-0.040657</td>
+<td>-0.021221</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>0.003649</td>
-<td>-0.010400</td>
-<td>0.016304</td>
-<td>0.003519</td>
+<td>-0.001354</td>
+<td>0.005503</td>
+<td>0.022481</td>
+<td>0.011613</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>0.023902</td>
-<td>0.013054</td>
-<td>0.027872</td>
-<td>0.007801</td>
+<td>0.036199</td>
+<td>0.018358</td>
+<td>-0.011400</td>
+<td>0.002561</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>0.082557</td>
-<td>0.083082</td>
-<td>0.064248</td>
-<td>0.078915</td>
+<td>0.103179</td>
+<td>0.070919</td>
+<td>0.078308</td>
+<td>0.061261</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>0.175096</td>
-<td>0.187124</td>
-<td>0.158091</td>
-<td>0.135305</td>
+<td>0.172855</td>
+<td>0.197846</td>
+<td>0.161808</td>
+<td>0.176111</td>
 </tr>
 <tr class="even">
 <td rowspan="5" data-quarto-table-cell-role="th" data-valign="top">se</td>
 <td data-quarto-table-cell-role="th">0</td>
-<td>0.038181</td>
-<td>0.054737</td>
-<td>0.048957</td>
-<td>0.034020</td>
+<td>0.045238</td>
+<td>0.045984</td>
+<td>0.051473</td>
+<td>0.033738</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">1</td>
-<td>0.043502</td>
-<td>0.047169</td>
-<td>0.042196</td>
-<td>0.045372</td>
+<td>0.043951</td>
+<td>0.043944</td>
+<td>0.047367</td>
+<td>0.041222</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">2</td>
-<td>0.042353</td>
-<td>0.043675</td>
-<td>0.045325</td>
-<td>0.047387</td>
+<td>0.042064</td>
+<td>0.037539</td>
+<td>0.045388</td>
+<td>0.047464</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">3</td>
-<td>0.048448</td>
-<td>0.044126</td>
-<td>0.043614</td>
-<td>0.045193</td>
+<td>0.044775</td>
+<td>0.043148</td>
+<td>0.046665</td>
+<td>0.050273</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">4</td>
-<td>0.056124</td>
-<td>0.051436</td>
-<td>0.049159</td>
-<td>0.053205</td>
+<td>0.054797</td>
+<td>0.055317</td>
+<td>0.047589</td>
+<td>0.053421</td>
 </tr>
 </tbody>
 </table>
@@ -1595,7 +1594,7 @@ u_i
 </section>
 <section id="covariate-means-by-group" class="slide level2">
 <h2>Covariate Means by Group</h2>
-<div id="d14ea89d" class="cell" data-execution_count="18">
+<div id="d6dd38bd" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a><span class="kw">def</span> cov_mean_by_group(y, res, cluster_id):</span>
 <span id="cb17-2"><a></a>    n_group <span class="op">=</span> res[<span class="st">"gate"</span>].shape[<span class="dv">1</span>]</span>
 <span id="cb17-3"><a></a>    gate <span class="op">=</span> res[<span class="st">"gate"</span>].copy()</span>
@@ -1649,7 +1648,7 @@ u_i
 </section>
 <section id="covariate-means-by-group-1" class="slide level2">
 <h2>Covariate Means by Group</h2>
-<div id="da0867d0" class="cell" data-execution_count="19">
+<div id="b149e0d7" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a>df2 <span class="op">=</span> df.loc[X.index, :]</span>
 <span id="cb18-2"><a></a>df2[<span class="st">"edu99"</span>] <span class="op">=</span> df2.edu <span class="op">==</span> <span class="dv">99</span></span>
 <span id="cb18-3"><a></a>df2[<span class="st">"educ"</span>] <span class="op">=</span> df2[<span class="st">"edu"</span>]</span>
@@ -1663,7 +1662,7 @@ u_i
 </section>
 <section id="covariate-means-by-group-2" class="slide level2">
 <h2>Covariate Means by Group</h2>
-<div id="5e0d8b91" class="cell" data-execution_count="20">
+<div id="fee206b4" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a>g <span class="op">=</span> groupmeanfig(group_means_ad)</span>
 <span id="cb19-2"><a></a>g.fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -1677,7 +1676,7 @@ u_i
 </section>
 <section id="covariate-means-by-group-3" class="slide level2">
 <h2>Covariate Means by Group</h2>
-<div id="b2f02d0b" class="cell" data-execution_count="21">
+<div id="80f1e034" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a>g <span class="op">=</span> groupmeanfig(compute_group_means_for_results(results_ad[<span class="dv">0</span>], variables2, df2))</span>
 <span id="cb20-2"><a></a>g.fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -1691,7 +1690,7 @@ u_i
 </section>
 <section id="treatment-participation-by-group" class="slide level2">
 <h2>Treatment Participation by Group</h2>
-<div id="125dbfe8" class="cell" data-execution_count="22">
+<div id="a6c50ac3" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a>g <span class="op">=</span> groupmeanfig(compute_group_means_for_results(results_ad[<span class="dv">0</span>], [<span class="st">"pkh_ever"</span>], df2))</span>
 <span id="cb21-2"><a></a>g.fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -1714,11 +1713,7 @@ u_i
 <section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
 
-<div class="quarto-auto-generated-content">
-<div class="footer footer-default">
 
-</div>
-</div>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-alatas2011" class="csl-entry" role="listitem">
 Alatas, Vivi, Nur Cahyadi, Elisabeth Ekasari, Sarah Harmoun, Budi Hidayat, Edgar Janz, Jon Jellema, H Tuhiman, and M Wai-Poi. 2011. <span>“Program Keluarga Harapan : Impact Evaluation of Indonesia’s Pilot Household Conditional Cash Transfer Program.”</span> World Bank. <a href="http://documents.worldbank.org/curated/en/589171468266179965/Program-Keluarga-Harapan-impact-evaluation-of-Indonesias-Pilot-Household-Conditional-Cash-Transfer-Program">http://documents.worldbank.org/curated/en/589171468266179965/Program-Keluarga-Harapan-impact-evaluation-of-Indonesias-Pilot-Household-Conditional-Cash-Transfer-Program</a>.
@@ -1735,7 +1730,11 @@ Triyana, Margaret. 2016. <span>“Do Health Care Providers Respond to Demand-Sid
 </div>
 </section></section>
     </div>
-  </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
   <script src="site_libs/revealjs/dist/reveal.js"></script>
@@ -1765,7 +1764,8 @@ Triyana, Margaret. 2016. <span>“Do Health Care Providers Respond to Demand-Sid
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'chalkboard': {"buttons":true,"theme":"whiteboard","boardmarkerWidth":2,"chalkWidth":2,"chalkEffect":0},
 'smaller': false,
  
@@ -1923,7 +1923,7 @@ Triyana, Margaret. 2016. <span>“Do Health Care Providers Respond to Demand-Sid
         minScale: 0.1,
 
         math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],

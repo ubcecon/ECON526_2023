@@ -6,9 +6,8 @@
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.5.57">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2486e1f0a3ee9ee1fc393803a1361cdb.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.6.32">
 
   <meta name="author" content="Paul Schrimpf">
   <title>ECON 526 – Introduction to Difference in Differences</title>
@@ -115,7 +114,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-2ff78e2e6999b6200d15f6cb181d00bd.css">
   <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -463,7 +462,7 @@ Paul Schrimpf
 </section>
 <section id="example-impact-of-billboards-1" class="slide level2">
 <h2>Example: Impact of Billboards</h2>
-<div id="20e90989" class="cell" data-execution_count="2">
+<div id="06c51993" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> warnings</span>
@@ -475,7 +474,7 @@ Paul Schrimpf
 <span id="cb1-7"><a></a>datadir<span class="op">=</span><span class="st">"./data"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="60515726" class="cell" data-execution_count="3">
+<div id="87168c6a" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>data <span class="op">=</span> pd.read_csv(datadir <span class="op">+</span> <span class="st">"/billboard_impact.csv"</span>)</span>
 <span id="cb2-2"><a></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -543,7 +542,7 @@ Paul Schrimpf
 </section>
 <section id="means-and-differences" class="slide level2">
 <h2>Means and Differences</h2>
-<div id="dd662407" class="cell" data-execution_count="4">
+<div id="55e53aef" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>tbl <span class="op">=</span> data.groupby([<span class="st">'jul'</span>,<span class="st">'poa'</span>]).mean().unstack()</span>
 <span id="cb3-2"><a></a>tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -572,7 +571,7 @@ Paul Schrimpf
 <th data-quarto-table-cell-role="th"></th>
 <th colspan="2" data-quarto-table-cell-role="th" data-halign="left">deposits</th>
 </tr>
-<tr class="odd">
+<tr class="even">
 <th data-quarto-table-cell-role="th">poa</th>
 <th data-quarto-table-cell-role="th">0</th>
 <th data-quarto-table-cell-role="th">1</th>
@@ -600,7 +599,7 @@ Paul Schrimpf
 </div>
 </div>
 </div>
-<div id="dec7ac5b" class="cell" data-execution_count="5">
+<div id="b4b12585" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a>tbl.diff(axis<span class="op">=</span><span class="dv">0</span>).iloc[<span class="dv">1</span>,:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>          poa
@@ -609,7 +608,7 @@ deposits  0      34.523192
 Name: 1, dtype: float64</code></pre>
 </div>
 </div>
-<div id="5b7fbfd0" class="cell" data-execution_count="6">
+<div id="8fabc93f" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a>tbl.diff(axis<span class="op">=</span><span class="dv">1</span>).iloc[:,<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>jul
@@ -618,7 +617,7 @@ Name: 1, dtype: float64</code></pre>
 Name: (deposits, 1), dtype: float64</code></pre>
 </div>
 </div>
-<div id="27dc0657" class="cell" data-execution_count="7">
+<div id="cbf8b5c7" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>tbl.diff(axis<span class="op">=</span><span class="dv">0</span>).diff(axis<span class="op">=</span><span class="dv">1</span>).iloc[<span class="dv">1</span>,<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>np.float64(6.524557692307688)</code></pre>
@@ -703,7 +702,7 @@ y_{it} = \delta_t + \alpha 1\{D_{i1}=1\} + \beta D_{it} + \epsilon_{it}
 </section>
 <section id="visualizing-difference-in-differences" class="slide level2">
 <h2>Visualizing Difference in Differences</h2>
-<div id="1beb2f99" class="cell" data-execution_count="8">
+<div id="2e841a7b" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>poa_before <span class="op">=</span> data.query(<span class="st">"poa==1 &amp; jul==0"</span>)[<span class="st">"deposits"</span>].mean()</span>
 <span id="cb10-2"><a></a>poa_after <span class="op">=</span> data.query(<span class="st">"poa==1 &amp; jul==1"</span>)[<span class="st">"deposits"</span>].mean()</span>
 <span id="cb10-3"><a></a>fl_before <span class="op">=</span> data.query(<span class="st">"poa==0 &amp; jul==0"</span>)[<span class="st">"deposits"</span>].mean()</span>
@@ -727,58 +726,150 @@ y_{it} = \delta_t + \alpha 1\{D_{i1}=1\} + \beta D_{it} + \epsilon_{it}
 </section>
 <section id="estimation-via-regression" class="slide level2">
 <h2>Estimation via Regression</h2>
-<div id="e64510d1" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>smf.ols(<span class="st">'deposits ~ poa*jul'</span>, data<span class="op">=</span>data).fit().summary().tables[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="945504e0" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>smf.ols(<span class="st">'deposits ~ poa*jul'</span>, data<span class="op">=</span>data).fit(cov_type<span class="op">=</span><span class="st">"HC3"</span>).summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
+<table class="simpletable caption-top" data-quarto-postprocess="true">
+<caption>OLS Regression Results</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Dep. Variable:</td>
+<td>deposits</td>
+<td data-quarto-table-cell-role="th">R-squared:</td>
+<td>0.313</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Model:</td>
+<td>OLS</td>
+<td data-quarto-table-cell-role="th">Adj. R-squared:</td>
+<td>0.312</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Method:</td>
+<td>Least Squares</td>
+<td data-quarto-table-cell-role="th">F-statistic:</td>
+<td>1295.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Date:</td>
+<td>Mon, 04 Nov 2024</td>
+<td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Time:</td>
+<td>10:15:19</td>
+<td data-quarto-table-cell-role="th">Log-Likelihood:</td>
+<td>-26973.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">No. Observations:</td>
+<td>4600</td>
+<td data-quarto-table-cell-role="th">AIC:</td>
+<td>5.395e+04</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Df Residuals:</td>
+<td>4596</td>
+<td data-quarto-table-cell-role="th">BIC:</td>
+<td>5.398e+04</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Df Model:</td>
+<td>3</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Covariance Type:</td>
+<td>HC3</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
 <table class="simpletable caption-top" data-quarto-postprocess="true">
 <tbody>
 <tr class="odd">
 <td></td>
 <td data-quarto-table-cell-role="th">coef</td>
 <td data-quarto-table-cell-role="th">std err</td>
-<td data-quarto-table-cell-role="th">t</td>
-<td data-quarto-table-cell-role="th">P&gt;|t|</td>
+<td data-quarto-table-cell-role="th">z</td>
+<td data-quarto-table-cell-role="th">P&gt;|z|</td>
 <td data-quarto-table-cell-role="th">[0.025</td>
 <td data-quarto-table-cell-role="th">0.975]</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Intercept</td>
 <td>171.6423</td>
-<td>2.363</td>
-<td>72.625</td>
+<td>2.499</td>
+<td>68.688</td>
 <td>0.000</td>
-<td>167.009</td>
-<td>176.276</td>
+<td>166.745</td>
+<td>176.540</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">poa</td>
 <td>-125.6263</td>
-<td>4.484</td>
-<td>-28.015</td>
+<td>3.077</td>
+<td>-40.822</td>
 <td>0.000</td>
-<td>-134.418</td>
-<td>-116.835</td>
+<td>-131.658</td>
+<td>-119.595</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">jul</td>
 <td>34.5232</td>
-<td>3.036</td>
-<td>11.372</td>
+<td>3.343</td>
+<td>10.327</td>
 <td>0.000</td>
-<td>28.571</td>
-<td>40.475</td>
+<td>27.971</td>
+<td>41.076</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">poa:jul</td>
 <td>6.5246</td>
-<td>5.729</td>
-<td>1.139</td>
-<td>0.255</td>
-<td>-4.706</td>
-<td>17.755</td>
+<td>4.248</td>
+<td>1.536</td>
+<td>0.125</td>
+<td>-1.801</td>
+<td>14.850</td>
 </tr>
 </tbody>
 </table>
+
+
+<table class="simpletable caption-top" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Omnibus:</td>
+<td>184.879</td>
+<td data-quarto-table-cell-role="th">Durbin-Watson:</td>
+<td>1.964</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Prob(Omnibus):</td>
+<td>0.000</td>
+<td data-quarto-table-cell-role="th">Jarque-Bera (JB):</td>
+<td>257.379</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Skew:</td>
+<td>-0.400</td>
+<td data-quarto-table-cell-role="th">Prob(JB):</td>
+<td>1.29e-56</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Kurtosis:</td>
+<td>3.838</td>
+<td data-quarto-table-cell-role="th">Cond. No.</td>
+<td>7.24</td>
+</tr>
+</tbody>
+</table>
+<br><br>Notes:<br>[1] Standard Errors are heteroscedasticity robust (HC3)
 </div>
 </div>
 </section>
@@ -799,11 +890,7 @@ y_{it} = \delta_t + \alpha 1\{D_{i1}=1\} + \beta D_{it} + \epsilon_{it}
 <section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
 
-<div class="quarto-auto-generated-content">
-<div class="footer footer-default">
 
-</div>
-</div>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-facure2022" class="csl-entry" role="listitem">
 Facure, Matheus. 2022. <em>Causal Inference for the Brave and True</em>. <a href="https://matheusfacure.github.io/python-causality-handbook/landing-page.html">https://matheusfacure.github.io/python-causality-handbook/landing-page.html</a>.
@@ -811,7 +898,11 @@ Facure, Matheus. 2022. <em>Causal Inference for the Brave and True</em>. <a href
 </div>
 </section></section>
     </div>
-  </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
   <script src="site_libs/revealjs/dist/reveal.js"></script>
@@ -841,7 +932,8 @@ Facure, Matheus. 2022. <em>Causal Inference for the Brave and True</em>. <a href
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'chalkboard': {"buttons":true,"theme":"whiteboard","boardmarkerWidth":2,"chalkWidth":2,"chalkEffect":0},
 'smaller': false,
  
@@ -999,7 +1091,7 @@ Facure, Matheus. 2022. <em>Causal Inference for the Brave and True</em>. <a href
         minScale: 0.1,
 
         math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],

@@ -6,9 +6,8 @@
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.5.57">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2486e1f0a3ee9ee1fc393803a1361cdb.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.6.32">
 
   <meta name="author" content="Paul Schrimpf">
   <title>ECON 526 – Synthetic Control</title>
@@ -115,7 +114,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-2ff78e2e6999b6200d15f6cb181d00bd.css">
   <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -472,7 +471,7 @@ Paul Schrimpf
 <li>Code and copy of data from <span class="citation" data-cites="facure2022">Facure (<a href="#/references" role="doc-biblioref" onclick="">2022</a>)</span></li>
 <li>Data used in <span class="citation" data-cites="abadie2010">Abadie, Diamond, and Hainmueller (<a href="#/references" role="doc-biblioref" onclick="">2010</a>)</span></li>
 </ul>
-<div id="47edb8da" class="cell" data-code-summry="imports" data-execution_count="2">
+<div id="b0c05baa" class="cell" data-code-summry="imports" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> warnings</span>
@@ -495,7 +494,7 @@ Paul Schrimpf
 </section>
 <section id="data-california-tobacco-control-program" class="slide level2">
 <h2>Data: California Tobacco Control Program</h2>
-<div id="2ce81d28" class="cell" data-execution_count="3">
+<div id="1fdc326a" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>cigar <span class="op">=</span> pd.read_csv(<span class="st">"data/smoking.csv"</span>)</span>
 <span id="cb2-2"><a></a>cigar.query(<span class="st">"california"</span>).head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -599,7 +598,7 @@ Paul Schrimpf
 </section>
 <section id="cigarette-sales-trends" class="slide level2">
 <h2>Cigarette Sales Trends</h2>
-<div id="2f4fa270" class="cell" data-execution_count="4">
+<div id="17403747" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>ax <span class="op">=</span> plt.subplot(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
 <span id="cb3-2"><a></a><span class="cf">for</span> gdf <span class="kw">in</span> cigar.groupby(<span class="st">"state"</span>):</span>
 <span id="cb3-3"><a></a>    ax.plot(gdf[<span class="dv">1</span>][<span class="st">'year'</span>],gdf[<span class="dv">1</span>][<span class="st">'cigsale'</span>], alpha<span class="op">=</span><span class="fl">0.2</span>, lw<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">"k"</span>)</span>
@@ -693,7 +692,7 @@ Y_{J+1,1} &amp; \cdots &amp; Y_{J+1,T_0} &amp; z_{J+1,1} &amp; \cdots &amp; z_{J
 </section>
 <section id="computing-weights" class="slide level2">
 <h2>Computing Weights</h2>
-<div id="bebcbdf8" class="cell" data-execution_count="5">
+<div id="37803bce" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a>features <span class="op">=</span> [<span class="st">"cigsale"</span>, <span class="st">"retprice"</span>]</span>
 <span id="cb4-2"><a></a>inverted <span class="op">=</span> (cigar.query(<span class="st">"~after_treatment"</span>) <span class="co"># filter pre-intervention period</span></span>
 <span id="cb4-3"><a></a>            .pivot(index<span class="op">=</span><span class="st">'state'</span>, columns<span class="op">=</span><span class="st">"year"</span>)[features] <span class="co"># make one column per year and one row per state</span></span>
@@ -742,7 +741,7 @@ Y_{J+1,1} &amp; \cdots &amp; Y_{J+1,T_0} &amp; z_{J+1,1} &amp; \cdots &amp; z_{J
 <th data-quarto-table-cell-role="th">38</th>
 <th data-quarto-table-cell-role="th">39</th>
 </tr>
-<tr class="odd">
+<tr class="even">
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th">year</th>
 <th data-quarto-table-cell-role="th"></th>
@@ -900,7 +899,7 @@ Y_{J+1,1} &amp; \cdots &amp; Y_{J+1,T_0} &amp; z_{J+1,1} &amp; \cdots &amp; z_{J
 </section>
 <section id="computing-weights-1" class="slide level2">
 <h2>Computing Weights</h2>
-<div id="e935f5e2" class="cell" data-execution_count="6">
+<div id="c158ebf2" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="im">from</span> scipy.optimize <span class="im">import</span> fmin_slsqp</span>
 <span id="cb5-2"><a></a><span class="im">from</span> toolz <span class="im">import</span> <span class="bu">reduce</span>, partial</span>
 <span id="cb5-3"><a></a></span>
@@ -928,7 +927,7 @@ Y_{J+1,1} &amp; \cdots &amp; Y_{J+1,T_0} &amp; z_{J+1,1} &amp; \cdots &amp; z_{J
 <li>Good idea to examine which untreated units get positive weight</li>
 <li>Should look at state names, but the data does not have them, and the <code>state</code> variable is not FIPs code or any standard identifier</li>
 </ul>
-<div id="e90c7d6b" class="cell" data-execution_count="7">
+<div id="7bc783b1" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a>calif_weights <span class="op">=</span> get_w(X0, X1)</span>
 <span id="cb6-2"><a></a><span class="bu">print</span>(<span class="st">"Sum:"</span>, calif_weights.<span class="bu">sum</span>())</span>
 <span id="cb6-3"><a></a>np.<span class="bu">round</span>(calif_weights, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -946,7 +945,7 @@ Y_{J+1,1} &amp; \cdots &amp; Y_{J+1,T_0} &amp; z_{J+1,1} &amp; \cdots &amp; z_{J
 </section>
 <section id="effect-of-california-tobacco-control-program" class="slide level2">
 <h2>Effect of California Tobacco Control Program</h2>
-<div id="f9bf225f" class="cell" data-execution_count="8">
+<div id="8b9f7045" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>calif_synth <span class="op">=</span> cigar.query(<span class="st">"~california"</span>).pivot(index<span class="op">=</span><span class="st">'year'</span>, columns<span class="op">=</span><span class="st">"state"</span>)[<span class="st">"cigsale"</span>].values.dot(calif_weights)</span>
 <span id="cb9-2"><a></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">6</span>))</span>
 <span id="cb9-3"><a></a>plt.plot(cigar.query(<span class="st">"california"</span>)[<span class="st">"year"</span>], cigar.query(<span class="st">"california"</span>)[<span class="st">"cigsale"</span>], label<span class="op">=</span><span class="st">"California"</span>)</span>
@@ -1026,7 +1025,7 @@ Y_{jt}(0) = \delta_t + \theta_t Z_j + \lambda_t \mu_j + \epsilon_{jt}
 </section>
 <section id="treatment-permutation-1" class="slide level2">
 <h2>Treatment Permutation</h2>
-<div id="40457178" class="cell" data-execution_count="9">
+<div id="a4309e1f" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a><span class="kw">def</span> synthetic_control(state: <span class="bu">int</span>, data: pd.DataFrame) <span class="op">-&gt;</span> np.array:</span>
 <span id="cb10-2"><a></a>    features <span class="op">=</span> [<span class="st">"cigsale"</span>, <span class="st">"retprice"</span>]</span>
 <span id="cb10-3"><a></a>    inverted <span class="op">=</span> (data.query(<span class="st">"~after_treatment"</span>)</span>
@@ -1052,7 +1051,7 @@ Y_{jt}(0) = \delta_t + \theta_t Z_j + \lambda_t \mu_j + \epsilon_{jt}
 </section>
 <section id="treatment-permutation-2" class="slide level2">
 <h2>Treatment Permutation</h2>
-<div id="bf327ade" class="cell" data-execution_count="10">
+<div id="0ba4c86d" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">7</span>))</span>
@@ -1080,7 +1079,7 @@ Y_{jt}(0) = \delta_t + \theta_t Z_j + \lambda_t \mu_j + \epsilon_{jt}
 </section>
 <section id="treatment-permutation-inference" class="slide level2">
 <h2>Treatment Permutation Inference</h2>
-<div id="395b4f39" class="cell" data-execution_count="11">
+<div id="3d6b5592" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a><span class="kw">def</span> pre_treatment_error(state):</span>
@@ -1117,7 +1116,7 @@ Y_{jt}(0) = \delta_t + \theta_t Z_j + \lambda_t \mu_j + \epsilon_{jt}
 </section>
 <section id="treatment-permutation-inference-testing-h_0-tau0" class="slide level2">
 <h2>Treatment Permutation Inference: Testing <span class="math inline">\(H_0: \tau=0\)</span></h2>
-<div id="ffea4cc0" class="cell" data-execution_count="12">
+<div id="4ad5d229" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a>calif_number <span class="op">=</span> <span class="dv">3</span></span>
 <span id="cb13-2"><a></a></span>
 <span id="cb13-3"><a></a>effects <span class="op">=</span> [state.query(<span class="st">"year==2000"</span>).iloc[<span class="dv">0</span>][<span class="st">"cigsale"</span>] <span class="op">-</span> state.query(<span class="st">"year==2000"</span>).iloc[<span class="dv">0</span>][<span class="st">"synthetic"</span>]</span>
@@ -1134,7 +1133,7 @@ Y_{jt}(0) = \delta_t + \theta_t Z_j + \lambda_t \mu_j + \epsilon_{jt}
 <pre><code>California Treatment Effect for the Year 2000: -24.83015975607075</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="11">
-<pre><code>0.02857142857142857</code></pre>
+<pre><code>np.float64(0.02857142857142857)</code></pre>
 </div>
 </div>
 </section>
@@ -1242,7 +1241,7 @@ P\left[ P\left(\tau_{1t} \in \mathcal{I}_{1-\alpha} | \mathbf{X}_0, \{y_{jt}\}_{
 </section>
 <section id="data-preparation" class="slide level2">
 <h2>Data Preparation</h2>
-<div id="451b8053" class="cell" data-execution_count="13">
+<div id="a8d626c6" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a></a><span class="im">import</span> random</span>
 <span id="cb16-2"><a></a><span class="im">from</span> scpi_pkg.scdata <span class="im">import</span> scdata</span>
 <span id="cb16-3"><a></a><span class="im">from</span> scpi_pkg.scest <span class="im">import</span> scest</span>
@@ -1259,7 +1258,7 @@ P\left[ P\left(\tau_{1t} \in \mathcal{I}_{1-\alpha} | \mathbf{X}_0, \{y_{jt}\}_{
 </section>
 <section id="point-estimation" class="slide level2">
 <h2>Point Estimation</h2>
-<div id="fc73d54c" class="cell" data-execution_count="14">
+<div id="bcfee530" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a>est_si <span class="op">=</span> scest(scdf, w_constr<span class="op">=</span>{<span class="st">'name'</span>: <span class="st">"simplex"</span>})</span>
@@ -1411,7 +1410,7 @@ Treated Unit Donor
 </section>
 <section id="inference-2" class="slide level2">
 <h2>Inference</h2>
-<div id="f1e4c143" class="cell" data-execution_count="15">
+<div id="76e66e6e" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a><span class="im">from</span> scpi_pkg.scpi <span class="im">import</span> scpi</span>
@@ -1479,11 +1478,7 @@ Maximum expected execution time: 2 minutes.
 <section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
 
-<div class="quarto-auto-generated-content">
-<div class="footer footer-default">
 
-</div>
-</div>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-abadie2021" class="csl-entry" role="listitem">
 Abadie, Alberto. 2021. <span>“Using Synthetic Controls: Feasibility, Data Requirements, and Methodological Aspects.”</span> <em>Journal of Economic Literature</em> 59 (2): 391–425. <a href="https://doi.org/10.1257/jel.20191450">https://doi.org/10.1257/jel.20191450</a>.
@@ -1515,7 +1510,11 @@ Huntington-Klein, Nick. 2021. <em>The Effect: An Introduction to Research Design
 </div>
 </section></section>
     </div>
-  </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
   <script src="site_libs/revealjs/dist/reveal.js"></script>
@@ -1545,7 +1544,8 @@ Huntington-Klein, Nick. 2021. <em>The Effect: An Introduction to Research Design
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'chalkboard': {"buttons":true,"theme":"whiteboard","boardmarkerWidth":2,"chalkWidth":2,"chalkEffect":0},
 'smaller': false,
  
@@ -1703,7 +1703,7 @@ Huntington-Klein, Nick. 2021. <em>The Effect: An Introduction to Research Design
         minScale: 0.1,
 
         math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
