@@ -403,7 +403,7 @@
     "href": "did.html#estimation-via-regression",
     "title": "Introduction to Difference in Differences",
     "section": "Estimation via Regression",
-    "text": "Estimation via Regression\n\nsmf.ols('deposits ~ poa*jul', data=data).fit(cov_type=\"HC3\").summary()\n\n\nOLS Regression Results\n\n\nDep. Variable:\ndeposits\nR-squared:\n0.313\n\n\nModel:\nOLS\nAdj. R-squared:\n0.312\n\n\nMethod:\nLeast Squares\nF-statistic:\n1295.\n\n\nDate:\nMon, 04 Nov 2024\nProb (F-statistic):\n0.00\n\n\nTime:\n10:15:19\nLog-Likelihood:\n-26973.\n\n\nNo. Observations:\n4600\nAIC:\n5.395e+04\n\n\nDf Residuals:\n4596\nBIC:\n5.398e+04\n\n\nDf Model:\n3\n\n\n\n\nCovariance Type:\nHC3\n\n\n\n\n\n\n\n\n\n\n\ncoef\nstd err\nz\nP&gt;|z|\n[0.025\n0.975]\n\n\nIntercept\n171.6423\n2.499\n68.688\n0.000\n166.745\n176.540\n\n\npoa\n-125.6263\n3.077\n-40.822\n0.000\n-131.658\n-119.595\n\n\njul\n34.5232\n3.343\n10.327\n0.000\n27.971\n41.076\n\n\npoa:jul\n6.5246\n4.248\n1.536\n0.125\n-1.801\n14.850\n\n\n\n\n\n\n\n\nOmnibus:\n184.879\nDurbin-Watson:\n1.964\n\n\nProb(Omnibus):\n0.000\nJarque-Bera (JB):\n257.379\n\n\nSkew:\n-0.400\nProb(JB):\n1.29e-56\n\n\nKurtosis:\n3.838\nCond. No.\n7.24\n\n\n\nNotes:[1] Standard Errors are heteroscedasticity robust (HC3)"
+    "text": "Estimation via Regression\n\nfrom statsmodels.iolib.summary2 import summary_col\nsummary_col(smf.ols('deposits ~ poa*jul', data=data).fit(cov_type=\"HC3\"))\n\n\n\n\n\ndeposits\n\n\nIntercept\n171.6423\n\n\n\n(2.4989)\n\n\npoa\n-125.6263\n\n\n\n(3.0774)\n\n\njul\n34.5232\n\n\n\n(3.3431)\n\n\npoa:jul\n6.5246\n\n\n\n(4.2478)\n\n\nR-squared\n0.3126\n\n\nR-squared Adj.\n0.3122\n\n\n\n\nStandard errors in parentheses."
   },
   {
     "objectID": "did.html#further-topics",
@@ -480,7 +480,7 @@
     "href": "fe.html#standard-errors",
     "title": "Fixed Effects",
     "section": "Standard Errors",
-    "text": "Standard Errors\n\nGenerally, good idea to use clustered standard errors, clustered on \\(i\\)\nSee MacKinnon, Nielsen, and Webb (2023) for guide to clustered standard errors"
+    "text": "Standard Errors\n\nGenerally, good idea to use clustered standard errors, clustered on \\(i\\)\nSee MacKinnon, Nielsen, and Webb (2023) for guide to clustered standard errors\n\n\nimport pyfixest as pf\npf.feols('purchase ~ mkt_costs | city', data=toy_panel, vcov={'CRV1': 'city'}).summary()\n\n\n            \n            \n            \n\n\n\n            \n            \n            \n\n\n###\n\nEstimation:  OLS\nDep. var.: purchase, Fixed effects: city\nInference:  CRV1\nObservations:  16\n\n| Coefficient   |   Estimate |   Std. Error |   t value |   Pr(&gt;|t|) |   2.5% |   97.5% |\n|:--------------|-----------:|-------------:|----------:|-----------:|-------:|--------:|\n| mkt_costs     |      1.441 |        0.307 |     4.700 |      0.018 |  0.465 |   2.417 |\n---\nRMSE: 0.689 R2: 0.954 R2 Within: 0.832"
   },
   {
     "objectID": "fe.html#sources-and-further-reading",
@@ -2056,5 +2056,12 @@
     "title": "Difference in Differences II",
     "section": "Using a package",
     "text": "Using a package\n\n# check that it matches fixed effect estimate from a package\nimport pyfixest as pf\n\ndf = pd.DataFrame({\n    'id': np.repeat(np.arange(1, n + 1), T),\n    't': np.tile(np.arange(1, T + 1), n),\n    'y': y.flatten(),\n    'D': D.flatten()\n})\nresult=pf.feols('y ~ D | id + t', df, vcov={\"CRV1\": \"id\"})\nresult.summary()\n\n\n            \n            \n            \n\n\n\n            \n            \n            \n\n\n###\n\nEstimation:  OLS\nDep. var.: y, Fixed effects: id+t\nInference:  CRV1\nObservations:  900\n\n| Coefficient   |   Estimate |   Std. Error |   t value |   Pr(&gt;|t|) |   2.5% |   97.5% |\n|:--------------|-----------:|-------------:|----------:|-----------:|-------:|--------:|\n| D             |      0.224 |        0.131 |     1.714 |      0.090 | -0.035 |   0.484 |\n---\nRMSE: 0.928 R2: 0.121 R2 Within: 0.004"
+  },
+  {
+    "objectID": "fe.html#what-fixed-effects-cannot-fix",
+    "href": "fe.html#what-fixed-effects-cannot-fix",
+    "title": "Fixed Effects",
+    "section": "What Fixed Effects Cannot Fix",
+    "text": "What Fixed Effects Cannot Fix\n\nFixed effects corrects for time-invariant unobserved confounders\nCannot fix:\n\n\n\nTime-varying confounders\nReverse causality\nCan make some biases worse if “between” \\(i\\) variation in \\(X_{it}\\) is useful (e.g. measurement error)"
   }
 ]

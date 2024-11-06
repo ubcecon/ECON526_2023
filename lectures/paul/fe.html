@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-html/tabby.min.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -406,6 +406,9 @@
       margin-right: 0; 
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+  
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -509,7 +512,7 @@ y_{it} = X_{it}'\beta + \alpha_i + \epsilon_{it}
 </section>
 <section id="ols" class="slide level2">
 <h2>OLS</h2>
-<div id="e9bf08e5" class="cell" data-execution_count="1">
+<div id="358cb5d6" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>imports</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> warnings</span>
@@ -524,7 +527,7 @@ y_{it} = X_{it}'\beta + \alpha_i + \epsilon_{it}
 </details>
 </div>
 <p><sup>1</sup></p>
-<div id="6478bd8e" class="cell" data-execution_count="2">
+<div id="6f9064b4" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>toy_panel <span class="op">=</span> pd.DataFrame({</span>
@@ -554,7 +557,7 @@ y_{it} = X_{it}'\beta + \alpha_i + \epsilon_{it}
 <section id="fixed-effects-within" class="slide level2">
 <h2>Fixed Effects / Within</h2>
 <p><sup>1</sup></p>
-<div id="249caab1" class="cell" data-execution_count="3">
+<div id="5c5201c5" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>fe <span class="op">=</span> smf.ols(<span class="st">"purchase ~ mkt_costs + C(city)"</span>, data<span class="op">=</span>toy_panel).fit()</span>
@@ -584,15 +587,19 @@ y_{it} = X_{it}'\beta + \alpha_i + \epsilon_{it}
 <h1>Some Theory</h1>
 
 </section>
-<section id="large-n-small-t" class="slide level2">
-<h2>Large <span class="math inline">\(n\)</span>, Small <span class="math inline">\(T\)</span></h2>
+<section id="what-fixed-effects-cannot-fix" class="slide level2">
+<h2>What Fixed Effects Cannot Fix</h2>
 <ul>
-<li>Often <span class="math inline">\(n&gt;&gt;T\)</span></li>
-<li>Usual analysis of fixed effects uses asymptotics with <span class="math inline">\(n \to \infty\)</span>, <span class="math inline">\(T\)</span> fixed
-<ul>
-<li>We will mostly stick to that, but if you have data with <span class="math inline">\(n \approx T\)</span>, other approaches can be better</li>
-</ul></li>
+<li><p>Fixed effects corrects for time-invariant unobserved confounders</p></li>
+<li><p>Cannot fix:</p></li>
 </ul>
+<div>
+<ul>
+<li class="fragment"><p>Time-varying confounders</p></li>
+<li class="fragment"><p>Reverse causality</p></li>
+<li class="fragment"><p>Can make some biases worse if “between” <span class="math inline">\(i\)</span> variation in <span class="math inline">\(X_{it}\)</span> is useful (e.g.&nbsp;measurement error)</p></li>
+</ul>
+</div>
 </section>
 <section id="strict-exogeneity" class="slide level2">
 <h2>Strict Exogeneity</h2>
@@ -620,6 +627,102 @@ y_{it} - \bar{y}_i  = (X_{it} - \bar{X}_i)'\beta + (\epsilon_{it} - \bar{\epsilo
 <ul>
 <li>Generally, good idea to use clustered standard errors, clustered on <span class="math inline">\(i\)</span></li>
 <li>See <span class="citation" data-cites="mackinon2023">MacKinnon, Nielsen, and Webb (<a href="#/references" role="doc-biblioref" onclick="">2023</a>)</span> for guide to clustered standard errors</li>
+</ul>
+<div id="017ac303" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="im">import</span> pyfixest <span class="im">as</span> pf</span>
+<span id="cb4-2"><a></a>pf.feols(<span class="st">'purchase ~ mkt_costs | city'</span>, data<span class="op">=</span>toy_panel, vcov<span class="op">=</span>{<span class="st">'CRV1'</span>: <span class="st">'city'</span>}).summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <div id="rgeRTX"></div>
+            <script type="text/javascript" data-lets-plot-script="library">
+                if(!window.letsPlotCallQueue) {
+                    window.letsPlotCallQueue = [];
+                }; 
+                window.letsPlotCall = function(f) {
+                    window.letsPlotCallQueue.push(f);
+                };
+                (function() {
+                    var script = document.createElement("script");
+                    script.type = "text/javascript";
+                    script.src = "https://cdn.jsdelivr.net/gh/JetBrains/lets-plot@v4.5.1/js-package/distr/lets-plot.min.js";
+                    script.onload = function() {
+                        window.letsPlotCall = function(f) {f();};
+                        window.letsPlotCallQueue.forEach(function(f) {f();});
+                        window.letsPlotCallQueue = [];
+                        
+                    };
+                    script.onerror = function(event) {
+                        window.letsPlotCall = function(f) {};    // noop
+                        window.letsPlotCallQueue = [];
+                        var div = document.createElement("div");
+                        div.style.color = 'darkred';
+                        div.textContent = 'Error loading Lets-Plot JS';
+                        document.getElementById("rgeRTX").appendChild(div);
+                    };
+                    var e = document.getElementById("rgeRTX");
+                    e.appendChild(script);
+                })()
+            </script>
+            
+</div>
+<div class="cell-output cell-output-display">
+
+            <div id="YYiNbx"></div>
+            <script type="text/javascript" data-lets-plot-script="library">
+                if(!window.letsPlotCallQueue) {
+                    window.letsPlotCallQueue = [];
+                }; 
+                window.letsPlotCall = function(f) {
+                    window.letsPlotCallQueue.push(f);
+                };
+                (function() {
+                    var script = document.createElement("script");
+                    script.type = "text/javascript";
+                    script.src = "https://cdn.jsdelivr.net/gh/JetBrains/lets-plot@v4.5.1/js-package/distr/lets-plot.min.js";
+                    script.onload = function() {
+                        window.letsPlotCall = function(f) {f();};
+                        window.letsPlotCallQueue.forEach(function(f) {f();});
+                        window.letsPlotCallQueue = [];
+                        
+                    };
+                    script.onerror = function(event) {
+                        window.letsPlotCall = function(f) {};    // noop
+                        window.letsPlotCallQueue = [];
+                        var div = document.createElement("div");
+                        div.style.color = 'darkred';
+                        div.textContent = 'Error loading Lets-Plot JS';
+                        document.getElementById("YYiNbx").appendChild(div);
+                    };
+                    var e = document.getElementById("YYiNbx");
+                    e.appendChild(script);
+                })()
+            </script>
+            
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>###
+
+Estimation:  OLS
+Dep. var.: purchase, Fixed effects: city
+Inference:  CRV1
+Observations:  16
+
+| Coefficient   |   Estimate |   Std. Error |   t value |   Pr(&gt;|t|) |   2.5% |   97.5% |
+|:--------------|-----------:|-------------:|----------:|-----------:|-------:|--------:|
+| mkt_costs     |      1.441 |        0.307 |     4.700 |      0.018 |  0.465 |   2.417 |
+---
+RMSE: 0.689 R2: 0.954 R2 Within: 0.832 </code></pre>
+</div>
+</div>
+</section>
+<section id="large-n-small-t" class="slide level2">
+<h2>Large <span class="math inline">\(n\)</span>, Small <span class="math inline">\(T\)</span></h2>
+<ul>
+<li>Often <span class="math inline">\(n&gt;&gt;T\)</span></li>
+<li>Usual analysis of fixed effects uses asymptotics with <span class="math inline">\(n \to \infty\)</span>, <span class="math inline">\(T\)</span> fixed
+<ul>
+<li>We will mostly stick to that, but if you have data with <span class="math inline">\(n \approx T\)</span>, other approaches can be better</li>
+</ul></li>
 </ul>
 </section>
 <section id="sources-and-further-reading" class="slide level2">

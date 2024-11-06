@@ -15,9 +15,9 @@ The objective of the final project is to analyze the causal effect of some polic
 
 3. Collect data: Students should collect data on the policy and outcome of interest. This may involve gathering data from existing sources or conducting original research.
 
-4. Draw a DAG and use it to explain your identification strategy.
+4. Explain your identification strategy.
 
-5. Estimate the causal effect of the policy on the outcome: Students should use the data to estimate the causal effect of the policy on the outcome of interest. This may involve using a regression model, matching, difference-in-differences, or a nonlinear or structural model.
+5. Estimate the causal effect of the policy on the outcome: Students should use the data to estimate the causal effect of the policy on the outcome of interest. This may involve using a regression model, matching, difference-in-differences, instrumental variables, or some other model.
 
 **Guidelines:**
 
@@ -27,11 +27,11 @@ The objective of the final project is to analyze the causal effect of some polic
 
 - The report should be written in clear, concise language and should be well-organized. It should include the following sections: Introduction, Data, Methods, Results, and Conclusion.
 
-- The report should include a detailed literature review and bibliography of sources used.
+- The report should include a brief literature review and bibliography of sources used.
 
 - The report should include a title that does not mention the course.
 
-- The accompanying code should be well-documented, commented, and easy to follow. It should also be reproducible, meaning that the code should always produce the same results when run from start to finish. This is especially important in the case of sampling, bootstrapping, or monte-carlo tests.
+- The accompanying code should be well-documented, commented, and easy to follow. It should also be reproducible, meaning that the code should always produce the same results when run from start to finish. <!-- This is especially important in the case of sampling, bootstrapping, or monte-carlo tests. -->
 
 - There is no minimum or maximum length for the report or the code, but it should be long enough to clearly explain the project and the results and include the necessary details.
 
