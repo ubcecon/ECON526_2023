@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-html/tabby.min.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -406,9 +406,6 @@
       margin-right: 0; 
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-  
-  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -512,23 +509,20 @@ y_{it} = \beta D_{it} + \alpha_i + \delta_t + \epsilon_{it}
 \end{align*}
 \]</span></li>
 </ul>
-<div id="6c7e016b" class="cell" data-execution_count="2">
+<div id="52c82dea" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>imports</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> warnings</span>
-<span id="cb1-2"><a></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
-<span id="cb1-3"><a></a></span>
-<span id="cb1-4"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-5"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-6"><a></a><span class="im">from</span> matplotlib <span class="im">import</span> style</span>
-<span id="cb1-7"><a></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
-<span id="cb1-8"><a></a>style.use(<span class="st">"fivethirtyeight"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a></a><span class="im">from</span> matplotlib <span class="im">import</span> style</span>
+<span id="cb1-4"><a></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a></a>style.use(<span class="st">"fivethirtyeight"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 <section id="weights" class="slide level2">
 <h2>Weights</h2>
-<div id="4a4b2367" class="cell columns column-output-location" data-execution_count="3">
+<div id="fc61240b" class="cell columns column-output-location" data-execution_count="2">
 <div class="column">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a><span class="kw">def</span> assigntreat(n, T, portiontreated):</span>
 <span id="cb2-2"><a></a>    treated <span class="op">=</span> np.zeros((n, T), dtype<span class="op">=</span><span class="bu">bool</span>)</span>
@@ -553,13 +547,13 @@ y_{it} = \beta D_{it} + \alpha_i + \delta_t + \epsilon_{it}
 <span id="cb2-21"><a></a><span class="bu">print</span>(weighted_sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
-<pre><code>0.22423296062919068</code></pre>
+<pre><code>0.08147854863434313</code></pre>
 </div>
 </div></div>
 </section>
 <section id="using-a-package" class="slide level2">
 <h2>Using a package</h2>
-<div id="110da4ae" class="cell" data-execution_count="4">
+<div id="ecdf8e88" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="co"># check that it matches fixed effect estimate from a package</span></span>
 <span id="cb4-2"><a></a><span class="im">import</span> pyfixest <span class="im">as</span> pf</span>
 <span id="cb4-3"><a></a></span>
@@ -571,74 +565,6 @@ y_{it} = \beta D_{it} + \alpha_i + \delta_t + \epsilon_{it}
 <span id="cb4-9"><a></a>})</span>
 <span id="cb4-10"><a></a>result<span class="op">=</span>pf.feols(<span class="st">'y ~ D | id + t'</span>, df, vcov<span class="op">=</span>{<span class="st">"CRV1"</span>: <span class="st">"id"</span>})</span>
 <span id="cb4-11"><a></a>result.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-
-            <div id="3Wp7N6"></div>
-            <script type="text/javascript" data-lets-plot-script="library">
-                if(!window.letsPlotCallQueue) {
-                    window.letsPlotCallQueue = [];
-                }; 
-                window.letsPlotCall = function(f) {
-                    window.letsPlotCallQueue.push(f);
-                };
-                (function() {
-                    var script = document.createElement("script");
-                    script.type = "text/javascript";
-                    script.src = "https://cdn.jsdelivr.net/gh/JetBrains/lets-plot@v4.5.1/js-package/distr/lets-plot.min.js";
-                    script.onload = function() {
-                        window.letsPlotCall = function(f) {f();};
-                        window.letsPlotCallQueue.forEach(function(f) {f();});
-                        window.letsPlotCallQueue = [];
-                        
-                    };
-                    script.onerror = function(event) {
-                        window.letsPlotCall = function(f) {};    // noop
-                        window.letsPlotCallQueue = [];
-                        var div = document.createElement("div");
-                        div.style.color = 'darkred';
-                        div.textContent = 'Error loading Lets-Plot JS';
-                        document.getElementById("3Wp7N6").appendChild(div);
-                    };
-                    var e = document.getElementById("3Wp7N6");
-                    e.appendChild(script);
-                })()
-            </script>
-            
-</div>
-<div class="cell-output cell-output-display">
-
-            <div id="ELAT9K"></div>
-            <script type="text/javascript" data-lets-plot-script="library">
-                if(!window.letsPlotCallQueue) {
-                    window.letsPlotCallQueue = [];
-                }; 
-                window.letsPlotCall = function(f) {
-                    window.letsPlotCallQueue.push(f);
-                };
-                (function() {
-                    var script = document.createElement("script");
-                    script.type = "text/javascript";
-                    script.src = "https://cdn.jsdelivr.net/gh/JetBrains/lets-plot@v4.5.1/js-package/distr/lets-plot.min.js";
-                    script.onload = function() {
-                        window.letsPlotCall = function(f) {f();};
-                        window.letsPlotCallQueue.forEach(function(f) {f();});
-                        window.letsPlotCallQueue = [];
-                        
-                    };
-                    script.onerror = function(event) {
-                        window.letsPlotCall = function(f) {};    // noop
-                        window.letsPlotCallQueue = [];
-                        var div = document.createElement("div");
-                        div.style.color = 'darkred';
-                        div.textContent = 'Error loading Lets-Plot JS';
-                        document.getElementById("ELAT9K").appendChild(div);
-                    };
-                    var e = document.getElementById("ELAT9K");
-                    e.appendChild(script);
-                })()
-            </script>
-            
-</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>###
 
@@ -649,15 +575,15 @@ Observations:  900
 
 | Coefficient   |   Estimate |   Std. Error |   t value |   Pr(&gt;|t|) |   2.5% |   97.5% |
 |:--------------|-----------:|-------------:|----------:|-----------:|-------:|--------:|
-| D             |      0.224 |        0.131 |     1.714 |      0.090 | -0.035 |   0.484 |
+| D             |      0.081 |        0.133 |     0.610 |      0.543 | -0.183 |   0.346 |
 ---
-RMSE: 0.928 R2: 0.121 R2 Within: 0.004 </code></pre>
+RMSE: 0.953 R2: 0.109 R2 Within: 0.0 </code></pre>
 </div>
 </div>
 </section>
 <section id="weights-with-single-treatment-time" class="slide level2">
 <h2>Weights with Single Treatment Time</h2>
-<div id="53f75597" class="cell" data-execution_count="5">
+<div id="35837250" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="kw">def</span> plotD(D,ax):</span>
@@ -699,7 +625,7 @@ RMSE: 0.928 R2: 0.121 R2 Within: 0.004 </code></pre>
 </section>
 <section id="weights-with-early-and-late-treated" class="slide level2">
 <h2>Weights with Early and Late Treated</h2>
-<div id="7eaf1799" class="cell" data-execution_count="6">
+<div id="dfe8e15d" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>pt <span class="op">=</span> np.zeros(T)</span>
@@ -719,7 +645,7 @@ RMSE: 0.928 R2: 0.121 R2 Within: 0.004 </code></pre>
 </section>
 <section id="sign-reversal" class="slide level2">
 <h2>Sign Reversal</h2>
-<div id="1d81590c" class="cell" data-execution_count="7">
+<div id="62802db7" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>dvals <span class="op">=</span> np.unique(D,axis<span class="op">=</span><span class="dv">0</span>)</span>
@@ -727,21 +653,22 @@ RMSE: 0.928 R2: 0.121 R2 Within: 0.004 </code></pre>
 <span id="cb8-3"><a></a>ATT <span class="op">=</span> np.ones(T)</span>
 <span id="cb8-4"><a></a>ATT[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.0</span></span>
 <span id="cb8-5"><a></a>ATT[T<span class="op">-</span><span class="dv">2</span>:T] <span class="op">=</span> <span class="fl">6.0</span></span>
-<span id="cb8-6"><a></a></span>
-<span id="cb8-7"><a></a><span class="kw">def</span> simulate(n,T,pt,ATT,sigma<span class="op">=</span><span class="fl">0.01</span>):</span>
-<span id="cb8-8"><a></a>    D <span class="op">=</span> assigntreat(n,T,pt)</span>
-<span id="cb8-9"><a></a>    y <span class="op">=</span> np.random.randn(n,T)<span class="op">*</span>sigma <span class="op">+</span> ATT[np.cumsum(D, axis<span class="op">=</span><span class="dv">1</span>)]</span>
-<span id="cb8-10"><a></a>    df <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb8-11"><a></a>        <span class="st">'id'</span>: np.repeat(np.arange(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>), T),</span>
-<span id="cb8-12"><a></a>        <span class="st">'t'</span>: np.tile(np.arange(<span class="dv">1</span>, T <span class="op">+</span> <span class="dv">1</span>), n),</span>
-<span id="cb8-13"><a></a>        <span class="st">'y'</span>: y.flatten(),</span>
-<span id="cb8-14"><a></a>        <span class="st">'D'</span>: D.flatten()</span>
-<span id="cb8-15"><a></a>    })</span>
-<span id="cb8-16"><a></a>    <span class="cf">return</span>(df)</span>
-<span id="cb8-17"><a></a></span>
-<span id="cb8-18"><a></a>df <span class="op">=</span> simulate(n,T,pt,ATT)</span>
-<span id="cb8-19"><a></a>result <span class="op">=</span> pf.feols(<span class="st">'y ~ D | id + t'</span>,  df, vcov<span class="op">=</span>{<span class="st">"CRV1"</span>: <span class="st">"id"</span>})</span>
-<span id="cb8-20"><a></a>result.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-6"><a></a>np.random.seed(<span class="dv">6798</span>)</span>
+<span id="cb8-7"><a></a></span>
+<span id="cb8-8"><a></a><span class="kw">def</span> simulate(n,T,pt,ATT,sigma<span class="op">=</span><span class="fl">1.0</span>):</span>
+<span id="cb8-9"><a></a>    D <span class="op">=</span> assigntreat(n,T,pt)</span>
+<span id="cb8-10"><a></a>    y <span class="op">=</span> np.random.randn(n,T)<span class="op">*</span>sigma <span class="op">+</span> ATT[np.cumsum(D, axis<span class="op">=</span><span class="dv">1</span>)]</span>
+<span id="cb8-11"><a></a>    df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb8-12"><a></a>        <span class="st">'id'</span>: np.repeat(np.arange(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>), T),</span>
+<span id="cb8-13"><a></a>        <span class="st">'t'</span>: np.tile(np.arange(<span class="dv">1</span>, T <span class="op">+</span> <span class="dv">1</span>), n),</span>
+<span id="cb8-14"><a></a>        <span class="st">'y'</span>: y.flatten(),</span>
+<span id="cb8-15"><a></a>        <span class="st">'D'</span>: D.flatten()</span>
+<span id="cb8-16"><a></a>    })</span>
+<span id="cb8-17"><a></a>    <span class="cf">return</span>(df)</span>
+<span id="cb8-18"><a></a></span>
+<span id="cb8-19"><a></a>df <span class="op">=</span> simulate(n,T,pt,ATT)</span>
+<span id="cb8-20"><a></a>result <span class="op">=</span> pf.feols(<span class="st">'y ~ D | id + t'</span>,  df, vcov<span class="op">=</span>{<span class="st">"CRV1"</span>: <span class="st">"id"</span>})</span>
+<span id="cb8-21"><a></a>result.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>###
@@ -753,9 +680,9 @@ Observations:  900
 
 | Coefficient   |   Estimate |   Std. Error |   t value |   Pr(&gt;|t|) |   2.5% |   97.5% |
 |:--------------|-----------:|-------------:|----------:|-----------:|-------:|--------:|
-| D             |     -0.006 |        0.179 |    -0.032 |      0.974 | -0.360 |   0.349 |
+| D             |     -0.526 |        0.249 |    -2.107 |      0.038 | -1.020 |  -0.031 |
 ---
-RMSE: 0.856 R2: 0.603 R2 Within: 0.0 </code></pre>
+RMSE: 1.287 R2: 0.51 R2 Within: 0.009 </code></pre>
 </div>
 </div>
 </section>
@@ -793,19 +720,25 @@ ATT_{t,t-s}&amp; = \Er[y_{it} - y_{it-s} | D_{it}=1, D_{it-s}=0] - \Er[y_{it} - 
 <section id="what-to-do-1" class="slide level2">
 <h2>What to Do?</h2>
 <ul>
-<li>Use an appropriate package
+<li>Option 1: Use an appropriate package
 <ul>
 <li><a href="https://github.com/bernardodionisi/differences">differences</a></li>
+<li><a href="https://pypi.org/project/pyfixest/">pyfixest</a> (Gardner’s 2-stage estimator or Dube et al (2023) local projections)</li>
+<li>doubleml (see chapter 16 of <span class="citation" data-cites="causalml2024">Chernozhukov et al. (<a href="#/references" role="doc-biblioref" onclick="">2024</a>)</span>)</li>
 <li>see https://asjadnaqvi.github.io/DiD/ for more options (but none are python)</li>
-</ul></li>
-<li>Problem is possible correlation of <span class="math inline">\((y_{it}(1) - y_{it}(0))D_{it}\)</span> with <span class="math inline">\(\tilde{D}_{it}\)</span>
-<ul>
-<li><span class="math inline">\(\tilde{D}_{it}\)</span> is function of <span class="math inline">\(t\)</span> and <span class="math inline">\((D_{i1}, ..., D_{iT})\)</span></li>
-<li>Estimating separate coefficient for each combination of <span class="math inline">\(t\)</span> and <span class="math inline">\((D_{i1}, ..., D_{iT})\)</span> will eliminate correlation / flexibly model treatment effect heterogeneity</li>
 </ul></li>
 </ul>
 </section>
 <section id="what-to-do-2" class="slide level2">
+<h2>What to Do?</h2>
+<ul>
+<li><p>Option 2: estimate a correctly specified fixed effects regression (my preferred approach)</p></li>
+<li><p>Problem is possible correlation of <span class="math inline">\((y_{it}(1) - y_{it}(0))D_{it}\)</span> with <span class="math inline">\(\tilde{D}_{it}\)</span></p></li>
+<li><p><span class="math inline">\(\tilde{D}_{it}\)</span> is function of <span class="math inline">\(t\)</span> and <span class="math inline">\((D_{i1}, ..., D_{iT})\)</span></p></li>
+<li><p>Estimating separate coefficient for each combination of <span class="math inline">\(t\)</span> and <span class="math inline">\((D_{i1}, ..., D_{iT})\)</span> will eliminate correlation / flexibly model treatment effect heterogeneity</p></li>
+</ul>
+</section>
+<section id="what-to-do-3" class="slide level2">
 <h2>What to Do?</h2>
 <ul>
 <li>Cohorts = unique sequences of <span class="math inline">\((D_{i1}, ..., D_{iT})\)</span>
@@ -825,16 +758,14 @@ ATT_{t,t-s}&amp; = \Er[y_{it} - y_{it-s} | D_{it}=1, D_{it-s}=0] - \Er[y_{it} - 
 <li><p>Estimate: <span class="math display">\[
 y_{it} = \sum_{c=1}^C D_{it} 1\{C_i=c\} \beta_{ct} + \alpha_i + \delta_t + \epsilon_{it}
 \]</span></p></li>
-<li><p><span class="math inline">\(\hat{\beta}_{ct}\)</span> consistently estimates <span class="math inline">\(\Er[y_{it}(1) - y_{it}(0) | C_{i}=c, D_{it}=1]\)</span> is parallel trends holds for all periods <span class="math display">\[
+<li><p><span class="math inline">\(\hat{\beta}_{ct}\)</span> consistently estimates <span class="math inline">\(\Er[y_{it}(1) - y_{it}(0) | C_{i}=c, D_{it}=1]\)</span> assuming parallel trends holds for all periods <span class="math display">\[
 \Er[y_{it}(0) - y_{it-s}(0) | C_i=c] = \Er[y_{it}(0) - y_{it-s}(0) | C_i=c']
 \]</span> for all <span class="math inline">\(t, s, c, c'\)</span></p></li>
 </ul>
 </section>
-<section id="regression-with-cohort-treat-time-interactions" class="slide level2">
-<h2>Regression with Cohort-Treat-Time Interactions</h2>
-<div id="05417c46" class="cell" data-execution_count="8">
-<details class="code-fold">
-<summary>Code</summary>
+<section id="regression-with-cohort-interactions" class="slide level2">
+<h2>Regression with Cohort Interactions</h2>
+<div id="82955398" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a><span class="kw">def</span> definecohort(df):</span>
 <span id="cb10-2"><a></a>    <span class="co"># convert dummies into categorical</span></span>
 <span id="cb10-3"><a></a>    n <span class="op">=</span> <span class="bu">len</span>(df.<span class="bu">id</span>.unique())</span>
@@ -850,88 +781,171 @@ y_{it} = \sum_{c=1}^C D_{it} 1\{C_i=c\} \beta_{ct} + \alpha_i + \delta_t + \epsi
 <span id="cb10-13"><a></a>    df<span class="op">=</span>df.reset_index()</span>
 <span id="cb10-14"><a></a>    <span class="cf">return</span>(df)</span>
 <span id="cb10-15"><a></a></span>
-<span id="cb10-16"><a></a>df <span class="op">=</span> definecohort(df)</span>
+<span id="cb10-16"><a></a>dfc <span class="op">=</span> definecohort(df)</span>
 <span id="cb10-17"><a></a></span>
 <span id="cb10-18"><a></a><span class="kw">def</span> defineinteractions(df):</span>
 <span id="cb10-19"><a></a>    df[<span class="st">'dct'</span>] <span class="op">=</span> <span class="st">'untreated'</span></span>
 <span id="cb10-20"><a></a>    df[<span class="st">'dct'</span>] <span class="op">=</span> df.<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="ss">f"t</span><span class="sc">{</span>x[<span class="st">'t'</span>]<span class="sc">}</span><span class="ss">,c</span><span class="sc">{</span>x[<span class="st">'cohort'</span>]<span class="sc">}</span><span class="ss">"</span> <span class="cf">if</span> x[<span class="st">'D'</span>] <span class="cf">else</span> <span class="ss">f"untreated"</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb10-21"><a></a>    <span class="cf">return</span>(df)</span>
 <span id="cb10-22"><a></a></span>
-<span id="cb10-23"><a></a>df <span class="op">=</span> defineinteractions(df)</span>
+<span id="cb10-23"><a></a>dfc <span class="op">=</span> defineinteractions(dfc)</span>
 <span id="cb10-24"><a></a></span>
-<span id="cb10-25"><a></a>pf.feols(<span class="st">"y ~  dct | id + t"</span>, df, vcov<span class="op">=</span>{<span class="st">"CRV1"</span>: <span class="st">"id"</span>}).summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>###
-
-Estimation:  OLS
-Dep. var.: y, Fixed effects: id+t
-Inference:  CRV1
-Observations:  900
-
-| Coefficient      |   Estimate |   Std. Error |   t value |   Pr(&gt;|t|) |   2.5% |   97.5% |
-|:-----------------|-----------:|-------------:|----------:|-----------:|-------:|--------:|
-| dct[T.t3,c255]   |      0.001 |        0.003 |     0.235 |      0.814 | -0.006 |   0.008 |
-| dct[T.t4,c255]   |     -0.002 |        0.004 |    -0.518 |      0.606 | -0.009 |   0.005 |
-| dct[T.t5,c255]   |     -0.000 |        0.003 |    -0.020 |      0.984 | -0.006 |   0.006 |
-| dct[T.t6,c255]   |     -0.003 |        0.003 |    -1.109 |      0.270 | -0.009 |   0.003 |
-| dct[T.t7,c255]   |     -0.004 |        0.004 |    -0.904 |      0.368 | -0.011 |   0.004 |
-| dct[T.t8,c255]   |      4.996 |        0.003 |  1514.399 |      0.000 |  4.990 |   5.003 |
-| dct[T.t8,c3]     |     -0.001 |        0.004 |    -0.221 |      0.826 | -0.008 |   0.006 |
-| dct[T.t9,c255]   |      4.994 |        0.004 |  1361.232 |      0.000 |  4.987 |   5.002 |
-| dct[T.t9,c3]     |     -0.003 |        0.004 |    -0.682 |      0.497 | -0.010 |   0.005 |
-| dct[T.untreated] |     -1.001 |        0.003 |  -308.141 |      0.000 | -1.007 |  -0.994 |
----
-RMSE: 0.009 R2: 1.0 R2 Within: 1.0 </code></pre>
+<span id="cb10-25"><a></a>modc <span class="op">=</span> pf.feols(<span class="st">"y ~  C(dct, Treatment('untreated')) | id + t"</span>, dfc, vcov<span class="op">=</span>{<span class="st">"CRV1"</span>: <span class="st">"id"</span>})</span>
+<span id="cb10-26"><a></a>pf.etable([modc], <span class="bu">type</span><span class="op">=</span><span class="st">"md"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
+
 </section>
-<section id="regression-with-cohort-time-interactions-1" class="slide level2">
+<section id="regression-with-cohort-interactions-output" class="slide level2 output-location-slide"><h2>Regression with Cohort Interactions</h2><div class="cell output-location-slide" data-execution_count="7">
+<div class="cell-output cell-output-stdout">
+<pre><code>index                                           est1
+-----------------------------------------  ---------
+depvar                                             y
+----------------------------------------------------
+C(dct, Treatment('untreated'))[T.t2,c255]     0.524
+                                             (0.277)
+C(dct, Treatment('untreated'))[T.t3,c255]    0.761*
+                                             (0.320)
+C(dct, Treatment('untreated'))[T.t4,c255]   0.820**
+                                             (0.304)
+C(dct, Treatment('untreated'))[T.t5,c255]   0.880**
+                                             (0.329)
+C(dct, Treatment('untreated'))[T.t6,c255]     0.458
+                                             (0.285)
+C(dct, Treatment('untreated'))[T.t7,c255]    0.624*
+                                             (0.307)
+C(dct, Treatment('untreated'))[T.t8,c255]  5.242***
+                                             (0.408)
+C(dct, Treatment('untreated'))[T.t8,c3]    1.121***
+                                             (0.311)
+C(dct, Treatment('untreated'))[T.t9,c255]  5.693***
+                                             (0.354)
+C(dct, Treatment('untreated'))[T.t9,c3]    1.007***
+                                             (0.286)
+----------------------------------------------------
+t                                                  x
+id                                                 x
+----------------------------------------------------
+Observations                                     900
+S.E. type                                     by: id
+R2                                             0.724
+----------------------------------------------------
+</code></pre>
+</div>
+</div></section><section id="regression-with-cohort-interactions-1" class="slide level2">
+<h2>Regression with Cohort Interactions</h2>
+<div id="c4631691" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a><span class="im">import</span> re</span>
+<span id="cb12-2"><a></a><span class="kw">def</span> plotcohortatt(modc):</span>
+<span id="cb12-3"><a></a>    coef <span class="op">=</span> modc.coef()</span>
+<span id="cb12-4"><a></a>    ci <span class="op">=</span> modc.confint()</span>
+<span id="cb12-5"><a></a>    tcregex <span class="op">=</span> re.<span class="bu">compile</span>(<span class="vs">r".+t(\d+),c(\d+)]"</span>)</span>
+<span id="cb12-6"><a></a>    catt <span class="op">=</span> pd.DataFrame(index<span class="op">=</span>coef.index, columns<span class="op">=</span>[<span class="st">'t'</span>,<span class="st">'c'</span>,<span class="st">'att'</span>,<span class="st">'yerr'</span>])</span>
+<span id="cb12-7"><a></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(coef)):</span>
+<span id="cb12-8"><a></a>        m <span class="op">=</span> tcregex.match(coef.index[i])</span>
+<span id="cb12-9"><a></a>        t,c <span class="op">=</span> m.groups()</span>
+<span id="cb12-10"><a></a>        t<span class="op">=</span><span class="bu">int</span>(t)</span>
+<span id="cb12-11"><a></a>        c<span class="op">=</span><span class="bu">int</span>(c)</span>
+<span id="cb12-12"><a></a>        catt.loc[coef.index[i]] <span class="op">=</span> [t,c,coef.iloc[i],np.<span class="bu">abs</span>(ci.iloc[i][<span class="dv">0</span>]<span class="op">-</span>coef.iloc[i])]</span>
+<span id="cb12-13"><a></a></span>
+<span id="cb12-14"><a></a>    catt.sort_values([<span class="st">'c'</span>,<span class="st">'t'</span>],inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-15"><a></a>    fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb12-16"><a></a>    ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">'time'</span>, ylabel<span class="op">=</span><span class="st">'ATT | cohort'</span>)</span>
+<span id="cb12-17"><a></a>    <span class="cf">for</span> g <span class="kw">in</span> catt.groupby(<span class="st">'c'</span>) :</span>
+<span id="cb12-18"><a></a>        c <span class="op">=</span> g[<span class="dv">0</span>]</span>
+<span id="cb12-19"><a></a>        g <span class="op">=</span> g[<span class="dv">1</span>]</span>
+<span id="cb12-20"><a></a>        ax.errorbar(g[<span class="st">'t'</span>], g[<span class="st">'att'</span>], yerr<span class="op">=</span>g[<span class="st">'yerr'</span>], fmt<span class="op">=</span><span class="st">'o'</span>, label<span class="op">=</span><span class="ss">f'cohort </span><span class="sc">{</span>c<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb12-21"><a></a></span>
+<span id="cb12-22"><a></a>    ax.legend()</span>
+<span id="cb12-23"><a></a>    <span class="cf">return</span>(fig)</span>
+<span id="cb12-24"><a></a></span>
+<span id="cb12-25"><a></a>fig<span class="op">=</span>plotcohortatt(modc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="regression-with-cohort-interactions-1-output" class="slide level2 output-location-slide"><h2>Regression with Cohort Interactions</h2><div class="cell output-location-slide" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="moredid_files/figure-revealjs/cell-9-output-1.png" width="899" height="458"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="regression-with-cohort-time-interactions-1" class="slide level2">
 <h2>Regression with Cohort-Time Interactions</h2>
 <ul>
-<li><p>If just want to assume parallel trends at treatment times, instead of parallel trends everywhere, can estimate <span class="math display">\[
+<li><p>If just want to assume parallel trends for treated and never treated, i.e. <span class="math display">\[
+\Er[y_{it}(0) - y_{it-s}(0) | C_i=c] = \Er[y_{it}(0) - y_{it-s}(0) | C_i=c']
+\]</span> when <span class="math inline">\(c\)</span> treated at <span class="math inline">\(t\)</span>, untreated at <span class="math inline">\(t-s\)</span> and <span class="math inline">\(c'\)</span> never treated</p></li>
+<li><p>Estimate <span class="math display">\[
 y_{it} = \sum_{c=1}^C 1\{C_i=c\} \delta_{c,t} + \alpha_i + \epsilon_{it}
-\]</span></p></li>
-<li><p><span class="math inline">\(\hat{\delta}_{c,t} + \frac{\sum \alpha_i 1\{C_i=c\}}{\sum 1\{C_i =
-c\}}\)</span> consistently estimates <span class="math inline">\(\Er[y_{it} | C_{i} = c]\)</span></p></li>
-<li><p><span class="math inline">\(\hat{\delta}_{c,t} -\hat{\delta}_{c,t-s}\)</span> consistently estimates <span class="math inline">\(\Er[y_{it} - y_{i,t-s}| C_{i} = c]\)</span></p></li>
-<li><p>If <span class="math inline">\(c\)</span> treated at <span class="math inline">\(t\)</span>, not at <span class="math inline">\(t-s\)</span>, and <span class="math inline">\(c'\)</span> not treated at either and assume parallel trends, <span class="math display">\[
-\hat{\delta}_{c,t} -\hat{\delta}_{c,t-s} - (\hat{\delta}_{c',t} -\hat{\delta}_{c',t-s}) \inprob \Er[y_{it}(1)-y{it}(0)| C_i =c]
 \]</span></p></li>
 </ul>
 </section>
 <section id="regression-with-cohort-time-interactions-2" class="slide level2">
 <h2>Regression with Cohort-Time Interactions</h2>
-<div id="4c83e64a" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a>pf.feols(<span class="st">"y ~ -1 + C(cohort)*C(t) | id + t"</span>,df, vcov<span class="op">=</span>{<span class="st">"CRV1"</span>:<span class="st">"id"</span>}).summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><span class="math display">\[
+y_{it} = \sum_{c=1}^C 1\{C_i=c\} \delta_{c,t} + \alpha_i + \epsilon_{it}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\hat{\delta}_{c,t} + \frac{\sum \alpha_i 1\{C_i=c\}}{\sum 1\{C_i =
+c\}}\)</span> consistently estimates <span class="math inline">\(\Er[y_{it} | C_{i} = c]\)</span></li>
+<li><span class="math inline">\(\hat{\delta}_{c,t} -\hat{\delta}_{c,t-s}\)</span> consistently estimates <span class="math inline">\(\Er[y_{it} - y_{i,t-s}| C_{i} = c]\)</span></li>
+<li>If <span class="math inline">\(c\)</span> treated at <span class="math inline">\(t\)</span>, not at <span class="math inline">\(t-s\)</span>, and <span class="math inline">\(c'\)</span> not treated at either and assume parallel trends, <span class="math display">\[
+\hat{\delta}_{c,t} - \hat{\delta}_{c,t-s} - (\hat{\delta}_{c',t} -\hat{\delta}_{c',t-s}) \inprob \Er[y_{it}(1)-y{it}(0)| C_i =c]
+\]</span></li>
+</ul>
+</section>
+<section id="regression-with-cohort-time-interactions-3" class="slide level2">
+<h2>Regression with Cohort-Time Interactions</h2>
+<div id="fbf843a2" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a>modct <span class="op">=</span> pf.feols(<span class="st">"y ~ C(cohort)*C(t) | id + t"</span>,dfc, vcov<span class="op">=</span>{<span class="st">"CRV1"</span>:<span class="st">"id"</span>})</span>
+<span id="cb13-2"><a></a>pf.etable(modct, <span class="bu">type</span><span class="op">=</span><span class="st">'md'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>###
-
-Estimation:  OLS
-Dep. var.: y, Fixed effects: id+t
-Inference:  CRV1
-Observations:  900
-
-| Coefficient                |   Estimate |   Std. Error |   t value |   Pr(&gt;|t|) |   2.5% |   97.5% |
-|:---------------------------|-----------:|-------------:|----------:|-----------:|-------:|--------:|
-| C(cohort)[T.3]:C(t)[T.2]   |      0.002 |        0.003 |     0.470 |      0.639 | -0.005 |   0.008 |
-| C(cohort)[T.255]:C(t)[T.2] |      1.002 |        0.004 |   269.411 |      0.000 |  0.994 |   1.009 |
-| C(cohort)[T.3]:C(t)[T.3]   |     -0.001 |        0.003 |    -0.425 |      0.672 | -0.007 |   0.004 |
-| C(cohort)[T.255]:C(t)[T.3] |      1.001 |        0.003 |   288.142 |      0.000 |  0.994 |   1.008 |
-| C(cohort)[T.3]:C(t)[T.4]   |      0.000 |        0.003 |     0.128 |      0.898 | -0.006 |   0.007 |
-| C(cohort)[T.255]:C(t)[T.4] |      0.999 |        0.004 |   253.598 |      0.000 |  0.991 |   1.007 |
-| C(cohort)[T.3]:C(t)[T.5]   |     -0.000 |        0.004 |    -0.084 |      0.933 | -0.007 |   0.007 |
-| C(cohort)[T.255]:C(t)[T.5] |      1.001 |        0.003 |   333.982 |      0.000 |  0.995 |   1.007 |
-| C(cohort)[T.3]:C(t)[T.6]   |     -0.001 |        0.003 |    -0.220 |      0.826 | -0.007 |   0.006 |
-| C(cohort)[T.255]:C(t)[T.6] |      0.997 |        0.003 |   336.568 |      0.000 |  0.991 |   1.003 |
-| C(cohort)[T.3]:C(t)[T.7]   |      0.002 |        0.003 |     0.493 |      0.623 | -0.005 |   0.008 |
-| C(cohort)[T.255]:C(t)[T.7] |      0.998 |        0.004 |   243.783 |      0.000 |  0.990 |   1.006 |
-| C(cohort)[T.3]:C(t)[T.8]   |      1.000 |        0.003 |   301.730 |      0.000 |  0.994 |   1.007 |
-| C(cohort)[T.255]:C(t)[T.8] |      5.997 |        0.004 |  1583.215 |      0.000 |  5.990 |   6.005 |
-| C(cohort)[T.3]:C(t)[T.9]   |      0.998 |        0.003 |   327.278 |      0.000 |  0.992 |   1.004 |
-| C(cohort)[T.255]:C(t)[T.9] |      5.995 |        0.004 |  1615.859 |      0.000 |  5.988 |   6.003 |
----
-RMSE: 0.009 R2: 1.0 R2 Within: 1.0 </code></pre>
+<pre><code>index                            est1
+--------------------------  ---------
+depvar                              y
+-------------------------------------
+C(cohort)[T.3]:C(t)[T.2]       0.288
+                              (0.355)
+C(cohort)[T.255]:C(t)[T.2]    0.696*
+                              (0.338)
+C(cohort)[T.3]:C(t)[T.3]       0.248
+                              (0.404)
+C(cohort)[T.255]:C(t)[T.3]    0.909*
+                              (0.404)
+C(cohort)[T.3]:C(t)[T.4]       0.386
+                              (0.343)
+C(cohort)[T.255]:C(t)[T.4]   1.051**
+                              (0.350)
+C(cohort)[T.3]:C(t)[T.5]      -0.119
+                              (0.375)
+C(cohort)[T.255]:C(t)[T.5]    0.809*
+                              (0.405)
+C(cohort)[T.3]:C(t)[T.6]       0.480
+                              (0.291)
+C(cohort)[T.255]:C(t)[T.6]    0.745*
+                              (0.338)
+C(cohort)[T.3]:C(t)[T.7]       0.309
+                              (0.360)
+C(cohort)[T.255]:C(t)[T.7]    0.808*
+                              (0.382)
+C(cohort)[T.3]:C(t)[T.8]     1.349**
+                              (0.398)
+C(cohort)[T.255]:C(t)[T.8]  5.378***
+                              (0.438)
+C(cohort)[T.3]:C(t)[T.9]     1.235**
+                              (0.383)
+C(cohort)[T.255]:C(t)[T.9]  5.829***
+                              (0.383)
+-------------------------------------
+t                                   x
+id                                  x
+-------------------------------------
+Observations                      900
+S.E. type                      by: id
+R2                              0.725
+-------------------------------------
+</code></pre>
 </div>
 </div>
 </section></section>
@@ -961,7 +975,72 @@ RMSE: 0.009 R2: 1.0 R2 Within: 1.0 </code></pre>
 <li>Always at least plot pre-trends</li>
 </ul>
 </section>
-<section id="testing-for-pre-trends" class="slide level2">
+<section id="pre-trends-2" class="slide level2">
+<h2>Pre-trends</h2>
+<div id="6a37d497" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a><span class="kw">def</span> eventstudyplot(modct) :</span>
+<span id="cb15-2"><a></a>    evdf <span class="op">=</span> pd.DataFrame(index<span class="op">=</span>modct.coef().index, columns<span class="op">=</span>[<span class="st">'c'</span>, <span class="st">'t'</span>,<span class="st">'delta'</span>,<span class="st">'did'</span>,<span class="st">'se'</span>,<span class="st">'vindex'</span>])</span>
+<span id="cb15-3"><a></a>    pattern<span class="op">=</span><span class="vs">r".+T\.(\d+).+\[T\.(\d+)\]"</span></span>
+<span id="cb15-4"><a></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(modct.coef())):</span>
+<span id="cb15-5"><a></a>        m <span class="op">=</span> re.match(pattern, modct.coef().index[i])</span>
+<span id="cb15-6"><a></a>        c,t <span class="op">=</span> m.groups()</span>
+<span id="cb15-7"><a></a>        t <span class="op">=</span> <span class="bu">int</span>(t)</span>
+<span id="cb15-8"><a></a>        c <span class="op">=</span> <span class="bu">int</span>(c)</span>
+<span id="cb15-9"><a></a>        evdf.loc[modct.coef().index[i]] <span class="op">=</span> [c,t,modct.coef().iloc[i],<span class="dv">0</span>, <span class="dv">0</span>, i]</span>
+<span id="cb15-10"><a></a></span>
+<span id="cb15-11"><a></a>    evdf.sort_values([<span class="st">'c'</span>,<span class="st">'t'</span>],inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-12"><a></a>    T <span class="op">=</span> evdf[<span class="st">'t'</span>].<span class="bu">max</span>()</span>
+<span id="cb15-13"><a></a>    V <span class="op">=</span> modct._vcov</span>
+<span id="cb15-14"><a></a>    evdf.reset_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-15"><a></a>    <span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(T) :</span>
+<span id="cb15-16"><a></a>        <span class="cf">if</span> <span class="kw">not</span> (t<span class="op">+</span><span class="dv">1</span>) <span class="kw">in</span> evdf.t.unique() :</span>
+<span id="cb15-17"><a></a>            ndf <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>evdf.columns)</span>
+<span id="cb15-18"><a></a>            ndf.c<span class="op">=</span>evdf.c.unique()</span>
+<span id="cb15-19"><a></a>            ndf.t<span class="op">=</span>t<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb15-20"><a></a>            ndf.delta<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb15-21"><a></a>            ndf.vindex<span class="op">=</span>V.shape[<span class="dv">0</span>]</span>
+<span id="cb15-22"><a></a>            evdf<span class="op">=</span>pd.concat([evdf,ndf])</span>
+<span id="cb15-23"><a></a>    V <span class="op">=</span> np.vstack([V,np.zeros(V.shape[<span class="dv">1</span>])])</span>
+<span id="cb15-24"><a></a>    V <span class="op">=</span> np.hstack([V,np.zeros((V.shape[<span class="dv">0</span>],<span class="dv">1</span>))])</span>
+<span id="cb15-25"><a></a></span>
+<span id="cb15-26"><a></a>    <span class="kw">def</span> did(g) :</span>
+<span id="cb15-27"><a></a>        c <span class="op">=</span> g.c.unique()[<span class="dv">0</span>]</span>
+<span id="cb15-28"><a></a>        timestreated <span class="op">=</span> <span class="bu">bin</span>(c).count(<span class="st">'1'</span>)</span>
+<span id="cb15-29"><a></a>        t0 <span class="op">=</span> T <span class="op">-</span> timestreated</span>
+<span id="cb15-30"><a></a>        g<span class="op">=</span>g.set_index(<span class="st">'t'</span>)</span>
+<span id="cb15-31"><a></a>        g[<span class="st">'did'</span>] <span class="op">=</span> g[<span class="st">'delta'</span>] <span class="op">-</span> g[<span class="st">'delta'</span>][t0]</span>
+<span id="cb15-32"><a></a>        vi <span class="op">=</span> g[<span class="st">'vindex'</span>].to_numpy().astype(<span class="bu">int</span>)</span>
+<span id="cb15-33"><a></a>        g[<span class="st">'se'</span>] <span class="op">=</span> np.sqrt(V[vi,vi] <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>V[g[<span class="st">'vindex'</span>][t0],vi] <span class="op">+</span> V[g[<span class="st">'vindex'</span>][t0],g[<span class="st">'vindex'</span>][t0]])</span>
+<span id="cb15-34"><a></a>        <span class="cf">return</span>(g)</span>
+<span id="cb15-35"><a></a></span>
+<span id="cb15-36"><a></a>    evdf<span class="op">=</span>evdf.groupby(<span class="st">'c'</span>).<span class="bu">apply</span>(did).drop(columns<span class="op">=</span><span class="st">'c'</span>).reset_index()</span>
+<span id="cb15-37"><a></a></span>
+<span id="cb15-38"><a></a>    fig, ax <span class="op">=</span> plt.subplots(<span class="bu">len</span>(evdf.c.unique()),<span class="dv">1</span>)</span>
+<span id="cb15-39"><a></a>    <span class="cf">for</span> (i,g) <span class="kw">in</span> <span class="bu">enumerate</span>(evdf.groupby(<span class="st">'c'</span>)) :</span>
+<span id="cb15-40"><a></a>        c <span class="op">=</span> g[<span class="dv">0</span>]</span>
+<span id="cb15-41"><a></a>        g <span class="op">=</span> g[<span class="dv">1</span>]</span>
+<span id="cb15-42"><a></a>        timestreated <span class="op">=</span> <span class="bu">bin</span>(c).count(<span class="st">'1'</span>)</span>
+<span id="cb15-43"><a></a>        t0 <span class="op">=</span> T <span class="op">-</span> timestreated <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb15-44"><a></a>        ax[i].axvline(t0, color<span class="op">=</span><span class="st">'black'</span>, ls<span class="op">=</span><span class="st">":"</span>)</span>
+<span id="cb15-45"><a></a>        ax[i].errorbar(g[<span class="st">'t'</span>], g[<span class="st">'did'</span>], yerr<span class="op">=</span><span class="fl">1.96</span><span class="op">*</span>g[<span class="st">'se'</span>], fmt<span class="op">=</span><span class="st">'o'</span>, label<span class="op">=</span><span class="ss">f'cohort </span><span class="sc">{</span>c<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb15-46"><a></a>        ax[i].set_title(<span class="ss">f'cohort </span><span class="sc">{</span>c<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb15-47"><a></a>        ax[i].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">'time'</span>, ylabel<span class="op">=</span><span class="st">'ATT | cohort'</span>)</span>
+<span id="cb15-48"><a></a></span>
+<span id="cb15-49"><a></a>    <span class="cf">return</span>(fig)</span>
+<span id="cb15-50"><a></a></span>
+<span id="cb15-51"><a></a>fig<span class="op">=</span>eventstudyplot(modct)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="pre-trends-2-output" class="slide level2 output-location-slide"><h2>Pre-trends</h2><div class="cell output-location-slide" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="moredid_files/figure-revealjs/cell-11-output-1.png" width="914" height="486"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="testing-for-pre-trends" class="slide level2">
 <h2>Testing for Pre-trends</h2>
 <ul>
 <li>Is it a good idea to test</li>
@@ -1003,7 +1082,8 @@ H_0 : &amp; \Er[y_{it-r} - y_{it-s} | D_{it}=1, D_{it-r}=0,  D_{it-s}=0] = \\
 <li><p>Linear covariates could lead to same problem as with matching</p></li>
 <li><p>Doubly robust estimator <span class="citation" data-cites="sz2020">Sant’Anna and Zhao (<a href="#/references" role="doc-biblioref" onclick="">2020</a>)</span></p>
 <ul>
-<li><a href="https://docs.doubleml.org/stable/examples/py_double_ml_did.html">doubleml</a> package partially implements it</li>
+<li><a href="https://docs.doubleml.org/stable/examples/py_double_ml_did.html">doubleml</a> package implements it</li>
+<li>see example notebook from chapter 16 of <span class="citation" data-cites="causalml2024">Chernozhukov et al. (<a href="#/references" role="doc-biblioref" onclick="">2024</a>)</span></li>
 </ul></li>
 </ul>
 </section>
@@ -1050,6 +1130,9 @@ Chaisemartin, Clément de, and Xavier D’Haultfœuille. 2020. <span>“Two-Way 
 </div>
 <div id="ref-dd2022" class="csl-entry" role="listitem">
 ———. 2022. <span>“<span class="nocase">Two-way fixed effects and differences-in-differences with heterogeneous treatment effects: a survey</span>.”</span> <em>The Econometrics Journal</em> 26 (3): C1–30. <a href="https://doi.org/10.1093/ectj/utac017">https://doi.org/10.1093/ectj/utac017</a>.
+</div>
+<div id="ref-causalml2024" class="csl-entry" role="listitem">
+Chernozhukov, V., C. Hansen, N. Kallus, M. Spindler, and V. Syrgkanis. 2024. <em>Applied Causal Inference Powered by ML and AI</em>. <a href="https://causalml-book.org/">https://causalml-book.org/</a>.
 </div>
 <div id="ref-facure2022" class="csl-entry" role="listitem">
 Facure, Matheus. 2022. <em>Causal Inference for the Brave and True</em>. <a href="https://matheusfacure.github.io/python-causality-handbook/landing-page.html">https://matheusfacure.github.io/python-causality-handbook/landing-page.html</a>.
