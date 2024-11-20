@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-html/tabby.min.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -28,6 +28,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     /* CSS for citations */
     div.csl-bib-body { }
     div.csl-entry {
@@ -341,12 +406,15 @@
       margin-right: 0; 
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+  
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 </head>
 <body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" data-background-image="" data-background-size="contain" class="quarto-title-block center">
+<section id="title-slide" data-background-image="kokaneetrees.jpg" data-background-size="contain" class="quarto-title-block center">
   <h1 class="title">Instrumental Variables</h1>
   <p class="subtitle">ECON526</p>
 
@@ -368,17 +436,21 @@ Paul Schrimpf
 <nav role="doc-toc"> 
 <h2 id="toc-title">Table of contents</h2>
 <ul>
-<li><a href="#/overview" id="/toc-overview">Overview</a></li>
+<li><a href="#/introduction" id="/toc-introduction">Introduction</a></li>
+<li><a href="#/instrumental-variables" id="/toc-instrumental-variables">Instrumental Variables</a></li>
+<li><a href="#/example-returns-to-education" id="/toc-example-returns-to-education">Example: Returns to Education</a></li>
+<li><a href="#/weak-instruments" id="/toc-weak-instruments">Weak Instruments</a></li>
 </ul>
 </nav>
 </section>
 <section>
-<section id="overview" class="title-slide slide level1 center">
-<h1>Overview</h1>
+<section id="introduction" class="title-slide slide level1 center">
+<h1>Introduction</h1>
 <p><span class="math display">\[
 \def\indep{\perp\!\!\!\perp} % \def\idp{\perp\kern-5pt\perp}
 \def\Er{\mathrm{E}}
 \def\var{\mathrm{Var}}
+\def\cov{\mathrm{Cov}}
 \def\R{\mathbb{R}}
 \def\En{{\mathbb{E}_n}}
 \def\Pr{\mathrm{P}}
@@ -391,16 +463,891 @@ Paul Schrimpf
 \DeclareMathOperator*{\argmin}{arg\,min}
 \]</span></p>
 </section>
+<section id="endogeneity" class="slide level2">
+<h2>Endogeneity</h2>
+<p><span class="math display">\[
+Y_i = X_i' \beta_0 + \epsilon_i
+\]</span></p>
+<ul>
+<li>Believe <span class="math inline">\(\Er[X_i \epsilon_i] \neq 0\)</span>, so OLS biased and inconsistent</li>
+</ul>
+</section>
+<section id="sources-of-endogeneity" class="slide level2">
+<h2>Sources of Endogeneity</h2>
+<ul>
+<li>Omitted variables</li>
+<li>Simultaneity</li>
+<li>Measurement error</li>
+<li>And more …</li>
+</ul>
+</section>
+<section id="omitted-variables" class="slide level2">
+<h2>Omitted Variables</h2>
+<ul>
+<li><p>Desired model <span class="math display">\[
+Y_i = X_i'\beta_0 + W_i'\gamma_0 + \epsilon_i
+\]</span> Assume <span class="math inline">\(\Er[\epsilon] = \Er[X\epsilon] = \Er[W\epsilon] = 0\)</span></p></li>
+<li><p>Estimated model <span class="math display">\[
+Y_i = X_i'\beta + \underbrace{u_i}_{\equiv W_i'\gamma_0 + \epsilon_i}
+\]</span></p></li>
+</ul>
+</section>
+<section id="omitted-variables-bias" class="slide level2">
+<h2>Omitted Variables Bias</h2>
+<div>
+<ul>
+<li class="fragment">OLS inconsistent and biased</li>
+</ul>
+<p><span class="math display">\[
+\plim \hat{\beta}^{OLS} \inprob \beta_0 + \Er[X_i X_i']^{-1} \Er[X_i W_i'] \gamma_0
+\]</span></p>
+<ul>
+<li class="fragment">Or if <span class="math inline">\(X_i = (1, x_i)'\)</span> and <span class="math inline">\(W_i\)</span> is a scalar, <span class="math inline">\(y_i = \beta_0 + \beta_1 x_i + \gamma_0 w_i + \epsilon\)</span> <span class="math display">\[
+\plim \hat{\beta}_1 \inprob \beta_1 + \frac{\cov(x_i,w_i)}{\var(x_i)} \gamma_0
+\]</span></li>
+</ul>
+</div>
+</section>
+<section id="simultaneity" class="slide level2">
+<h2>Simultaneity</h2>
+<ul>
+<li><p>Equilibrium conditions lead to variables that are simultaneously determined</p></li>
+<li><p>Demand and supply: <span class="math display">\[
+\begin{align*}
+Q_i^D &amp; = P_i \beta_D + X_D'\gamma_D + u_{D,i} \\
+Q_i^S &amp; = P_i \beta_S + X_S'\gamma_S + u_{S,i} \\
+Q_i^S &amp; = Q_i^D
+\end{align*}
+\]</span></p></li>
+<li><p>Assume <span class="math inline">\(X_D\)</span> and <span class="math inline">\(X_S\)</span> exogenous</p>
+<ul>
+<li><span class="math inline">\(0 = \Er[X_D u_{D,i}] = \Er[X_D u_{S,i}] = \Er[X_S u_{D,i}] = \Er[X_S u_{S,i}]\)</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="simultaneity-1" class="slide level2">
+<h2>Simultaneity</h2>
+<ul>
+<li>Structural equations: (demand and inverse supply): <span class="math display">\[
+\begin{align*}
+Q_i &amp; = P_i \beta_D + X_D'\gamma_D + u_{D,i} \\
+P_i &amp; = Q_i \frac{1}{\beta_S}  - X_S'\gamma_D\frac{1}{\beta_S} - u_{S,i}\frac{1}{\beta_S} \\
+\end{align*}
+\]</span></li>
+<li>Reduced form: <span class="math display">\[
+\begin{align*}
+Q_i = &amp; \frac{\beta_D}{\beta_D - \beta_S} \left( -X_{D,i}' \gamma_D + X_{S,i}'\gamma_S - u_{D,i} + u_{S,i} \right) + X_{D,i}'\gamma_D + u_{D,i} \\
+P_i = &amp; \frac{1}{\beta_D - \beta_S}\left(-X_{D,i}' \gamma_D + X_{S,i}'\gamma_S - u_{D,i} + u_{S,i} \right)
+\end{align*}
+\]</span></li>
+<li><span class="math inline">\(\Er[P_i u_{D,i}] \neq 0\)</span>, so OLS estimate of <span class="math inline">\(Q_i = P_i \beta_D + X_D'\gamma_D + u_{D,i}\)</span> is biased and inconsistent</li>
+</ul>
+</section>
+<section id="measurment-error" class="slide level2">
+<h2>Measurment Error</h2>
+<ul>
+<li>True model <span class="math display">\[
+Y_i = \beta_0 + \beta_1 x_i^* + \epsilon_i
+\]</span> with <span class="math inline">\(\Er[x_i^* \epsilon_i]=0\)</span>, but <span class="math inline">\(x_i^*\)</span> unobserved</li>
+<li>Observe <span class="math inline">\(x_i = x_i^* + u_i\)</span></li>
+<li>Estimated model <span class="math display">\[
+Y_i = \beta_0 + \beta_1 x_i + \underbrace{\tilde{\epsilon}_i}_{\equiv -\beta_1 u_i + \epsilon_i}
+\]</span></li>
+<li><span class="math inline">\(\Er[x_i\tilde{\epsilon}_i] = -\beta_1\Er[u_i^2] \neq 0\)</span></li>
+</ul>
+</section></section>
+<section>
+<section id="instrumental-variables" class="title-slide slide level1 center">
+<h1>Instrumental Variables</h1>
+
+</section>
+<section id="instrumental-variables-1" class="slide level2">
+<h2>Instrumental Variables</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span class="math display">\[
+Y_i = \underbrace{X_i}_{\in \R^k}' \beta_0 + \epsilon_i
+\]</span></p>
+<ul>
+<li><p><span class="math inline">\(\Er[\epsilon_i] = 0\)</span>, but <span class="math inline">\(\Er[X_i \epsilon_i] \neq 0\)</span></p></li>
+<li><p>Instrument <span class="math inline">\(Z_i \in \R^d\)</span> s.t.</p>
+<ol type="1">
+<li><p>Relevant <span class="math inline">\(rank(\Er[Z_i X_i']) = k\)</span></p></li>
+<li><p>Exogenous <span class="math inline">\(\Er[Z_i \epsilon_i] = 0\)</span></p></li>
+</ol></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div id="4f5724e1" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> graphviz <span class="im">as</span> gr</span>
+<span id="cb1-2"><a></a></span>
+<span id="cb1-3"><a></a>dot <span class="op">=</span> gr.Digraph()</span>
+<span id="cb1-4"><a></a>dot.edge(<span class="st">'X'</span>, <span class="st">'Y'</span>, style <span class="op">=</span> <span class="st">'dashed'</span>)</span>
+<span id="cb1-5"><a></a>dot.edge(<span class="st">'ϵ'</span>,<span class="st">'Y'</span>)</span>
+<span id="cb1-6"><a></a>dot.edge(<span class="st">'ϵ'</span>,<span class="st">'X'</span>)</span>
+<span id="cb1-7"><a></a>dot.edge(<span class="st">'Z'</span>,<span class="st">'X'</span>)</span>
+<span id="cb1-8"><a></a>dot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div>
+<figure>
+<p><img data-src="iv_files/figure-revealjs/cell-2-output-1.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="instrumental-variables-estimator" class="slide level2">
+<h2>Instrumental Variables Estimator</h2>
+<ul>
+<li>Assumed <span class="math inline">\(0 = \Er[Z_i \epsilon_i] = \Er[Z_i(y_i - X_i'\beta_0)]\)</span></li>
+<li>Estimate by solving <span class="math display">\[
+0 \approx \frac{1}{n} \sum_{i=1}^n Z_i(y_i - X_i'\hat{\beta}^{2SLS})
+\]</span></li>
+<li><span class="math inline">\(\hat{\beta}^{2SLS}  = (X'Z (Z'Z)^{-1} Z' X)^{-1} (X'Z(Z'Z)^{-1}Z'y)\)</span></li>
+</ul>
+</section>
+<section id="two-stage-least-squares" class="slide level2">
+<h2>Two Stage Least Squares</h2>
+<p><span class="math display">\[
+\begin{align*}
+\hat{\beta}^{2SLS} &amp; = (X'Z (Z'Z)^{-1} Z' X)^{-1} (X'Z(Z'Z)^{-1}Z'y) \\
+&amp; = (X'P_Z X)^{-1} (X' P_Z y) \\
+&amp; = ((P_Z X)'(P_Z X))^{-1} ((P_Z X)'y)
+\end{align*}
+\]</span></p>
+<ol type="1">
+<li>Regress <span class="math inline">\(X\)</span> on <span class="math inline">\(Z\)</span>, let <span class="math inline">\(\hat{X} = P_Z X\)</span></li>
+<li>Regress <span class="math inline">\(y\)</span> on <span class="math inline">\(\hat{X}\)</span></li>
+</ol>
+</section>
+<section id="iv-best-practices" class="slide level2">
+<h2>IV Best Practices</h2>
+<ul>
+<li>Report the first stage regression of <span class="math inline">\(X\)</span> on <span class="math inline">\(Z\)</span>
+<ul>
+<li>Check for relevance</li>
+</ul></li>
+<li>Report the reduced form regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(Z\)</span></li>
+<li>If relevance at all in doubt, use weak identification robust confidence intervals
+<ul>
+<li>E.g. <code>ivmodels.summary</code> with <code>test='lagrange multiplier'</code></li>
+</ul></li>
+</ul>
+</section></section>
+<section>
+<section id="example-returns-to-education" class="title-slide slide level1 center">
+<h1>Example: Returns to Education</h1>
+
+</section>
+<section id="example-returns-to-education-1" class="slide level2">
+<h2>Example: Returns to Education</h2>
+<ul>
+<li>From <span class="citation" data-cites="ak1991">Angrist and Krueger (<a href="#/sources-and-further-reading" role="doc-biblioref" onclick="">1991</a>)</span></li>
+</ul>
+<div id="5eb3010e" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a><span class="im">import</span> graphviz <span class="im">as</span> gr</span>
+<span id="cb2-2"><a></a></span>
+<span id="cb2-3"><a></a>g <span class="op">=</span> gr.Digraph()</span>
+<span id="cb2-4"><a></a>g.edge(<span class="st">'Education'</span>, <span class="st">'Earnings'</span>, style <span class="op">=</span> <span class="st">'dashed'</span>)</span>
+<span id="cb2-5"><a></a>g.edge(<span class="st">'Ability'</span>, <span class="st">'Education'</span>)</span>
+<span id="cb2-6"><a></a>g.edge(<span class="st">'Ability'</span>, <span class="st">'Earnings'</span>)</span>
+<span id="cb2-7"><a></a>g.edge(<span class="st">'?'</span>, <span class="st">'Education'</span>)</span>
+<span id="cb2-8"><a></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="iv_files/figure-revealjs/cell-3-output-1.svg" class="r-stretch"></section>
+<section id="example-returns-to-education-2" class="slide level2">
+<h2>Example: Returns to Education</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div id="6b5fe380" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>g <span class="op">=</span> gr.Digraph()</span>
+<span id="cb3-2"><a></a>g.edge(<span class="st">'Education'</span>, <span class="st">'Earnings'</span>, style <span class="op">=</span> <span class="st">'dashed'</span>)</span>
+<span id="cb3-3"><a></a>g.edge(<span class="st">'Ability'</span>, <span class="st">'Education'</span>)</span>
+<span id="cb3-4"><a></a>g.edge(<span class="st">'Ability'</span>, <span class="st">'Earnings'</span>)</span>
+<span id="cb3-5"><a></a>g.edge(<span class="st">'Quarter of Birth'</span>, <span class="st">'Education'</span>)</span>
+<span id="cb3-6"><a></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+<figure>
+<p><img data-src="iv_files/figure-revealjs/cell-4-output-1.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div id="394a67bd" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-2"><a></a></span>
+<span id="cb4-3"><a></a>df <span class="op">=</span> pd.read_csv(<span class="st">'data/ak91.csv'</span>)</span>
+<span id="cb4-4"><a></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">log_wage</th>
+<th data-quarto-table-cell-role="th">years_of_schooling</th>
+<th data-quarto-table-cell-role="th">year_of_birth</th>
+<th data-quarto-table-cell-role="th">quarter_of_birth</th>
+<th data-quarto-table-cell-role="th">state_of_birth</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>5.790019</td>
+<td>12.0</td>
+<td>30.0</td>
+<td>1.0</td>
+<td>45.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>5.952494</td>
+<td>11.0</td>
+<td>30.0</td>
+<td>1.0</td>
+<td>45.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>5.315949</td>
+<td>12.0</td>
+<td>30.0</td>
+<td>1.0</td>
+<td>45.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>5.595926</td>
+<td>12.0</td>
+<td>30.0</td>
+<td>1.0</td>
+<td>45.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>6.068915</td>
+<td>12.0</td>
+<td>30.0</td>
+<td>1.0</td>
+<td>37.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="example-returns-to-education-3" class="slide level2">
+<h2>Example: Returns to Education</h2>
+<ul>
+<li>We must assume that
+<ol type="1">
+<li>Relevance: <span class="math inline">\(\cov(QOB, Education) \neq 0\)</span></li>
+<li>Exogeneity: <span class="math inline">\(Earnings \perp QOB \mid Education\)</span></li>
+</ol></li>
+</ul>
+</section>
+<section id="example-relevance" class="slide level2">
+<h2>Example: Relevance</h2>
+<div id="d66164fd" class="cell columns column-output-location" data-execution_count="6">
+<div class="column">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-2"><a></a>group_data <span class="op">=</span> (df</span>
+<span id="cb5-3"><a></a>    .groupby([<span class="st">"year_of_birth"</span>, <span class="st">"quarter_of_birth"</span>])</span>
+<span id="cb5-4"><a></a>    [[<span class="st">"log_wage"</span>, <span class="st">"years_of_schooling"</span>]]</span>
+<span id="cb5-5"><a></a>    .mean()</span>
+<span id="cb5-6"><a></a>    .reset_index()</span>
+<span id="cb5-7"><a></a>    .assign(time_of_birth <span class="op">=</span> <span class="kw">lambda</span> d: d[<span class="st">"year_of_birth"</span>] <span class="op">+</span> (d[<span class="st">"quarter_of_birth"</span>])<span class="op">/</span><span class="dv">4</span>))</span>
+<span id="cb5-8"><a></a></span>
+<span id="cb5-9"><a></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">6</span>))</span>
+<span id="cb5-10"><a></a>plt.plot(group_data[<span class="st">"time_of_birth"</span>], group_data[<span class="st">"years_of_schooling"</span>], zorder<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb5-11"><a></a><span class="cf">for</span> q <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">5</span>):</span>
+<span id="cb5-12"><a></a>    x <span class="op">=</span> group_data.query(<span class="ss">f"quarter_of_birth==</span><span class="sc">{</span>q<span class="sc">}</span><span class="ss">"</span>)[<span class="st">"time_of_birth"</span>]</span>
+<span id="cb5-13"><a></a>    y <span class="op">=</span> group_data.query(<span class="ss">f"quarter_of_birth==</span><span class="sc">{</span>q<span class="sc">}</span><span class="ss">"</span>)[<span class="st">"years_of_schooling"</span>]</span>
+<span id="cb5-14"><a></a>    plt.scatter(x, y, marker<span class="op">=</span><span class="st">"s"</span>, s<span class="op">=</span><span class="dv">200</span>, c<span class="op">=</span><span class="ss">f"C</span><span class="sc">{</span>q<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-15"><a></a>    plt.scatter(x, y, marker<span class="op">=</span><span class="ss">f"$</span><span class="sc">{</span>q<span class="sc">}</span><span class="ss">$"</span>, s<span class="op">=</span><span class="dv">100</span>, c<span class="op">=</span><span class="ss">f"white"</span>)</span>
+<span id="cb5-16"><a></a></span>
+<span id="cb5-17"><a></a>plt.title(<span class="st">"Years of Education by Quarter of Birth (first stage)"</span>)</span>
+<span id="cb5-18"><a></a>plt.xlabel(<span class="st">"Quarter of Birth"</span>)</span>
+<span id="cb5-19"><a></a>plt.ylabel(<span class="st">"Years of Schooling"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="iv_files/figure-revealjs/cell-6-output-1.png" width="523" height="523"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section>
+<section id="example-relevance-1" class="slide level2">
+<h2>Example: Relevance</h2>
+<div id="c37f5ec0" class="cell columns column-output-location" data-execution_count="7">
+<div class="column">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="co"># Convert the quarter of birth to dummy variables</span></span>
+<span id="cb6-2"><a></a>factor_data <span class="op">=</span> df.assign(<span class="op">**</span>{<span class="ss">f"q</span><span class="sc">{</span><span class="bu">int</span>(q)<span class="sc">}</span><span class="ss">"</span>: (df[<span class="st">"quarter_of_birth"</span>] <span class="op">==</span> q).astype(<span class="bu">int</span>)</span>
+<span id="cb6-3"><a></a>                             <span class="cf">for</span> q <span class="kw">in</span> df[<span class="st">"quarter_of_birth"</span>].unique()})</span>
+<span id="cb6-4"><a></a></span>
+<span id="cb6-5"><a></a><span class="co"># Run the first stage regression</span></span>
+<span id="cb6-6"><a></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb6-7"><a></a></span>
+<span id="cb6-8"><a></a>first_stage <span class="op">=</span> smf.ols(<span class="st">"years_of_schooling ~ C(year_of_birth) + C(state_of_birth) + q4"</span>, data<span class="op">=</span>factor_data).fit()</span>
+<span id="cb6-9"><a></a></span>
+<span id="cb6-10"><a></a><span class="bu">print</span>(<span class="st">"q4 parameter estimate:, "</span>, first_stage.params[<span class="st">"q4"</span>])</span>
+<span id="cb6-11"><a></a><span class="bu">print</span>(<span class="st">"q4 p-value:, "</span>, first_stage.pvalues[<span class="st">"q4"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
+<div class="cell-output cell-output-stdout">
+<pre><code>q4 parameter estimate:,  0.10085809272786722
+q4 p-value:,  5.4648294166122615e-15</code></pre>
+</div>
+</div></div>
+</section>
+<section id="example-exogeneity" class="slide level2">
+<h2>Example: Exogeneity</h2>
+<ul>
+<li>No way to test the exogeneity assumption
+<ul>
+<li>Seems okay here</li>
+<li>Hard to come up with other reason why quarter of birth would affect earnings</li>
+</ul></li>
+</ul>
+</section>
+<section id="example-reduced-form" class="slide level2">
+<h2>Example: Reduced Form</h2>
+<div id="6f7e8e53" class="cell columns column-output-location" data-execution_count="8">
+<div class="column">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a><span class="co"># Plot the reduced form</span></span>
+<span id="cb8-2"><a></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">6</span>))</span>
+<span id="cb8-3"><a></a>plt.plot(group_data[<span class="st">"time_of_birth"</span>], group_data[<span class="st">"log_wage"</span>], zorder<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb8-4"><a></a><span class="cf">for</span> q <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">5</span>):</span>
+<span id="cb8-5"><a></a>    x <span class="op">=</span> group_data.query(<span class="ss">f"quarter_of_birth==</span><span class="sc">{</span>q<span class="sc">}</span><span class="ss">"</span>)[<span class="st">"time_of_birth"</span>]</span>
+<span id="cb8-6"><a></a>    y <span class="op">=</span> group_data.query(<span class="ss">f"quarter_of_birth==</span><span class="sc">{</span>q<span class="sc">}</span><span class="ss">"</span>)[<span class="st">"log_wage"</span>]</span>
+<span id="cb8-7"><a></a>    plt.scatter(x, y, marker<span class="op">=</span><span class="st">"s"</span>, s<span class="op">=</span><span class="dv">200</span>, c<span class="op">=</span><span class="ss">f"C</span><span class="sc">{</span>q<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-8"><a></a>    plt.scatter(x, y, marker<span class="op">=</span><span class="ss">f"$</span><span class="sc">{</span>q<span class="sc">}</span><span class="ss">$"</span>, s<span class="op">=</span><span class="dv">100</span>, c<span class="op">=</span><span class="ss">f"white"</span>)</span>
+<span id="cb8-9"><a></a></span>
+<span id="cb8-10"><a></a>plt.title(<span class="st">"Average Weekly Wage by Quarter of Birth (reduced form)"</span>)</span>
+<span id="cb8-11"><a></a>plt.xlabel(<span class="st">"Year of Birth"</span>)</span>
+<span id="cb8-12"><a></a>plt.ylabel(<span class="st">"Log Weekly Earnings"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="iv_files/figure-revealjs/cell-8-output-1.png" width="538" height="523"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section>
+<section id="example-reduced-form-1" class="slide level2">
+<h2>Example: Reduced Form</h2>
+<div id="6e07e2ae" class="cell columns column-output-location" data-execution_count="9">
+<div class="column">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a><span class="co"># Run the reduced form</span></span>
+<span id="cb9-2"><a></a>reduced_form <span class="op">=</span> smf.ols(<span class="st">"log_wage ~ C(year_of_birth) + C(state_of_birth) + q4"</span>, data<span class="op">=</span>factor_data).fit()</span>
+<span id="cb9-3"><a></a></span>
+<span id="cb9-4"><a></a><span class="bu">print</span>(<span class="st">"q4 parameter estimate:, "</span>, reduced_form.params[<span class="st">"q4"</span>])</span>
+<span id="cb9-5"><a></a><span class="bu">print</span>(<span class="st">"q4 p-value:, "</span>, reduced_form.pvalues[<span class="st">"q4"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
+<div class="cell-output cell-output-stdout">
+<pre><code>q4 parameter estimate:,  0.008603484260139821
+q4 p-value:,  0.001494912718366322</code></pre>
+</div>
+</div></div>
+</section>
+<section id="example-2sls" class="slide level2">
+<h2>Example: 2SLS</h2>
+<div id="b0122293" class="cell columns column-output-location" data-execution_count="10">
+<div class="column">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>ate_iv <span class="op">=</span> reduced_form.params[<span class="st">"q4"</span>] <span class="op">/</span> first_stage.params[<span class="st">"q4"</span>]</span>
+<span id="cb11-2"><a></a><span class="bu">print</span>(<span class="st">"ATE (IV):"</span>, ate_iv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
+<div class="cell-output cell-output-stdout">
+<pre><code>ATE (IV): 0.08530286492085</code></pre>
+</div>
+</div></div>
+</section>
+<section id="example-returns-to-education-4" class="slide level2">
+<h2>Example: Returns to Education</h2>
+<ul>
+<li>Use a package for IV
+<ul>
+<li><code>ivmodels</code> (best support for weak instrument robust inference)</li>
+<li><code>pyfixest.feols</code></li>
+<li><code>statsmodels.sandbox.regression.gmm.IV2SLS</code></li>
+<li><code>linearmodels.iv.IV2SLS</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="example-linearmodels" class="slide level2">
+<h2>Example: <code>linearmodels</code></h2>
+<div id="6ec2efe9" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a><span class="im">from</span> linearmodels.iv <span class="im">import</span> IV2SLS</span>
+<span id="cb13-2"><a></a></span>
+<span id="cb13-3"><a></a>formula <span class="op">=</span> <span class="st">'log_wage ~ 1 + C(year_of_birth) + C(state_of_birth) + [years_of_schooling ~ q4]'</span></span>
+<span id="cb13-4"><a></a>iv <span class="op">=</span> IV2SLS.from_formula(formula, data<span class="op">=</span>factor_data).fit()</span>
+<span id="cb13-5"><a></a><span class="bu">print</span>(iv.summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                          IV-2SLS Estimation Summary                          
+==============================================================================
+Dep. Variable:               log_wage   R-squared:                      0.1217
+Estimator:                    IV-2SLS   Adj. R-squared:                 0.1215
+No. Observations:              329509   F-statistic:                 1.028e+04
+Date:                Wed, Nov 20 2024   P-value (F-stat)                0.0000
+Time:                        12:02:10   Distribution:                 chi2(60)
+Cov. Estimator:                robust                                         
+                                                                              
+                                     Parameter Estimates                                     
+=============================================================================================
+                           Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+---------------------------------------------------------------------------------------------
+Intercept                     4.7468     0.2904     16.348     0.0000      4.1777      5.3158
+C(year_of_birth)[T.31.0]     -0.0078     0.0063    -1.2384     0.2156     -0.0201      0.0045
+C(year_of_birth)[T.32.0]     -0.0145     0.0073    -1.9698     0.0489     -0.0288   -7.25e-05
+C(year_of_birth)[T.33.0]     -0.0174     0.0086    -2.0367     0.0417     -0.0342     -0.0007
+C(year_of_birth)[T.34.0]     -0.0217     0.0094    -2.3012     0.0214     -0.0401     -0.0032
+C(year_of_birth)[T.35.0]     -0.0344     0.0108    -3.1821     0.0015     -0.0556     -0.0132
+C(year_of_birth)[T.36.0]     -0.0347     0.0118    -2.9309     0.0034     -0.0579     -0.0115
+C(year_of_birth)[T.37.0]     -0.0410     0.0132    -3.0976     0.0020     -0.0670     -0.0151
+C(year_of_birth)[T.38.0]     -0.0433     0.0152    -2.8520     0.0043     -0.0730     -0.0135
+C(year_of_birth)[T.39.0]     -0.0547     0.0161    -3.3887     0.0007     -0.0864     -0.0231
+C(state_of_birth)[T.2.0]      0.2272     0.1060     2.1433     0.0321      0.0194      0.4350
+C(state_of_birth)[T.4.0]      0.1215     0.0404     3.0083     0.0026      0.0424      0.2007
+C(state_of_birth)[T.5.0]      0.0431     0.0123     3.5103     0.0004      0.0190      0.0671
+C(state_of_birth)[T.6.0]      0.1351     0.0557     2.4268     0.0152      0.0260      0.2442
+C(state_of_birth)[T.8.0]      0.0920     0.0435     2.1143     0.0345      0.0067      0.1774
+C(state_of_birth)[T.9.0]      0.1051     0.0429     2.4511     0.0142      0.0211      0.1891
+C(state_of_birth)[T.10.0]     0.0796     0.0280     2.8408     0.0045      0.0247      0.1346
+C(state_of_birth)[T.11.0]     0.1162     0.0572     2.0317     0.0422      0.0041      0.2282
+C(state_of_birth)[T.12.0]    -0.0157     0.0278    -0.5651     0.5720     -0.0701      0.0387
+C(state_of_birth)[T.13.0]    -0.0155     0.0119    -1.3003     0.1935     -0.0389      0.0079
+C(state_of_birth)[T.15.0]     0.1256     0.0575     2.1857     0.0288      0.0130      0.2382
+C(state_of_birth)[T.16.0]     0.0718     0.0497     1.4450     0.1485     -0.0256      0.1693
+C(state_of_birth)[T.17.0]     0.1762     0.0429     4.1080     0.0000      0.0921      0.2603
+C(state_of_birth)[T.18.0]     0.1341     0.0288     4.6494     0.0000      0.0775      0.1906
+C(state_of_birth)[T.19.0]     0.0735     0.0382     1.9251     0.0542     -0.0013      0.1483
+C(state_of_birth)[T.20.0]     0.0420     0.0462     0.9081     0.3638     -0.0486      0.1326
+C(state_of_birth)[T.21.0]     0.1194     0.0153     7.7839     0.0000      0.0893      0.1495
+C(state_of_birth)[T.22.0]     0.0883     0.0150     5.8957     0.0000      0.0589      0.1176
+C(state_of_birth)[T.23.0]    -0.0236     0.0219    -1.0779     0.2811     -0.0666      0.0193
+C(state_of_birth)[T.24.0]     0.1048     0.0225     4.6641     0.0000      0.0608      0.1489
+C(state_of_birth)[T.25.0]     0.0783     0.0463     1.6916     0.0907     -0.0124      0.1691
+C(state_of_birth)[T.26.0]     0.2035     0.0342     5.9550     0.0000      0.1365      0.2705
+C(state_of_birth)[T.27.0]     0.1236     0.0393     3.1445     0.0017      0.0466      0.2006
+C(state_of_birth)[T.28.0]    -0.0170     0.0133    -1.2800     0.2005     -0.0431      0.0090
+C(state_of_birth)[T.29.0]     0.0955     0.0273     3.4927     0.0005      0.0419      0.1491
+C(state_of_birth)[T.30.0]     0.0479     0.0469     1.0222     0.3067     -0.0440      0.1398
+C(state_of_birth)[T.31.0]     0.0610     0.0442     1.3793     0.1678     -0.0257      0.1476
+C(state_of_birth)[T.32.0]     0.1220     0.0609     2.0047     0.0450      0.0027      0.2413
+C(state_of_birth)[T.33.0]     0.0036     0.0294     0.1226     0.9024     -0.0540      0.0611
+C(state_of_birth)[T.34.0]     0.1390     0.0453     3.0702     0.0021      0.0503      0.2277
+C(state_of_birth)[T.35.0]     0.0552     0.0285     1.9373     0.0527     -0.0006      0.1110
+C(state_of_birth)[T.36.0]     0.1254     0.0517     2.4242     0.0153      0.0240      0.2268
+C(state_of_birth)[T.37.0]    -0.0562     0.0100    -5.6174     0.0000     -0.0758     -0.0366
+C(state_of_birth)[T.38.0]     0.1076     0.0360     2.9885     0.0028      0.0370      0.1781
+C(state_of_birth)[T.39.0]     0.1429     0.0328     4.3559     0.0000      0.0786      0.2071
+C(state_of_birth)[T.40.0]     0.0679     0.0349     1.9475     0.0515     -0.0004      0.1362
+C(state_of_birth)[T.41.0]     0.1069     0.0515     2.0749     0.0380      0.0059      0.2079
+C(state_of_birth)[T.42.0]     0.1103     0.0304     3.6256     0.0003      0.0507      0.1699
+C(state_of_birth)[T.44.0]     0.0236     0.0352     0.6715     0.5019     -0.0454      0.0927
+C(state_of_birth)[T.45.0]    -0.0723     0.0163    -4.4362     0.0000     -0.1043     -0.0404
+C(state_of_birth)[T.46.0]     0.0500     0.0419     1.1946     0.2323     -0.0320      0.1321
+C(state_of_birth)[T.47.0]     0.0513     0.0115     4.4653     0.0000      0.0288      0.0738
+C(state_of_birth)[T.48.0]     0.0708     0.0262     2.7014     0.0069      0.0194      0.1221
+C(state_of_birth)[T.49.0]     0.1001     0.0590     1.6968     0.0897     -0.0155      0.2158
+C(state_of_birth)[T.50.0]    -0.0508     0.0276    -1.8360     0.0664     -0.1049      0.0034
+C(state_of_birth)[T.51.0]     0.0362     0.0126     2.8697     0.0041      0.0115      0.0610
+C(state_of_birth)[T.53.0]     0.1533     0.0511     2.9998     0.0027      0.0532      0.2535
+C(state_of_birth)[T.54.0]     0.1256     0.0112     11.224     0.0000      0.1037      0.1476
+C(state_of_birth)[T.55.0]     0.1051     0.0337     3.1212     0.0018      0.0391      0.1711
+C(state_of_birth)[T.56.0]     0.1100     0.0548     2.0086     0.0446      0.0027      0.2174
+years_of_schooling            0.0853     0.0255     3.3399     0.0008      0.0352      0.1354
+=============================================================================================
+
+Endogenous: years_of_schooling
+Instruments: q4
+Robust Covariance (Heteroskedastic)
+Debiased: False</code></pre>
+</div>
+</div>
+</section>
+<section id="example-pyfixest" class="slide level2">
+<h2>Example: <code>pyfixest</code></h2>
+<div id="cce35953" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a><span class="im">import</span> pyfixest <span class="im">as</span> pf</span>
+<span id="cb15-2"><a></a>ivpf <span class="op">=</span> pf.feols(<span class="st">'log_wage ~ 1 | state_of_birth + year_of_birth | years_of_schooling ~ q4'</span>, data<span class="op">=</span>factor_data, vcov<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb15-3"><a></a>pf.etable(ivpf, <span class="bu">type</span><span class="op">=</span><span class="st">'md'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+            <div id="MIxnLf"></div>
+            <script type="text/javascript" data-lets-plot-script="library">
+                if(!window.letsPlotCallQueue) {
+                    window.letsPlotCallQueue = [];
+                }; 
+                window.letsPlotCall = function(f) {
+                    window.letsPlotCallQueue.push(f);
+                };
+                (function() {
+                    var script = document.createElement("script");
+                    script.type = "text/javascript";
+                    script.src = "https://cdn.jsdelivr.net/gh/JetBrains/lets-plot@v4.5.1/js-package/distr/lets-plot.min.js";
+                    script.onload = function() {
+                        window.letsPlotCall = function(f) {f();};
+                        window.letsPlotCallQueue.forEach(function(f) {f();});
+                        window.letsPlotCallQueue = [];
+                        
+                    };
+                    script.onerror = function(event) {
+                        window.letsPlotCall = function(f) {};    // noop
+                        window.letsPlotCallQueue = [];
+                        var div = document.createElement("div");
+                        div.style.color = 'darkred';
+                        div.textContent = 'Error loading Lets-Plot JS';
+                        document.getElementById("MIxnLf").appendChild(div);
+                    };
+                    var e = document.getElementById("MIxnLf");
+                    e.appendChild(script);
+                })()
+            </script>
+            
+</div>
+<div class="cell-output cell-output-display">
+
+            <div id="aL1QnQ"></div>
+            <script type="text/javascript" data-lets-plot-script="library">
+                if(!window.letsPlotCallQueue) {
+                    window.letsPlotCallQueue = [];
+                }; 
+                window.letsPlotCall = function(f) {
+                    window.letsPlotCallQueue.push(f);
+                };
+                (function() {
+                    var script = document.createElement("script");
+                    script.type = "text/javascript";
+                    script.src = "https://cdn.jsdelivr.net/gh/JetBrains/lets-plot@v4.5.1/js-package/distr/lets-plot.min.js";
+                    script.onload = function() {
+                        window.letsPlotCall = function(f) {f();};
+                        window.letsPlotCallQueue.forEach(function(f) {f();});
+                        window.letsPlotCallQueue = [];
+                        
+                    };
+                    script.onerror = function(event) {
+                        window.letsPlotCall = function(f) {};    // noop
+                        window.letsPlotCallQueue = [];
+                        var div = document.createElement("div");
+                        div.style.color = 'darkred';
+                        div.textContent = 'Error loading Lets-Plot JS';
+                        document.getElementById("aL1QnQ").appendChild(div);
+                    };
+                    var e = document.getElementById("aL1QnQ");
+                    e.appendChild(script);
+                })()
+            </script>
+            
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>index                    est1
+------------------  ---------
+depvar               log_wage
+-----------------------------
+years_of_schooling  0.085***
+                      (0.026)
+-----------------------------
+year_of_birth               x
+state_of_birth              x
+-----------------------------
+Observations           329509
+S.E. type              hetero
+R2                          -
+-----------------------------
+</code></pre>
+</div>
+</div>
+</section>
+<section id="example-ivmodels" class="slide level2">
+<h2>Example: <code>ivmodels</code></h2>
+<div id="3f591d51" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a><span class="im">from</span> patsy <span class="im">import</span> dmatrices</span>
+<span id="cb17-2"><a></a><span class="im">import</span> ivmodels</span>
+<span id="cb17-3"><a></a>y,X <span class="op">=</span> dmatrices(<span class="st">"log_wage ~ 0 + years_of_schooling"</span>, data<span class="op">=</span>factor_data, return_type<span class="op">=</span><span class="st">'dataframe'</span>)</span>
+<span id="cb17-4"><a></a>Z,controls <span class="op">=</span> dmatrices(<span class="st">"q4 ~  C(year_of_birth) + C(state_of_birth)"</span>, data<span class="op">=</span>factor_data, return_type<span class="op">=</span><span class="st">'dataframe'</span>)</span>
+<span id="cb17-5"><a></a>controls.drop(<span class="st">"Intercept"</span>, axis<span class="op">=</span><span class="dv">1</span>,inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb17-6"><a></a></span>
+<span id="cb17-7"><a></a>ivm <span class="op">=</span> ivmodels.KClass(<span class="dv">1</span>).fit(X<span class="op">=</span>X,y<span class="op">=</span>y,Z<span class="op">=</span>Z,C<span class="op">=</span>controls)</span>
+<span id="cb17-8"><a></a>sw <span class="op">=</span> ivm.summary(X<span class="op">=</span>X,y<span class="op">=</span>y,Z<span class="op">=</span>Z,C<span class="op">=</span>controls, test<span class="op">=</span><span class="st">'wald'</span>, feature_names<span class="op">=</span>[<span class="st">"years_of_schooling"</span>])</span>
+<span id="cb17-9"><a></a><span class="bu">print</span>(sw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Summary based on the wald test.
+
+                    estimate  statistic    p-value          conf. set
+years_of_schooling    0.0853      11.15  0.0008402  [0.03523, 0.1354]
+
+Endogenous model statistic: 11.15, p-value: 0.0008402
+(Multivariate) F-statistic: 61.09, p-value: 5.44e-15</code></pre>
+</div>
+</div>
+</section></section>
+<section>
+<section id="weak-instruments" class="title-slide slide level1 center">
+<h1>Weak Instruments</h1>
+
+</section>
+<section id="weak-instruments-1" class="slide level2">
+<h2>Weak Instruments</h2>
+<ul>
+<li>One endogenous regressor, one instrument
+<ul>
+<li>Structural equation <span class="math display">\[
+y_i = \beta_0 + \beta_1 x_i + \epsilon_i
+\]</span></li>
+<li>First stage <span class="math display">\[
+x_i = \pi_0^x + \pi_1^x z_i + u_i^x
+\]</span></li>
+<li>Reduced Form <span class="math display">\[
+y_i = \pi_0^y + \pi_1^y z_i + u_i^y
+\]</span></li>
+</ul></li>
+<li><span class="math inline">\(\text{2SLS} = \frac{\text{Reduced Form}}{\text{First Stage}}\)</span></li>
+<li><span class="math inline">\(\hat{\beta}^{2SLS}_1 = \frac{\hat{\pi}_1^y}{\hat{\pi}_1^x}\)</span></li>
+</ul>
+</section>
+<section id="weak-instruments-2" class="slide level2">
+<h2>Weak Instruments</h2>
+<ul>
+<li><span class="math inline">\(\hat{\beta}^{2SLS}_1 = \frac{\hat{\pi}_1^y}{\hat{\pi}_1^x}\)</span></li>
+<li>If <span class="math inline">\(z\)</span> not relevant, then divide by <span class="math inline">\(0\)</span></li>
+<li>Even if <span class="math inline">\(z\)</span> relevant, if <span class="math inline">\(\hat{\pi}_1^x\)</span> is too likely near 0, then <span class="math inline">\(\hat{\beta}^{2SLS}_1\)</span> will be messed up
+<ul>
+<li>usual asymptotic normal distribution becomes a poor approximation to true finite sample distribution of <span class="math inline">\(\hat{\beta}^{2SLS}_1\)</span></li>
+</ul></li>
+<li>“too likely near 0” is more common than one might think</li>
+</ul>
+</section>
+<section id="weak-instrument-simulation" class="slide level2">
+<h2>Weak Instrument Simulation</h2>
+<ul>
+<li><p>First stage <span class="math inline">\(X = Z\gamma + e\)</span>, simulation with <span class="math inline">\(\Er[Z_i Z_i] = I\)</span> and <span class="math inline">\(e \sim N(0,0.25)\)</span>, so first stage <span class="math inline">\(t \approx \sqrt{n}\gamma/0.5\)</span></p></li>
+<li><p>Distribution of <span class="math inline">\(\hat{\beta}^{2SLS}\)</span> with <span class="math inline">\(\gamma = 1\)</span>, <span class="math inline">\(\gamma=0.5\)</span>, <span class="math inline">\(\gamma=0.2\)</span>, and <span class="math inline">\(\gamma=0.1\)</span> and <span class="math inline">\(n=100\)</span></p>
+<ul>
+<li>implies first stage t-statistics of <span class="math inline">\(20\)</span>, <span class="math inline">\(10\)</span>, <span class="math inline">\(4\)</span>, and <span class="math inline">\(2\)</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="weak-instrument-simulation-hatbeta2sls" class="slide level2">
+<h2>Weak Instrument Simulation : <span class="math inline">\(\hat{\beta}^{2SLS}\)</span></h2>
+<div id="44f8c8a7" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb19-2"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb19-3"><a></a><span class="im">import</span> scipy</span>
+<span id="cb19-4"><a></a>n <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb19-5"><a></a>gamma <span class="op">=</span> [<span class="dv">1</span>,<span class="fl">0.5</span>, <span class="fl">0.2</span>,<span class="fl">0.1</span>]</span>
+<span id="cb19-6"><a></a>sig <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb19-7"><a></a>Exe<span class="op">=</span><span class="fl">1.0</span></span>
+<span id="cb19-8"><a></a></span>
+<span id="cb19-9"><a></a><span class="kw">def</span> simiv(n,gamma,sig, b0, Exe):</span>
+<span id="cb19-10"><a></a>   z <span class="op">=</span> np.random.randn(n)</span>
+<span id="cb19-11"><a></a>   xe <span class="op">=</span> np.random.randn(n)</span>
+<span id="cb19-12"><a></a>   x <span class="op">=</span> z<span class="op">*</span>gamma <span class="op">+</span> (xe<span class="op">*</span>Exe <span class="op">+</span> np.random.randn(n))<span class="op">/</span>np.sqrt(<span class="dv">1</span><span class="op">+</span>Exe<span class="op">**</span><span class="dv">2</span>)<span class="op">*</span>sig</span>
+<span id="cb19-13"><a></a>   e <span class="op">=</span> xe <span class="op">+</span> np.random.randn(n)</span>
+<span id="cb19-14"><a></a>   y <span class="op">=</span> x<span class="op">*</span>b0 <span class="op">+</span> e</span>
+<span id="cb19-15"><a></a>   <span class="cf">return</span>(y,x,z)</span>
+<span id="cb19-16"><a></a></span>
+<span id="cb19-17"><a></a><span class="kw">def</span> b2sls(y,x,z) :</span>
+<span id="cb19-18"><a></a>    <span class="cf">return</span>(np.dot(z,y)<span class="op">/</span>np.dot(z,x))</span>
+<span id="cb19-19"><a></a></span>
+<span id="cb19-20"><a></a>S <span class="op">=</span> <span class="dv">10_000</span></span>
+<span id="cb19-21"><a></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb19-22"><a></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>,num<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb19-23"><a></a>b0 <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb19-24"><a></a></span>
+<span id="cb19-25"><a></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(gamma)):</span>
+<span id="cb19-26"><a></a>    se <span class="op">=</span> np.sqrt(<span class="dv">2</span><span class="op">/</span>n)<span class="op">/</span>(gamma[j])</span>
+<span id="cb19-27"><a></a>    phix <span class="op">=</span> scipy.stats.norm(loc<span class="op">=</span>b0,scale<span class="op">=</span>se).pdf(x<span class="op">*</span>se <span class="op">+</span> b0)</span>
+<span id="cb19-28"><a></a>    b <span class="op">=</span> np.array([(<span class="kw">lambda</span> x: b2sls(x[<span class="dv">0</span>],x[<span class="dv">1</span>],x[<span class="dv">2</span>]))(simiv(n,gamma[j],sig,b0,Exe)) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(S)])</span>
+<span id="cb19-29"><a></a>    sns.histplot(b, ax<span class="op">=</span>ax.flat[j], stat<span class="op">=</span><span class="st">'density'</span>)</span>
+<span id="cb19-30"><a></a>    ax.flat[j].set_title(<span class="ss">f"First stage E[t]=</span><span class="sc">{</span>np<span class="sc">.</span>sqrt(n)<span class="op">*</span>gamma[j]<span class="op">/</span>sig<span class="sc">:.3}</span><span class="ss">"</span>)</span>
+<span id="cb19-31"><a></a>    ax.flat[j].plot(x<span class="op">*</span>se<span class="op">+</span>b0,phix)</span>
+<span id="cb19-32"><a></a>    ax.flat[j].set_xlim(<span class="op">-</span><span class="dv">3</span><span class="op">*</span>se <span class="op">+</span><span class="dv">1</span>,<span class="dv">3</span><span class="op">*</span>se<span class="op">+</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="weak-instrument-simulation-hatbeta2sls-output" class="slide level2 output-location-slide"><h2>Weak Instrument Simulation : <span class="math inline">\(\hat{\beta}^{2SLS}\)</span></h2><div class="cell output-location-slide" data-execution_count="14">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="iv_files/figure-revealjs/cell-14-output-1.png" width="812" height="431"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="weak-instrument-simulation-t-stat" class="slide level2">
+<h2>Weak Instrument Simulation : t-stat</h2>
+<div id="919493d1" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a><span class="kw">def</span> t2sls(y,x,z, b0<span class="op">=</span><span class="dv">1</span>) :</span>
+<span id="cb20-2"><a></a>    b <span class="op">=</span> b2sls(y,x,z)</span>
+<span id="cb20-3"><a></a>    u <span class="op">=</span> y <span class="op">-</span> x<span class="op">*</span>b</span>
+<span id="cb20-4"><a></a>    se <span class="op">=</span> np.sqrt(u.var()<span class="op">*</span>np.dot(z,z)<span class="op">/</span>(np.dot(x,z)<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb20-5"><a></a>    t <span class="op">=</span> (b<span class="op">-</span>b0)<span class="op">/</span>se</span>
+<span id="cb20-6"><a></a>    <span class="cf">return</span>(t)</span>
+<span id="cb20-7"><a></a></span>
+<span id="cb20-8"><a></a>S <span class="op">=</span> <span class="dv">10_000</span></span>
+<span id="cb20-9"><a></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb20-10"><a></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>,num<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb20-11"><a></a>phix <span class="op">=</span> scipy.stats.norm.pdf(x)</span>
+<span id="cb20-12"><a></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(gamma)):</span>
+<span id="cb20-13"><a></a>    ts <span class="op">=</span> np.array([(<span class="kw">lambda</span> x: t2sls(x[<span class="dv">0</span>],x[<span class="dv">1</span>],x[<span class="dv">2</span>],b0<span class="op">=</span>b0))(simiv(n,gamma[j],sig,b0,Exe)) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(S)])</span>
+<span id="cb20-14"><a></a>    sns.histplot(ts, ax<span class="op">=</span>ax.flat[j], stat<span class="op">=</span><span class="st">'density'</span>)</span>
+<span id="cb20-15"><a></a>    ax.flat[j].set_title(<span class="ss">f"First stage E[t]=</span><span class="sc">{</span>np<span class="sc">.</span>sqrt(n)<span class="op">*</span>gamma[j]<span class="op">/</span>sig<span class="sc">:.3}</span><span class="ss">"</span>)</span>
+<span id="cb20-16"><a></a>    ax.flat[j].plot(x,phix)</span>
+<span id="cb20-17"><a></a>    ax.flat[j].set_xlim(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="weak-instrument-simulation-t-stat-output" class="slide level2 output-location-slide"><h2>Weak Instrument Simulation : t-stat</h2><div class="cell output-location-slide" data-execution_count="15">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="iv_files/figure-revealjs/cell-15-output-1.png" width="816" height="431"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="weak-instruments-3" class="slide level2">
+<h2>Weak Instruments</h2>
+<ul>
+<li>Lessons from simulation:
+<ul>
+<li>When <span class="math inline">\(\Er[Z_i X_i']\)</span> is small, usual asymptotic distribution is a poor approximation for the finite sample distribution of <span class="math inline">\(\hat{\beta}^{IV}\)</span></li>
+<li>The approximation can be poor even when <span class="math inline">\(H_0: \gamma = 0\)</span> in <span class="math inline">\(X = Z\gamma + e\)</span> would be rejected</li>
+</ul></li>
+</ul>
+</section>
+<section id="first-stage-f-statistic" class="slide level2">
+<h2>First stage F-statistic</h2>
+<ul>
+<li>Always report first stage “effective” F-statistic</li>
+</ul>
+<div id="e8e9435e" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a>y,x,z <span class="op">=</span> simiv(n,gamma[<span class="dv">3</span>],sig, b0, Exe)</span>
+<span id="cb21-2"><a></a>model<span class="op">=</span>pf.feols(<span class="st">'y ~ 1 | 0 | x ~ z'</span>, pd.DataFrame({<span class="st">'y'</span>:y,<span class="st">'x'</span>:x, <span class="st">'z'</span>: z}))</span>
+<span id="cb21-3"><a></a>model.IV_Diag()</span>
+<span id="cb21-4"><a></a>model._eff_F</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>np.float64(10.154922831994867)</code></pre>
+</div>
+</div>
+<ul>
+<li>If <span class="math inline">\(F &gt;&gt; 100\)</span>, everything okay
+<ul>
+<li>(old advice of <span class="math inline">\(F&gt;10\)</span> is not enough)</li>
+<li>Even larger needed if more instruments</li>
+</ul></li>
+<li>Else, use different method for confidence intervals and testing</li>
+</ul>
+</section>
+<section id="identification-robust-inference" class="slide level2">
+<h2>Identification Robust Inference</h2>
+<div>
+<ul>
+<li class="fragment"><p>Can we find a better approximation to the finite sample distribution when <span class="math inline">\(\Er[Z_i X_i']\)</span> is small?</p></li>
+<li class="fragment"><p>Yes, two approaches lead to the same answers:</p>
+<ol type="1">
+<li class="fragment">Require uniform (over values of <span class="math inline">\(\Er[Z_iX_i']\)</span>) converge</li>
+<li class="fragment">Weak instrument asymptotics (instead of <span class="math inline">\(\Er[Z_i X_i]\)</span> fixed with <span class="math inline">\(n\)</span>, suppose <span class="math inline">\(\Er[Z_i X_i'] = C/\sqrt{n}\)</span>)</li>
+</ol></li>
+<li class="fragment"><p>Identification robust tests:</p>
+<ul>
+<li class="fragment">Anderson Rubin (okay when just identified — number of instruments = number of endogenous regressors)</li>
+<li class="fragment">Conditional likelihood ratio</li>
+<li class="fragment">Lagrange multiplier</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="identification-robust-inference-1" class="slide level2">
+<h2>Identification Robust Inference</h2>
+<ul>
+<li><code>ivmodels</code> from <span class="citation" data-cites="londschien2024">Londschien and Bühlmann (<a href="#/sources-and-further-reading" role="doc-biblioref" onclick="">2024</a>)</span> seems like best python package
+<ul>
+<li>convenient confidence intervals</li>
+<li>downside: assumes homoscedasticity</li>
+</ul></li>
+</ul>
+<div id="948096a6" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a>y,X <span class="op">=</span> dmatrices(<span class="st">"log_wage ~ 0 + years_of_schooling"</span>, data<span class="op">=</span>factor_data, return_type<span class="op">=</span><span class="st">'dataframe'</span>)</span>
+<span id="cb23-2"><a></a>Z,controls <span class="op">=</span> dmatrices(<span class="st">"q4 ~  C(year_of_birth) + C(state_of_birth)"</span>, data<span class="op">=</span>factor_data, return_type<span class="op">=</span><span class="st">'dataframe'</span>)</span>
+<span id="cb23-3"><a></a>controls.drop(<span class="st">"Intercept"</span>, axis<span class="op">=</span><span class="dv">1</span>,inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb23-4"><a></a>ivm <span class="op">=</span> ivmodels.KClass(<span class="dv">1</span>).fit(X<span class="op">=</span>X,y<span class="op">=</span>y,Z<span class="op">=</span>Z,C<span class="op">=</span>controls)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="e3037e8e" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a></a>sa <span class="op">=</span> ivm.summary(X<span class="op">=</span>X,y<span class="op">=</span>y,Z<span class="op">=</span>Z,C<span class="op">=</span>controls, test<span class="op">=</span><span class="st">'anderson-rubin'</span>, feature_names<span class="op">=</span>[<span class="st">"years_of_schooling"</span>])</span>
+<span id="cb24-2"><a></a><span class="bu">print</span>(sa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Summary based on the anderson-rubin test.
+
+                    estimate  statistic   p-value          conf. set
+years_of_schooling    0.0853      10.09  0.001495  [0.03477, 0.1382]
+
+Endogenous model statistic: 10.09, p-value: 0.001495
+(Multivariate) F-statistic: 61.09, p-value: 5.44e-15</code></pre>
+</div>
+</div>
+<div id="9d6de5b7" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a></a>sl <span class="op">=</span> ivm.summary(X<span class="op">=</span>X,y<span class="op">=</span>y,Z<span class="op">=</span>Z,C<span class="op">=</span>controls, test<span class="op">=</span><span class="st">'lagrange multiplier'</span>, feature_names<span class="op">=</span>[<span class="st">"years_of_schooling"</span>])</span>
+<span id="cb26-2"><a></a><span class="bu">print</span>(sl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Summary based on the lagrange multiplier test.
+
+                    estimate  statistic   p-value          conf. set
+years_of_schooling    0.0853      10.09  0.001495  [0.03477, 0.1382]
+
+Endogenous model statistic: 10.09, p-value: 0.001495
+(Multivariate) F-statistic: 61.09, p-value: 5.44e-15</code></pre>
+</div>
+</div>
+</section>
 <section id="sources-and-further-reading" class="slide level2 smaller scrollable">
 <h2>Sources and Further Reading</h2>
 <ul>
-<li><p><a href="https://matheusfacure.github.io/python-causality-handbook/08-Instrumental-Variables.html">Chapter 8</a> of <span class="citation" data-cites="facure2022">Facure (<a href="#/sources-and-further-reading" role="doc-biblioref" onclick="">2022</a>)</span></p></li>
+<li><p><a href="https://matheusfacure.github.io/python-causality-handbook/08-Instrumental-Variables.html">Chapter 8 and 9</a> of <span class="citation" data-cites="facure2022">Facure (<a href="#/sources-and-further-reading" role="doc-biblioref" onclick="">2022</a>)</span></p></li>
 <li><p>Chapters 6, 12, and 13 of <span class="citation" data-cites="causalml2024">Chernozhukov et al. (<a href="#/sources-and-further-reading" role="doc-biblioref" onclick="">2024</a>)</span></p></li>
 <li><p><a href="https://www.theeffectbook.net/ch-InstrumentalVariables.html">The Effect: Chapter 19 - Instrumental Variables</a> <span class="citation" data-cites="hk2021">Huntington-Klein (<a href="#/sources-and-further-reading" role="doc-biblioref" onclick="">2021</a>)</span></p></li>
 </ul>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-ak1991" class="csl-entry" role="listitem">
+Angrist, Joshua D., and Alan B. Krueger. 1991. <span>“Does Compulsory School Attendance Affect Schooling and Earnings?”</span> <em>The Quarterly Journal of Economics</em> 106 (4): pp. 979–1014. <a href="http://www.jstor.org/stable/2937954">http://www.jstor.org/stable/2937954</a>.
+</div>
 <div id="ref-causalml2024" class="csl-entry" role="listitem">
 Chernozhukov, V., C. Hansen, N. Kallus, M. Spindler, and V. Syrgkanis. 2024. <em>Applied Causal Inference Powered by ML and AI</em>. <a href="https://causalml-book.org/">https://causalml-book.org/</a>.
 </div>
@@ -409,6 +1356,9 @@ Facure, Matheus. 2022. <em>Causal Inference for the Brave and True</em>. <a href
 </div>
 <div id="ref-hk2021" class="csl-entry" role="listitem">
 Huntington-Klein, Nick. 2021. <em>The Effect: An Introduction to Research Design and Causality</em>. CRC Press. <a href="https://theeffectbook.net/">https://theeffectbook.net/</a>.
+</div>
+<div id="ref-londschien2024" class="csl-entry" role="listitem">
+Londschien, Malte, and Peter Bühlmann. 2024. <span>“Weak-Instrument-Robust Subvector Inference in Instrumental Variables Regression: A Subvector Lagrange Multiplier Test and Properties of Subvector Anderson-Rubin Confidence Sets.”</span> <a href="https://arxiv.org/abs/2407.15256">https://arxiv.org/abs/2407.15256</a>.
 </div>
 </div>
 </section></section>

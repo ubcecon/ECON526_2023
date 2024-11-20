@@ -509,7 +509,7 @@ y_{it} = \beta D_{it} + \alpha_i + \delta_t + \epsilon_{it}
 \end{align*}
 \]</span></li>
 </ul>
-<div id="52c82dea" class="cell" data-execution_count="1">
+<div id="52c82dea" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>imports</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -522,7 +522,7 @@ y_{it} = \beta D_{it} + \alpha_i + \delta_t + \epsilon_{it}
 </section>
 <section id="weights" class="slide level2">
 <h2>Weights</h2>
-<div id="fc61240b" class="cell columns column-output-location" data-execution_count="2">
+<div id="fc61240b" class="cell columns column-output-location" data-execution_count="3">
 <div class="column">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a><span class="kw">def</span> assigntreat(n, T, portiontreated):</span>
 <span id="cb2-2"><a></a>    treated <span class="op">=</span> np.zeros((n, T), dtype<span class="op">=</span><span class="bu">bool</span>)</span>
@@ -553,7 +553,7 @@ y_{it} = \beta D_{it} + \alpha_i + \delta_t + \epsilon_{it}
 </section>
 <section id="using-a-package" class="slide level2">
 <h2>Using a package</h2>
-<div id="ecdf8e88" class="cell" data-execution_count="3">
+<div id="ecdf8e88" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="co"># check that it matches fixed effect estimate from a package</span></span>
 <span id="cb4-2"><a></a><span class="im">import</span> pyfixest <span class="im">as</span> pf</span>
 <span id="cb4-3"><a></a></span>
@@ -583,7 +583,7 @@ RMSE: 0.953 R2: 0.109 R2 Within: 0.0 </code></pre>
 </section>
 <section id="weights-with-single-treatment-time" class="slide level2">
 <h2>Weights with Single Treatment Time</h2>
-<div id="35837250" class="cell" data-execution_count="4">
+<div id="35837250" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="kw">def</span> plotD(D,ax):</span>
@@ -625,7 +625,7 @@ RMSE: 0.953 R2: 0.109 R2 Within: 0.0 </code></pre>
 </section>
 <section id="weights-with-early-and-late-treated" class="slide level2">
 <h2>Weights with Early and Late Treated</h2>
-<div id="dfe8e15d" class="cell" data-execution_count="5">
+<div id="dfe8e15d" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>pt <span class="op">=</span> np.zeros(T)</span>
@@ -645,7 +645,7 @@ RMSE: 0.953 R2: 0.109 R2 Within: 0.0 </code></pre>
 </section>
 <section id="sign-reversal" class="slide level2">
 <h2>Sign Reversal</h2>
-<div id="62802db7" class="cell" data-execution_count="6">
+<div id="62802db7" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>dvals <span class="op">=</span> np.unique(D,axis<span class="op">=</span><span class="dv">0</span>)</span>
@@ -765,7 +765,7 @@ y_{it} = \sum_{c=1}^C D_{it} 1\{C_i=c\} \beta_{ct} + \alpha_i + \delta_t + \epsi
 </section>
 <section id="regression-with-cohort-interactions" class="slide level2">
 <h2>Regression with Cohort Interactions</h2>
-<div id="82955398" class="cell" data-execution_count="7">
+<div id="82955398" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a><span class="kw">def</span> definecohort(df):</span>
 <span id="cb10-2"><a></a>    <span class="co"># convert dummies into categorical</span></span>
 <span id="cb10-3"><a></a>    n <span class="op">=</span> <span class="bu">len</span>(df.<span class="bu">id</span>.unique())</span>
@@ -795,7 +795,7 @@ y_{it} = \sum_{c=1}^C D_{it} 1\{C_i=c\} \beta_{ct} + \alpha_i + \delta_t + \epsi
 </div>
 
 </section>
-<section id="regression-with-cohort-interactions-output" class="slide level2 output-location-slide"><h2>Regression with Cohort Interactions</h2><div class="cell output-location-slide" data-execution_count="7">
+<section id="regression-with-cohort-interactions-output" class="slide level2 output-location-slide"><h2>Regression with Cohort Interactions</h2><div class="cell output-location-slide" data-execution_count="8">
 <div class="cell-output cell-output-stdout">
 <pre><code>index                                           est1
 -----------------------------------------  ---------
@@ -833,7 +833,7 @@ R2                                             0.724
 </div>
 </div></section><section id="regression-with-cohort-interactions-1" class="slide level2">
 <h2>Regression with Cohort Interactions</h2>
-<div id="c4631691" class="cell" data-execution_count="8">
+<div id="c4631691" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a><span class="im">import</span> re</span>
 <span id="cb12-2"><a></a><span class="kw">def</span> plotcohortatt(modc):</span>
 <span id="cb12-3"><a></a>    coef <span class="op">=</span> modc.coef()</span>
@@ -862,7 +862,7 @@ R2                                             0.724
 </div>
 
 </section>
-<section id="regression-with-cohort-interactions-1-output" class="slide level2 output-location-slide"><h2>Regression with Cohort Interactions</h2><div class="cell output-location-slide" data-execution_count="8">
+<section id="regression-with-cohort-interactions-1-output" class="slide level2 output-location-slide"><h2>Regression with Cohort Interactions</h2><div class="cell output-location-slide" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -897,7 +897,7 @@ c\}}\)</span> consistently estimates <span class="math inline">\(\Er[y_{it} | C_
 </section>
 <section id="regression-with-cohort-time-interactions-3" class="slide level2">
 <h2>Regression with Cohort-Time Interactions</h2>
-<div id="fbf843a2" class="cell" data-execution_count="9">
+<div id="fbf843a2" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a>modct <span class="op">=</span> pf.feols(<span class="st">"y ~ C(cohort)*C(t) | id + t"</span>,dfc, vcov<span class="op">=</span>{<span class="st">"CRV1"</span>:<span class="st">"id"</span>})</span>
 <span id="cb13-2"><a></a>pf.etable(modct, <span class="bu">type</span><span class="op">=</span><span class="st">'md'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -977,7 +977,7 @@ R2                              0.725
 </section>
 <section id="pre-trends-2" class="slide level2">
 <h2>Pre-trends</h2>
-<div id="6a37d497" class="cell" data-execution_count="10">
+<div id="6a37d497" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a><span class="kw">def</span> eventstudyplot(modct) :</span>
 <span id="cb15-2"><a></a>    evdf <span class="op">=</span> pd.DataFrame(index<span class="op">=</span>modct.coef().index, columns<span class="op">=</span>[<span class="st">'c'</span>, <span class="st">'t'</span>,<span class="st">'delta'</span>,<span class="st">'did'</span>,<span class="st">'se'</span>,<span class="st">'vindex'</span>])</span>
 <span id="cb15-3"><a></a>    pattern<span class="op">=</span><span class="vs">r".+T\.(\d+).+\[T\.(\d+)\]"</span></span>
@@ -1032,7 +1032,7 @@ R2                              0.725
 </div>
 
 </section>
-<section id="pre-trends-2-output" class="slide level2 output-location-slide"><h2>Pre-trends</h2><div class="cell output-location-slide" data-execution_count="10">
+<section id="pre-trends-2-output" class="slide level2 output-location-slide"><h2>Pre-trends</h2><div class="cell output-location-slide" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1087,7 +1087,7 @@ H_0 : &amp; \Er[y_{it-r} - y_{it-s} | D_{it}=1, D_{it-r}=0,  D_{it-s}=0] = \\
 </ul></li>
 </ul>
 </section>
-<section id="sources-and-further-reading" class="slide level2">
+<section id="sources-and-further-reading" class="slide level2 smaller">
 <h2>Sources and Further Reading</h2>
 <ul>
 <li><span class="citation" data-cites="facure2022">Facure (<a href="#/references" role="doc-biblioref" onclick="">2022, chap. 1</a>)</span></li>
