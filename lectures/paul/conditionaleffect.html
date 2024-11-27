@@ -506,7 +506,7 @@ CATE(x) = \Er[Y_i(1) - Y_i(0)|X_i = x]
 </ul></li>
 <li>Randomly assigned at kecamatan (district) level</li>
 </ul>
-<div id="2b198334" class="cell" data-execution_count="1">
+<div id="2b198334" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>imports</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -525,7 +525,7 @@ CATE(x) = \Er[Y_i(1) - Y_i(0)|X_i = x]
 </section>
 <section id="data" class="slide level2">
 <h2>Data</h2>
-<div id="ca68a594" class="cell" data-execution_count="2">
+<div id="ca68a594" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>url <span class="op">=</span> <span class="st">"https://datascience.quantecon.org/assets/data/Triyana_2016_price_women_clean.csv"</span></span>
 <span id="cb2-2"><a></a>df <span class="op">=</span> pd.read_csv(url)</span>
 <span id="cb2-3"><a></a>df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -775,7 +775,7 @@ CATE(x) = \Er[Y_i(1) - Y_i(0)|X_i = x]
 </section>
 <section id="average-treatment-effects" class="slide level2">
 <h2>Average Treatment Effects</h2>
-<div id="41505f42" class="cell" data-execution_count="3">
+<div id="41505f42" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>data prep</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="co"># some data prep for later</span></span>
@@ -807,7 +807,7 @@ CATE(x) = \Er[Y_i(1) - Y_i(0)|X_i = x]
 <span id="cb3-27"><a></a>Xl <span class="op">=</span> Xl.rename(columns <span class="op">=</span> <span class="kw">lambda</span> x:re.sub(<span class="st">'[^A-Za-z0-9_]+'</span>, <span class="st">''</span>, x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="25e4da01" class="cell" data-execution_count="4">
+<div id="25e4da01" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="im">from</span> statsmodels.iolib.summary2 <span class="im">import</span> summary_col</span>
 <span id="cb4-2"><a></a>tmp <span class="op">=</span> pd.DataFrame(<span class="bu">dict</span>(birthweight<span class="op">=</span>bw,treatment<span class="op">=</span>treatment,assisted_delivery<span class="op">=</span>df.loc[X.index, <span class="st">"good_assisted_delivery"</span>]))</span>
 <span id="cb4-3"><a></a>usage <span class="op">=</span> smf.ols(<span class="st">"assisted_delivery ~ treatment"</span>, data<span class="op">=</span>tmp).fit(cov_type<span class="op">=</span><span class="st">"cluster"</span>, cov_kwds<span class="op">=</span>{<span class="st">'groups'</span>:loc_id})</span>
@@ -881,7 +881,7 @@ E[y_i(1) - y_i(0) |X_i=x] = &amp; E[y_i(1)|X_i = x] - E[y_i(0)|X_i=x] \\
 <section id="generic-machine-learning-for-heterogeneous-effects-in-randomized-experiments" class="slide level2">
 <h2>Generic Machine Learning for Heterogeneous Effects in Randomized Experiments</h2>
 <ul>
-<li><span class="citation" data-cites="cddf2023">Chernozhukov et al. (<a href="#/references" role="doc-biblioref" onclick="">2023</a>)</span></li>
+<li><span class="citation" data-cites="cddf2023">Victor Chernozhukov et al. (<a href="#/references" role="doc-biblioref" onclick="">2023</a>)</span></li>
 <li>Designed based inference <span class="citation" data-cites="imai2022">Imai and Li (<a href="#/references" role="doc-biblioref" onclick="">2022</a>)</span></li>
 <li>Idea: use any machine learning estimator for <span class="math inline">\(E[y_i | d_i = 0, X_i=x ]\)</span></li>
 <li>Report and do inference on lower dimensional summaries of <span class="math inline">\(E[y_i(1) - y_i(0) |X_i=x]\)</span></li>
@@ -931,7 +931,7 @@ u_i
 </section>
 <section id="code" class="slide level2">
 <h2>Code</h2>
-<div id="2dbe3898" class="cell" data-execution_count="5">
+<div id="2dbe3898" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="co"># for clustering standard errors</span></span>
 <span id="cb5-2"><a></a><span class="kw">def</span> get_treatment_se(fit, cluster_id, rows<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb5-3"><a></a>    <span class="cf">if</span> cluster_id <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
@@ -945,7 +945,7 @@ u_i
 </section>
 <section id="code-1" class="slide level2">
 <h2>Code</h2>
-<div id="1ec7ba29" class="cell" data-execution_count="6">
+<div id="1ec7ba29" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="kw">def</span> generic_ml_model(x, y, treatment, model, n_split<span class="op">=</span><span class="dv">10</span>, n_group<span class="op">=</span><span class="dv">5</span>, cluster_id<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb6-2"><a></a>    nobs <span class="op">=</span> x.shape[<span class="dv">0</span>]</span>
 <span id="cb6-3"><a></a></span>
@@ -1019,7 +1019,7 @@ u_i
 </section>
 <section id="code-2" class="slide level2">
 <h2>Code</h2>
-<div id="014b2124" class="cell" data-execution_count="7">
+<div id="014b2124" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a><span class="kw">def</span> generate_report(results):</span>
 <span id="cb7-2"><a></a>    summaries <span class="op">=</span> <span class="bu">list</span>(<span class="bu">map</span>(generic_ml_summary, results))</span>
 <span id="cb7-3"><a></a>    df_plot <span class="op">=</span> pd.DataFrame({</span>
@@ -1043,7 +1043,7 @@ u_i
 </section>
 <section id="code-3" class="slide level2">
 <h2>Code</h2>
-<div id="2b0691f2" class="cell" data-execution_count="8">
+<div id="2b0691f2" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a><span class="im">import</span> lightgbm <span class="im">as</span> lgb</span>
 <span id="cb8-2"><a></a><span class="im">import</span> io</span>
 <span id="cb8-3"><a></a><span class="im">from</span> contextlib <span class="im">import</span> redirect_stdout, redirect_stderr</span>
@@ -1071,7 +1071,7 @@ u_i
 </section>
 <section id="results-birthweight" class="slide level2">
 <h2>Results: Birthweight</h2>
-<div id="e3fb62b2" class="cell" data-execution_count="9">
+<div id="e3fb62b2" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>results <span class="op">=</span> evaluate_models(models, y<span class="op">=</span>bw)<span class="op">;</span></span>
 <span id="cb9-2"><a></a>report<span class="op">=</span>generate_report(results[<span class="dv">0</span>])</span>
 <span id="cb9-3"><a></a>report[<span class="st">"pairplot"</span>].fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1086,7 +1086,7 @@ u_i
 </section>
 <section id="results-birthweight-1" class="slide level2">
 <h2>Results: Birthweight</h2>
-<div id="d21631f5" class="cell" data-execution_count="10">
+<div id="d21631f5" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>report[<span class="st">"corr"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div>
@@ -1152,7 +1152,7 @@ u_i
 </section>
 <section id="results-birthweight-2" class="slide level2">
 <h2>Results: Birthweight</h2>
-<div id="94368252" class="cell" data-execution_count="11">
+<div id="94368252" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>report[<span class="st">"BLP"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div>
@@ -1221,7 +1221,7 @@ u_i
 </section>
 <section id="results-birthweight-3" class="slide level2">
 <h2>Results: Birthweight</h2>
-<div id="23deec70" class="cell" data-execution_count="12">
+<div id="23deec70" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a>report[<span class="st">"GATE"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <div>
@@ -1332,7 +1332,7 @@ u_i
 </section>
 <section id="results-assisted-delivery" class="slide level2">
 <h2>Results: Assisted Delivery</h2>
-<div id="ecb6d850" class="cell" data-execution_count="13">
+<div id="ecb6d850" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a>ad <span class="op">=</span> df.loc[X.index, <span class="st">"good_assisted_delivery"</span>]</span>
 <span id="cb13-2"><a></a>results_ad <span class="op">=</span> evaluate_models(models, y<span class="op">=</span>ad)</span>
 <span id="cb13-3"><a></a>report_ad<span class="op">=</span>generate_report(results_ad[<span class="dv">0</span>])</span>
@@ -1348,7 +1348,7 @@ u_i
 </section>
 <section id="results-assisted-delivery-1" class="slide level2">
 <h2>Results: Assisted Delivery</h2>
-<div id="4be94847" class="cell" data-execution_count="14">
+<div id="4be94847" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a>report_ad[<span class="st">"corr"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <div>
@@ -1414,7 +1414,7 @@ u_i
 </section>
 <section id="results-assisted-delivery-2" class="slide level2">
 <h2>Results: Assisted Delivery</h2>
-<div id="32a89f7b" class="cell" data-execution_count="15">
+<div id="32a89f7b" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a>report_ad[<span class="st">"BLP"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <div>
@@ -1483,7 +1483,7 @@ u_i
 </section>
 <section id="results-assisted-delivery-3" class="slide level2">
 <h2>Results: Assisted Delivery</h2>
-<div id="236937fa" class="cell" data-execution_count="16">
+<div id="236937fa" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a></a>report_ad[<span class="st">"GATE"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <div>
@@ -1594,7 +1594,7 @@ u_i
 </section>
 <section id="covariate-means-by-group" class="slide level2">
 <h2>Covariate Means by Group</h2>
-<div id="d6dd38bd" class="cell" data-execution_count="17">
+<div id="d6dd38bd" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a><span class="kw">def</span> cov_mean_by_group(y, res, cluster_id):</span>
 <span id="cb17-2"><a></a>    n_group <span class="op">=</span> res[<span class="st">"gate"</span>].shape[<span class="dv">1</span>]</span>
 <span id="cb17-3"><a></a>    gate <span class="op">=</span> res[<span class="st">"gate"</span>].copy()</span>
@@ -1648,7 +1648,7 @@ u_i
 </section>
 <section id="covariate-means-by-group-1" class="slide level2">
 <h2>Covariate Means by Group</h2>
-<div id="b149e0d7" class="cell" data-execution_count="18">
+<div id="b149e0d7" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a>df2 <span class="op">=</span> df.loc[X.index, :]</span>
 <span id="cb18-2"><a></a>df2[<span class="st">"edu99"</span>] <span class="op">=</span> df2.edu <span class="op">==</span> <span class="dv">99</span></span>
 <span id="cb18-3"><a></a>df2[<span class="st">"educ"</span>] <span class="op">=</span> df2[<span class="st">"edu"</span>]</span>
@@ -1662,7 +1662,7 @@ u_i
 </section>
 <section id="covariate-means-by-group-2" class="slide level2">
 <h2>Covariate Means by Group</h2>
-<div id="fee206b4" class="cell" data-execution_count="19">
+<div id="fee206b4" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a>g <span class="op">=</span> groupmeanfig(group_means_ad)</span>
 <span id="cb19-2"><a></a>g.fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -1676,7 +1676,7 @@ u_i
 </section>
 <section id="covariate-means-by-group-3" class="slide level2">
 <h2>Covariate Means by Group</h2>
-<div id="80f1e034" class="cell" data-execution_count="20">
+<div id="80f1e034" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a>g <span class="op">=</span> groupmeanfig(compute_group_means_for_results(results_ad[<span class="dv">0</span>], variables2, df2))</span>
 <span id="cb20-2"><a></a>g.fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -1690,7 +1690,7 @@ u_i
 </section>
 <section id="treatment-participation-by-group" class="slide level2">
 <h2>Treatment Participation by Group</h2>
-<div id="a6c50ac3" class="cell" data-execution_count="21">
+<div id="a6c50ac3" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a>g <span class="op">=</span> groupmeanfig(compute_group_means_for_results(results_ad[<span class="dv">0</span>], [<span class="st">"pkh_ever"</span>], df2))</span>
 <span id="cb21-2"><a></a>g.fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -1707,7 +1707,8 @@ u_i
 <section id="sources-and-further-reading" class="slide level2">
 <h2>Sources and Further Reading</h2>
 <ul>
-<li>Section on generic ML for heterogeneous effects is based on <span class="citation" data-cites="cddf2023">Chernozhukov et al. (<a href="#/references" role="doc-biblioref" onclick="">2023</a>)</span> and my <a href="https://datascience.quantecon.org/applications/heterogeneity.html">earlier notes</a></li>
+<li>Section on generic ML for heterogeneous effects is based on <span class="citation" data-cites="cddf2023">Victor Chernozhukov et al. (<a href="#/references" role="doc-biblioref" onclick="">2023</a>)</span> and my <a href="https://datascience.quantecon.org/applications/heterogeneity.html">earlier notes</a></li>
+<li>Chapter 15 of <span class="citation" data-cites="causalml2024">V. Chernozhukov et al. (<a href="#/references" role="doc-biblioref" onclick="">2024</a>)</span></li>
 </ul>
 </section>
 <section id="references" class="slide level2 smaller scrollable">
@@ -1717,6 +1718,9 @@ u_i
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-alatas2011" class="csl-entry" role="listitem">
 Alatas, Vivi, Nur Cahyadi, Elisabeth Ekasari, Sarah Harmoun, Budi Hidayat, Edgar Janz, Jon Jellema, H Tuhiman, and M Wai-Poi. 2011. <span>“Program Keluarga Harapan : Impact Evaluation of Indonesia’s Pilot Household Conditional Cash Transfer Program.”</span> World Bank. <a href="http://documents.worldbank.org/curated/en/589171468266179965/Program-Keluarga-Harapan-impact-evaluation-of-Indonesias-Pilot-Household-Conditional-Cash-Transfer-Program">http://documents.worldbank.org/curated/en/589171468266179965/Program-Keluarga-Harapan-impact-evaluation-of-Indonesias-Pilot-Household-Conditional-Cash-Transfer-Program</a>.
+</div>
+<div id="ref-causalml2024" class="csl-entry" role="listitem">
+Chernozhukov, V., C. Hansen, N. Kallus, M. Spindler, and V. Syrgkanis. 2024. <em>Applied Causal Inference Powered by ML and AI</em>. <a href="https://causalml-book.org/">https://causalml-book.org/</a>.
 </div>
 <div id="ref-cddf2023" class="csl-entry" role="listitem">
 Chernozhukov, Victor, Mert Demirer, Esther Duflo, and Iván Fernández-Val. 2023. <span>“Generic Machine Learning Inference on Heterogenous Treatment Effects in Randomized Experiments, with an Application to Immunization in India.”</span>

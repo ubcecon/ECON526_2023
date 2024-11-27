@@ -4,7 +4,7 @@
     "href": "feed.html",
     "title": "Slides",
     "section": "",
-    "text": "Difference in Differences II\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nDouble / Debiased Machine Learning\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nECON 526: Quantitative Economics with Data Science Applications\n\n\n\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nFixed Effects\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nInstrumental Variables\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nIntroduction to Causality and Potential Outcomes\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nIntroduction to Difference in Differences\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nLinear Regression\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nMatching\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nNeural Networks\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nSynthetic Control\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nTreatment Heterogeneity and Conditional Effects\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nUncertainty Quantification\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\nNo matching items"
+    "text": "Difference in Differences II\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nDouble / Debiased Machine Learning\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nECON 526: Quantitative Economics with Data Science Applications\n\n\n\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nFixed Effects\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nInstrumental Variables\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nIntroduction to Causality and Potential Outcomes\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nIntroduction to Difference in Differences\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nLinear Regression\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nMatching\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nNeural Networks\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nRegression Discontinuity\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nSynthetic Control\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nTreatment Heterogeneity and Conditional Effects\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\n\n\n\n\n\n\nUncertainty Quantification\n\n\nECON526\n\n\n\n\n\n\n\n\nPaul Schrimpf\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "moredid.html#setup",
@@ -774,7 +774,7 @@
     "href": "conditionaleffect.html#generic-machine-learning-for-heterogeneous-effects-in-randomized-experiments",
     "title": "Treatment Heterogeneity and Conditional Effects",
     "section": "Generic Machine Learning for Heterogeneous Effects in Randomized Experiments",
-    "text": "Generic Machine Learning for Heterogeneous Effects in Randomized Experiments\n\nChernozhukov et al. (2023)\nDesigned based inference Imai and Li (2022)\nIdea: use any machine learning estimator for \\(E[y_i | d_i = 0, X_i=x ]\\)\nReport and do inference on lower dimensional summaries of \\(E[y_i(1) - y_i(0) |X_i=x]\\)"
+    "text": "Generic Machine Learning for Heterogeneous Effects in Randomized Experiments\n\nVictor Chernozhukov et al. (2023)\nDesigned based inference Imai and Li (2022)\nIdea: use any machine learning estimator for \\(E[y_i | d_i = 0, X_i=x ]\\)\nReport and do inference on lower dimensional summaries of \\(E[y_i(1) - y_i(0) |X_i=x]\\)"
   },
   {
     "objectID": "conditionaleffect.html#best-linear-projection-of-cate",
@@ -921,14 +921,14 @@
     "href": "conditionaleffect.html#sources-and-further-reading",
     "title": "Treatment Heterogeneity and Conditional Effects",
     "section": "Sources and Further Reading",
-    "text": "Sources and Further Reading\n\nSection on generic ML for heterogeneous effects is based on Chernozhukov et al. (2023) and my earlier notes"
+    "text": "Sources and Further Reading\n\nSection on generic ML for heterogeneous effects is based on Victor Chernozhukov et al. (2023) and my earlier notes\nChapter 15 of V. Chernozhukov et al. (2024)"
   },
   {
     "objectID": "conditionaleffect.html#references",
     "href": "conditionaleffect.html#references",
     "title": "Treatment Heterogeneity and Conditional Effects",
     "section": "References",
-    "text": "References\n\n\n\n\nAlatas, Vivi, Nur Cahyadi, Elisabeth Ekasari, Sarah Harmoun, Budi Hidayat, Edgar Janz, Jon Jellema, H Tuhiman, and M Wai-Poi. 2011. “Program Keluarga Harapan : Impact Evaluation of Indonesia’s Pilot Household Conditional Cash Transfer Program.” World Bank. http://documents.worldbank.org/curated/en/589171468266179965/Program-Keluarga-Harapan-impact-evaluation-of-Indonesias-Pilot-Household-Conditional-Cash-Transfer-Program.\n\n\nChernozhukov, Victor, Mert Demirer, Esther Duflo, and Iván Fernández-Val. 2023. “Generic Machine Learning Inference on Heterogenous Treatment Effects in Randomized Experiments, with an Application to Immunization in India.”\n\n\nImai, Kosuke, and Michael Lingzhi Li. 2022. “Statistical Inference for Heterogeneous Treatment Effects Discovered by Generic Machine Learning in Randomized Experiments.” In. https://api.semanticscholar.org/CorpusID:247762848.\n\n\nTriyana, Margaret. 2016. “Do Health Care Providers Respond to Demand-Side Incentives? Evidence from Indonesia.” American Economic Journal: Economic Policy 8 (4): 255–88. https://doi.org/10.1257/pol.20140048."
+    "text": "References\n\n\n\n\nAlatas, Vivi, Nur Cahyadi, Elisabeth Ekasari, Sarah Harmoun, Budi Hidayat, Edgar Janz, Jon Jellema, H Tuhiman, and M Wai-Poi. 2011. “Program Keluarga Harapan : Impact Evaluation of Indonesia’s Pilot Household Conditional Cash Transfer Program.” World Bank. http://documents.worldbank.org/curated/en/589171468266179965/Program-Keluarga-Harapan-impact-evaluation-of-Indonesias-Pilot-Household-Conditional-Cash-Transfer-Program.\n\n\nChernozhukov, V., C. Hansen, N. Kallus, M. Spindler, and V. Syrgkanis. 2024. Applied Causal Inference Powered by ML and AI. https://causalml-book.org/.\n\n\nChernozhukov, Victor, Mert Demirer, Esther Duflo, and Iván Fernández-Val. 2023. “Generic Machine Learning Inference on Heterogenous Treatment Effects in Randomized Experiments, with an Application to Immunization in India.”\n\n\nImai, Kosuke, and Michael Lingzhi Li. 2022. “Statistical Inference for Heterogeneous Treatment Effects Discovered by Generic Machine Learning in Randomized Experiments.” In. https://api.semanticscholar.org/CorpusID:247762848.\n\n\nTriyana, Margaret. 2016. “Do Health Care Providers Respond to Demand-Side Incentives? Evidence from Indonesia.” American Economic Journal: Economic Policy 8 (4): 255–88. https://doi.org/10.1257/pol.20140048."
   },
   {
     "objectID": "matching.html#setting",
@@ -1950,7 +1950,7 @@
     "href": "iv.html#sources-and-further-reading",
     "title": "Instrumental Variables",
     "section": "Sources and Further Reading",
-    "text": "Sources and Further Reading\n\nChapter 8 and 9 of Facure (2022)\nChapters 6, 12, and 13 of Chernozhukov et al. (2024)\nThe Effect: Chapter 19 - Instrumental Variables Huntington-Klein (2021)\n\n\n\n\n\nAngrist, Joshua D., and Alan B. Krueger. 1991. “Does Compulsory School Attendance Affect Schooling and Earnings?” The Quarterly Journal of Economics 106 (4): pp. 979–1014. http://www.jstor.org/stable/2937954.\n\n\nChernozhukov, V., C. Hansen, N. Kallus, M. Spindler, and V. Syrgkanis. 2024. Applied Causal Inference Powered by ML and AI. https://causalml-book.org/.\n\n\nFacure, Matheus. 2022. Causal Inference for the Brave and True. https://matheusfacure.github.io/python-causality-handbook/landing-page.html.\n\n\nHuntington-Klein, Nick. 2021. The Effect: An Introduction to Research Design and Causality. CRC Press. https://theeffectbook.net/.\n\n\nLondschien, Malte, and Peter Bühlmann. 2024. “Weak-Instrument-Robust Subvector Inference in Instrumental Variables Regression: A Subvector Lagrange Multiplier Test and Properties of Subvector Anderson-Rubin Confidence Sets.” https://arxiv.org/abs/2407.15256."
+    "text": "Sources and Further Reading\n\nChapter 8 and 9 of Facure (2022)\nChapters 6, 12, and 13 of Chernozhukov et al. (2024)\nThe Effect: Chapter 19 - Instrumental Variables Huntington-Klein (2021)"
   },
   {
     "objectID": "uncertainty.html#simulated-illustration-of-berry-esseen-clt",
@@ -2476,5 +2476,26 @@
     "title": "Instrumental Variables",
     "section": "Identification Robust Inference",
     "text": "Identification Robust Inference\n\nsl = ivm.summary(X=X,y=y,Z=Z,C=controls, test='lagrange multiplier', feature_names=[\"years_of_schooling\"])\nprint(sl)\n\nSummary based on the lagrange multiplier test.\n\n                    estimate  statistic   p-value          conf. set\nyears_of_schooling    0.0853      10.09  0.001495  [0.03477, 0.1382]\n\nEndogenous model statistic: 10.09, p-value: 0.001495\n(Multivariate) F-statistic: 61.09, p-value: 5.44e-15"
+  },
+  {
+    "objectID": "iv.html#references",
+    "href": "iv.html#references",
+    "title": "Instrumental Variables",
+    "section": "References",
+    "text": "References\n\n\n\n\nAngrist, Joshua D., and Alan B. Krueger. 1991. “Does Compulsory School Attendance Affect Schooling and Earnings?” The Quarterly Journal of Economics 106 (4): pp. 979–1014. http://www.jstor.org/stable/2937954.\n\n\nChernozhukov, V., C. Hansen, N. Kallus, M. Spindler, and V. Syrgkanis. 2024. Applied Causal Inference Powered by ML and AI. https://causalml-book.org/.\n\n\nFacure, Matheus. 2022. Causal Inference for the Brave and True. https://matheusfacure.github.io/python-causality-handbook/landing-page.html.\n\n\nHuntington-Klein, Nick. 2021. The Effect: An Introduction to Research Design and Causality. CRC Press. https://theeffectbook.net/.\n\n\nLondschien, Malte, and Peter Bühlmann. 2024. “Weak-Instrument-Robust Subvector Inference in Instrumental Variables Regression: A Subvector Lagrange Multiplier Test and Properties of Subvector Anderson-Rubin Confidence Sets.” https://arxiv.org/abs/2407.15256."
+  },
+  {
+    "objectID": "rdd.html#sources-and-further-reading",
+    "href": "rdd.html#sources-and-further-reading",
+    "title": "Regression Discontinuity",
+    "section": "Sources and Further Reading",
+    "text": "Sources and Further Reading\n\nFacure (2022) chapter 16\nChernozhukov et al. (2024) chapter 17\nCattaneo, Idrobo, and Titiunik (2019) and Cattaneo, Idrobo, and Titiunik (2024)\nhttps://rdpackages.github.io/"
+  },
+  {
+    "objectID": "rdd.html#references",
+    "href": "rdd.html#references",
+    "title": "Regression Discontinuity",
+    "section": "References",
+    "text": "References\n\n\n\n\nCattaneo, Matias D., Nicolas Idrobo, and Rocío Titiunik. 2024. A Practical Introduction to Regression Discontinuity Designs: Extensions. Cambridge University Press. https://doi.org/10.1017/9781009441896.\n\n\nCattaneo, Matias D., Nicolás Idrobo, and Rocío Titiunik. 2019. A Practical Introduction to Regression Discontinuity Designs: Foundations. Cambridge University Press. https://doi.org/10.1017/9781108684606.\n\n\nChernozhukov, V., C. Hansen, N. Kallus, M. Spindler, and V. Syrgkanis. 2024. Applied Causal Inference Powered by ML and AI. https://causalml-book.org/.\n\n\nFacure, Matheus. 2022. Causal Inference for the Brave and True. https://matheusfacure.github.io/python-causality-handbook/landing-page.html."
   }
 ]
